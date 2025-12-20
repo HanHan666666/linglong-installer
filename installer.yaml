@@ -1,0 +1,160 @@
+# Demo Installer Configuration
+# This example demonstrates the go-pkg-installer framework
+
+product:
+  name: "简易玲珑商店安装包"
+  logo: "assets/logo.png"
+  theme:
+    primaryColor: "#2196F3"
+
+# Global metadata
+meta:
+  version: "1.0.0"
+  vendor: "Example Corp"
+  min_disk_mb: 100
+
+# Define workflows
+flows:
+  # Main installation flow
+  install:
+    entry: welcome
+    steps:
+      - id: welcome
+        title: "Welcome"
+        screen:
+          type: welcome
+          content: |
+            Welcome to Demo Application Installer!
+
+            This wizard will guide you through the installation of Demo Application.
+
+            Click Next to continue.
+
+      # - id: license
+      #   title: "License Agreement"
+      #   screen:
+      #     type: license
+      #     source: |
+      #       MIT License
+
+      #       Copyright (c) 2024 Example Corp
+
+      #       Permission is hereby granted, free of charge, to any person obtaining a copy
+      #       of this software and associated documentation files (the "Software"), to deal
+      #       in the Software without restriction, including without limitation the rights
+      #       to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+      #       copies of the Software, and to permit persons to whom the Software is
+      #       furnished to do so, subject to the following conditions:
+
+      #       The above copyright notice and this permission notice shall be included in all
+      #       copies or substantial portions of the Software.
+
+      #       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+      #       IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+      #       FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+      #       AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+      #       LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+      #       OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+      #       SOFTWARE.
+      #     requireScrollToEnd: false
+      #   guards:
+      #     - type: mustAccept
+      #       field: license.accepted
+
+      - id: destination
+        title: "Installation Directory"
+        screen:
+          type: pathPicker
+          bind: install_dir
+
+      - id: options
+        title: "Installation Options"
+        screen:
+          type: options
+          bind: install_options
+          options:
+            - label: "Create desktop shortcut"
+              value: "desktop_shortcut"
+            - label: "Add to PATH"
+              value: "add_to_path"
+            - label: "Start after installation"
+              value: "start_after"
+
+      - id: summary
+        title: "Ready to Install"
+        screen:
+          type: summary
+
+      - id: progress
+        title: "Installing"
+        screen:
+          type: progress
+        tasks:
+          - type: shell
+            script: |
+              mkdir -p "${install_dir}"
+
+          - type: writeConfig
+            path: "${install_dir}/README.txt"
+            content: |
+              Demo Application
+              ================
+
+              Thank you for installing Demo Application!
+
+              Installation Directory: ${install_dir}
+
+          - type: shell
+            script: |
+              cat > "${install_dir}/config.json" << 'EOF'
+              {
+                "app_name": "Demo Application",
+                "version": "1.0.0"
+              }
+              EOF
+
+          - type: shell
+            script: |
+              cat > "${install_dir}/demo-app.sh" << 'EOF'
+              #!/bin/bash
+              echo "Demo Application v1.0.0"
+              echo "Hello from go-pkg-installer!"
+              EOF
+              chmod +x "${install_dir}/demo-app.sh"
+
+      - id: finish
+        title: "Complete"
+        screen:
+          type: finish
+
+  # Uninstall flow
+  uninstall:
+    entry: uninstall_welcome
+    steps:
+      - id: uninstall_welcome
+        title: "Uninstall"
+        screen:
+          type: welcome
+          content: |
+            This wizard will remove Demo Application from your system.
+
+            Click Next to continue.
+
+      - id: uninstall_confirm
+        title: "Confirm"
+        screen:
+          type: summary
+
+      - id: uninstall_progress
+        title: "Uninstalling"
+        screen:
+          type: progress
+        tasks:
+          - type: removePath
+            path: "${install_dir}"
+            recursive: true
+
+      - id: uninstall_complete
+        title: "Complete"
+        screen:
+          type: finish
