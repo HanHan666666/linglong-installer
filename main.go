@@ -45,40 +45,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	// Require config file
-	if *configPath == "" {
-		// Try to find config in common locations
-		candidates := []string{
-			"installer.yaml",
-			"installer.yml",
-			"config/installer.yaml",
-			"examples/demo-installer.yaml",
-		}
-		for _, c := range candidates {
-			if _, err := os.Stat(c); err == nil {
-				*configPath = c
-				break
-			}
-		}
-		if *configPath == "" {
-			fmt.Fprintln(os.Stderr, "Error: No configuration file specified. Use -config flag.")
-			flag.Usage()
-			os.Exit(1)
-		}
-	}
-
-	// Ensure absolute path
-	absConfigPath, err := filepath.Abs(*configPath)
-	if err != nil {
-		log.Fatalf("Failed to resolve config path: %v", err)
-	}
-
-	// Load and validate configuration
-	if *verbose {
-		log.Printf("Loading configuration from: %s", absConfigPath)
-	}
-
-	cfg, err := loadAndValidateConfig(absConfigPath)
+	// Load configuration
+	cfg, err := loadConfig(*configPath, embeddedConfig, *verbose)
 	if err != nil {
 		log.Fatalf("Configuration error: %v", err)
 	}
@@ -100,7 +68,15 @@ func main() {
 	// Set product information
 	if cfg.Product != nil {
 		ctx.Set("product.name", cfg.Product.Name)
-		ctx.Set("product.logo", cfg.Product.Logo)
+
+		// Handle logo - use embedded logo data
+		logoPath := cfg.Product.Logo
+		if logoPath == "assets/logo.png" || logoPath == "" {
+			ctx.Set("product.logo.bytes", embeddedLogo)
+		} else {
+			ctx.Set("product.logo", logoPath)
+		}
+
 		if cfg.Product.Theme != nil && cfg.Product.Theme.PrimaryColor != "" {
 			ctx.Set("theme.primaryColor", cfg.Product.Theme.PrimaryColor)
 		}
@@ -241,14 +217,29 @@ func main() {
 	}
 }
 
-// loadAndValidateConfig loads and validates the configuration file
-func loadAndValidateConfig(path string) (*core.Config, error) {
-	// Read file content
-	content, err := os.ReadFile(path)
+// loadConfig loads configuration from embedded or external source
+func loadConfig(configPath string, embeddedConfig []byte, verbose bool) (*core.Config, error) {
+	if configPath == "" {
+		// Use embedded configuration
+		if verbose {
+			log.Println("Using embedded configuration")
+		}
+		return loadAndValidateConfig(embeddedConfig)
+	}
+
+	// Use external configuration file
+	if verbose {
+		log.Printf("Loading configuration from: %s", configPath)
+	}
+	content, err := os.ReadFile(configPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read config file: %w", err)
 	}
+	return loadAndValidateConfig(content)
+}
 
+// loadAndValidateConfig loads and validates the configuration from bytes
+func loadAndValidateConfig(content []byte) (*core.Config, error) {
 	// Use schema.LoadConfig which validates and parses
 	cfg, err := schema.LoadConfig(content)
 	if err != nil {
