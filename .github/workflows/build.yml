@@ -1,0 +1,107 @@
+name: Build Multi-Architecture
+
+on:
+  workflow_dispatch:
+    inputs:
+      go_version:
+        description: Go toolchain version (should match go.mod toolchain)
+        required: true
+        default: "1.24.11"
+      release_tag:
+        description: Tag name for GitHub Release (e.g. v1.2.3)
+        required: true
+      create_release:
+        description: Create GitHub Release after successful build
+        required: true
+        default: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:10
+    
+    steps:
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y git ca-certificates curl
+          
+      - name: Install Go
+        run: |
+          curl -fsSL https://go.dev/dl/go${{ inputs.go_version }}.linux-amd64.tar.gz -o go.tar.gz
+          rm -rf /usr/local/go
+          tar -C /usr/local -xzf go.tar.gz
+          rm go.tar.gz
+          echo "/usr/local/go/bin" >> $GITHUB_PATH
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build for amd64
+        env:
+          CGO_ENABLED: "0"
+          GOOS: linux
+          GOARCH: amd64
+        run: |
+          go version
+          go env
+          go mod download
+          go build -o linglong-store-installer-amd64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" .
+
+      - name: Build for arm64
+        env:
+          CGO_ENABLED: "0"
+          GOOS: linux
+          GOARCH: arm64
+        run: |
+          go build -o linglong-store-installer-arm64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" .
+
+      - name: Upload amd64 artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linglong-store-installer-amd64
+          path: linglong-store-installer-amd64
+          retention-days: 30
+
+      - name: Upload arm64 artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linglong-store-installer-arm64
+          path: linglong-store-installer-arm64
+          retention-days: 30
+
+      - name: Create Release
+        if: ${{ inputs.create_release == 'true' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.release_tag }}
+          name: ${{ inputs.release_tag }}
+          target_commitish: ${{ github.sha }}
+          files: |
+            linglong-store-installer-amd64
+            linglong-store-installer-arm64
+
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go_version }}
+
+      - name: Run tests
+        run: go test -v ./...
+
+      - name: Run linter
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: latest
+          args: --timeout=5m
