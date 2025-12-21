@@ -4,7 +4,7 @@ go 1.24.0
 
 toolchain go1.24.11
 
-require github.com/HanHan666666/go-pkg-installer v0.0.0-20251221024546-be7223e4f387
+require github.com/HanHan666666/go-pkg-installer v0.0.0-20251221122126-3286efe4fa0b
 
 // replace github.com/HanHan666666/go-pkg-installer => /home/han/go-pkg-installer
 
