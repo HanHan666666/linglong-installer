@@ -20,7 +20,7 @@ flows:
         screen:
           type: welcome
           content: |
-            此向导将引导您完成简易玲珑商店的安装。
+            此向导将引导您完成玲珑商店社区版的安装。
 
             本安装包主要用于 UOS 1070、麒麟系统等国产 Linux 发行版。
 
