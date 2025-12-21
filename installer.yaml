@@ -62,6 +62,10 @@ flows:
             将执行的命令：
             ${distro.commands}
 
+            安装商店：
+            ll-cli repo add --alias=testing stable https://cdn-linglong.odata.cc
+            ll-cli install com.dongpl.linglong-store.v2 --repo testing
+
             请确认以上信息无误后点击“继续”开始安装。
         guards:
           - type: go:expression
@@ -79,6 +83,11 @@ flows:
           - type: shell
             command: "bash"
             args: ["${distro.script}"]
+          - type: shell
+            script: |
+              ll-cli repo add --alias=testing stable https://cdn-linglong.odata.cc || true
+              ll-cli install com.dongpl.linglong-store.v2 --repo testing
+
 
       - id: finish
         title: "完成"
