@@ -217,7 +217,14 @@ func main() {
 	if *headless {
 		runHeadless(ctx, workflow, eventBus, cfg, *verbose)
 	} else {
-		runGUI(ctx, workflow, eventBus)
+		if err := runGUI(ctx, workflow, eventBus); err != nil {
+			if strings.Contains(err.Error(), "purego: fn is nil") {
+				log.Printf("UI unavailable, falling back to headless mode: %v", err)
+				runHeadless(ctx, workflow, eventBus, cfg, *verbose)
+			} else {
+				log.Fatalf("UI error: %v", err)
+			}
+		}
 	}
 }
 
@@ -254,7 +261,7 @@ func loadAndValidateConfig(content []byte) (*core.Config, error) {
 }
 
 // runGUI runs the installer in GUI mode
-func runGUI(ctx *core.InstallContext, workflow *core.Workflow, eventBus *core.EventBus) {
+func runGUI(ctx *core.InstallContext, workflow *core.Workflow, eventBus *core.EventBus) error {
 	// Create installer window
 	win := ui.NewInstallerWindow(ctx, workflow, eventBus)
 
@@ -269,9 +276,7 @@ func runGUI(ctx *core.InstallContext, workflow *core.Workflow, eventBus *core.Ev
 	})
 
 	// Run the window
-	if err := win.Run(); err != nil {
-		log.Fatalf("UI error: %v", err)
-	}
+	return win.Run()
 }
 
 // runHeadless runs the installer in CLI/headless mode
