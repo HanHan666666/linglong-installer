@@ -1,5 +1,4 @@
-# Demo Installer Configuration
-# This example demonstrates the go-pkg-installer framework
+# Linglong Installer Configuration
 
 product:
   name: "简易玲珑商店安装包"
@@ -7,15 +6,12 @@ product:
   theme:
     primaryColor: "#2196F3"
 
-# Global metadata
 meta:
   version: "1.0.0"
   vendor: "Linyaps Simple Store SIG"
   min_disk_mb: 100
 
-# Define workflows
 flows:
-  # Main installation flow
   install:
     entry: welcome
     steps:
@@ -24,104 +20,67 @@ flows:
         screen:
           type: welcome
           content: |
-
             此向导将引导您完成简易玲珑商店的安装。
 
+            本安装包主要用于 UOS 1070、麒麟系统等国产 Linux 发行版。
 
-      # - id: destination
-      #   title: "安装目录"
-      #   screen:
-      #     type: pathPicker
-      #     bind: install_dir
+            国际主流 Linux 发行版更建议使用 DEB 或 RPM 包进行安装，
+            可前往官网获取对应版本安装包。
 
-      - id: options
-        title: "检查玲珑环境"
+            下载 DEB 或 RPM 请见
+            https://gitee.com/Shirosu/linglong-store/releases/latest
+
+      - id: detect
+        title: "检查系统环境"
         screen:
-          type: options
-          bind: install_options
-          options:
-            - label: "Create desktop shortcut"
-              value: "desktop_shortcut"
-            - label: "Add to PATH"
-              value: "add_to_path"
-            - label: "Start after installation"
-              value: "start_after"
+          type: go:richtext
+          content: |
+            已识别发行版：${distro.name}
+            ID/版本：${distro.id} ${distro.version}
 
-      - id: summary
-        title: "准备安装"
+            请确认无误后点击“继续”进行下一步。
+        guards:
+          - type: go:expression
+            expression: distro.supported
+            expected: true
+            message: "当前发行版不在支持列表，无法继续。"
+
+      - id: confirm
+        title: "确认安装"
         screen:
-          type: summary
+          type: go:richtext
+          content: |
+            已识别发行版：${distro.name}
+            ID/版本：${distro.id} ${distro.version}
 
-      - id: progress
+            接下来将进行：
+            ${distro.next_steps}
+
+            软件源名称：${distro.repo_name}
+            软件源地址：${distro.repo_url}
+
+            将执行的命令：
+            ${distro.commands}
+
+            请确认以上信息无误后点击“继续”开始安装。
+        guards:
+          - type: go:expression
+            expression: distro.supported
+            expected: true
+            message: "当前发行版不在支持列表，无法继续。"
+
+      - id: install
         title: "正在安装"
         screen:
-          type: progress
+          type: go:progress
+          title: "正在安装"
+          description: "正在安装玲珑环境..."
         tasks:
           - type: shell
-            script: |
-              mkdir -p "${install_dir}"
-
-          - type: writeConfig
-            path: "${install_dir}/README.txt"
-            content: |
-              Demo Application
-              ================
-
-              Thank you for installing Demo Application!
-
-              Installation Directory: ${install_dir}
-
-          - type: shell
-            script: |
-              cat > "${install_dir}/config.json" << 'EOF'
-              {
-                "app_name": "Demo Application",
-                "version": "1.0.0"
-              }
-              EOF
-
-          - type: shell
-            script: |
-              cat > "${install_dir}/demo-app.sh" << 'EOF'
-              #!/bin/bash
-              echo "Demo Application v1.0.0"
-              echo "Hello from go-pkg-installer!"
-              EOF
-              chmod +x "${install_dir}/demo-app.sh"
+            command: "bash"
+            args: ["${distro.script}"]
 
       - id: finish
         title: "完成"
-        screen:
-          type: finish
-
-  # Uninstall flow
-  uninstall:
-    entry: uninstall_welcome
-    steps:
-      - id: uninstall_welcome
-        title: "Uninstall"
-        screen:
-          type: welcome
-          content: |
-            This wizard will remove Demo Application from your system.
-
-            Click Next to continue.
-
-      - id: uninstall_confirm
-        title: "Confirm"
-        screen:
-          type: summary
-
-      - id: uninstall_progress
-        title: "Uninstalling"
-        screen:
-          type: progress
-        tasks:
-          - type: removePath
-            path: "${install_dir}"
-            recursive: true
-
-      - id: uninstall_complete
-        title: "Complete"
         screen:
           type: finish

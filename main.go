@@ -58,6 +58,7 @@ func main() {
 
 	// Register builtin tasks
 	builtin.RegisterAll()
+	RegisterDistroScriptTask()
 	// Register builtin guards
 	core.RegisterBuiltinGuards()
 
@@ -111,6 +112,7 @@ func main() {
 
 	// Preflight environment detection
 	core.DetectEnv(ctx)
+	runDistroDetection(ctx, *verbose)
 
 	// Create event bus
 	eventBus := core.NewEventBus()
@@ -367,23 +369,37 @@ func maybeElevate(ctx *core.InstallContext, cfg *core.Config, action string) {
 		return
 	}
 
+	execPath := resolveExecutablePath()
 	strategy := core.GetPrivilegeStrategy(ctx)
 	switch strategy {
 	case core.PrivilegeSudo:
 		if !ctx.Env.HasSudo {
 			log.Fatalf("Privilege required but sudo is not available")
 		}
-		runElevated("sudo", append([]string{"-E", os.Args[0]}, os.Args[1:]...))
+		runElevated("sudo", append([]string{"-E", execPath}, os.Args[1:]...))
 	case core.PrivilegePkexec:
 		if !ctx.Env.HasPolkit {
 			log.Fatalf("Privilege required but pkexec is not available")
 		}
-		runElevated("pkexec", append([]string{"env", "GPKI_ELEVATED=1", os.Args[0]}, os.Args[1:]...))
+		runElevated("pkexec", append([]string{"env", "GPKI_ELEVATED=1", execPath}, os.Args[1:]...))
 	case core.PrivilegeNone:
 		log.Fatalf("Privilege required but no elevation strategy configured")
 	default:
 		log.Fatalf("Unknown privilege strategy: %s", strategy)
 	}
+}
+
+func resolveExecutablePath() string {
+	execPath, err := os.Executable()
+	if err == nil && execPath != "" {
+		return execPath
+	}
+
+	if absPath, err := filepath.Abs(os.Args[0]); err == nil && absPath != "" {
+		return absPath
+	}
+
+	return os.Args[0]
 }
 
 func runElevated(cmdName string, args []string) {
@@ -409,4 +425,37 @@ func defaultLogPath(cfg *core.Config) string {
 	}
 	safeName := strings.ToLower(strings.ReplaceAll(productName, " ", "-"))
 	return filepath.Join(home, ".local", "share", "go-pkg-installer", safeName, "installer.log")
+}
+
+func runDistroDetection(ctx *core.InstallContext, verbose bool) {
+	if ctx == nil {
+		return
+	}
+
+	factory, ok := core.Tasks.Get("distroScript")
+	if !ok {
+		if verbose {
+			log.Printf("distroScript task not registered; skipping distro detection")
+		}
+		return
+	}
+
+	task, err := factory(map[string]any{}, ctx)
+	if err != nil {
+		if verbose {
+			log.Printf("Failed to create distroScript task: %v", err)
+		}
+		return
+	}
+
+	if err := task.Validate(); err != nil {
+		if verbose {
+			log.Printf("Invalid distroScript task: %v", err)
+		}
+		return
+	}
+
+	if err := task.Execute(ctx, nil); err != nil && verbose {
+		log.Printf("distroScript execution failed: %v", err)
+	}
 }
