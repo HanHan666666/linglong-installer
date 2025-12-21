@@ -17,6 +17,7 @@ need_cmd() {
 
 need_cmd curl
 need_cmd chmod
+need_cmd file
 need_cmd base64
 need_cmd install
 need_cmd ln

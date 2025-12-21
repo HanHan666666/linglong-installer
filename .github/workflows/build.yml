@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y git ca-certificates curl squashfs-tools xz-utils
+          apt-get install -y git ca-certificates curl squashfs-tools xz-utils file
           
       - name: Install Go
         run: |
