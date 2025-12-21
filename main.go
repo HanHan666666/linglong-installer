@@ -113,6 +113,8 @@ func main() {
 	// Preflight environment detection
 	core.DetectEnv(ctx)
 	runDistroDetection(ctx, *verbose)
+	ensureEmbeddedScript(ctx, "scripts/user/setup-linyaps-dbus.sh", "linyaps.dbus.setup_script", *verbose)
+	ensureEmbeddedScript(ctx, "scripts/user/install-linyaps.sh", "linyaps.store.setup_script", *verbose)
 
 	// Create event bus
 	eventBus := core.NewEventBus()
@@ -458,4 +460,75 @@ func runDistroDetection(ctx *core.InstallContext, verbose bool) {
 	if err := task.Execute(ctx, nil); err != nil && verbose {
 		log.Printf("distroScript execution failed: %v", err)
 	}
+}
+
+func ensureEmbeddedScript(ctx *core.InstallContext, relPath string, ctxKey string, verbose bool) {
+	if ctx == nil || relPath == "" || ctxKey == "" {
+		return
+	}
+
+	if resolved, ok := resolveScriptPath(relPath); ok {
+		ctx.Set(ctxKey, resolved)
+		return
+	}
+
+	data, err := embeddedScripts.ReadFile(relPath)
+	if err != nil {
+		if verbose {
+			log.Printf("Embedded script not found (%s): %v", relPath, err)
+		}
+		return
+	}
+
+	tmpDir, err := os.MkdirTemp("", "linglong-installer-")
+	if err != nil {
+		if verbose {
+			log.Printf("Failed to create temp dir for %s: %v", relPath, err)
+		}
+		return
+	}
+
+	relPath = filepath.FromSlash(relPath)
+	destPath := filepath.Join(tmpDir, relPath)
+	if err := os.MkdirAll(filepath.Dir(destPath), 0o755); err != nil {
+		if verbose {
+			log.Printf("Failed to create temp dir for %s: %v", relPath, err)
+		}
+		return
+	}
+
+	if err := os.WriteFile(destPath, data, 0o755); err != nil {
+		if verbose {
+			log.Printf("Failed to write embedded script %s: %v", relPath, err)
+		}
+		return
+	}
+
+	ctx.Set(ctxKey, destPath)
+}
+
+func resolveScriptPath(relPath string) (string, bool) {
+	if relPath == "" {
+		return "", false
+	}
+
+	candidates := []string{}
+	if cwd, err := os.Getwd(); err == nil {
+		candidates = append(candidates, filepath.Join(cwd, relPath))
+	}
+	if exe, err := os.Executable(); err == nil {
+		candidates = append(candidates, filepath.Join(filepath.Dir(exe), relPath))
+	}
+
+	for _, candidate := range candidates {
+		info, err := os.Stat(candidate)
+		if err == nil && !info.IsDir() {
+			if absPath, err := filepath.Abs(candidate); err == nil {
+				return absPath, true
+			}
+			return candidate, true
+		}
+	}
+
+	return "", false
 }
