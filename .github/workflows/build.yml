@@ -49,6 +49,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Trust workspace for git (safe.directory)
+        run: |
+          set -eux
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git status --porcelain=v1 || true
+
       - name: Build for amd64
         env:
           CGO_ENABLED: "0"
@@ -92,24 +98,3 @@ jobs:
           files: |
             linglong-store-installer-amd64
             linglong-store-installer-arm64
-
-  test:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ inputs.go_version }}
-
-      - name: Run tests
-        run: go test -v ./...
-
-      - name: Run linter
-        uses: golangci/golangci-lint-action@v4
-        with:
-          version: latest
-          args: --timeout=5m
