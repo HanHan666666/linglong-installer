@@ -1,4 +1,4 @@
-name: Build Multi-Architecture
+name: Create Linglong Store Installer Release
 
 on:
   workflow_dispatch:
