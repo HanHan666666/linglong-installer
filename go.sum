@@ -1,5 +1,7 @@
 github.com/HanHan666666/go-pkg-installer v0.0.0-20251221122126-3286efe4fa0b h1:uMCt1jf4rzaTnwM6T4VzrS6BAFf0D7/YeepkAF9c/B8=
 github.com/HanHan666666/go-pkg-installer v0.0.0-20251221122126-3286efe4fa0b/go.mod h1:FLdAob/DAn4ikugqaW5MRtGmlbvemNx88RNHEUcjfk4=
+github.com/HanHan666666/go-pkg-installer v0.0.0-20251221125939-d8c6214c2431 h1:D96CyXP+HXXzDOEK/JpCJAPgRoYdS6zmdt5ygdsAYlQ=
+github.com/HanHan666666/go-pkg-installer v0.0.0-20251221125939-d8c6214c2431/go.mod h1:FLdAob/DAn4ikugqaW5MRtGmlbvemNx88RNHEUcjfk4=
 github.com/adrg/xdg v0.5.3 h1:xRnxJXne7+oWDatRhR1JLnvuccuIeCoBu2rtuLqQB78=
 github.com/adrg/xdg v0.5.3/go.mod h1:nlTsY+NNiCBGCK2tpm09vRqfVzrc2fLmXGpBLF0zlTQ=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
