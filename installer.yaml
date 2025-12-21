@@ -1,7 +1,7 @@
 # Linglong Installer Configuration
 
 product:
-  name: "简易玲珑商店安装包"
+  name: "玲珑商店社区版安装包"
   logo: "assets/logo.png"
   theme:
     primaryColor: "#2196F3"
