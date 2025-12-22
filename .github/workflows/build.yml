@@ -36,8 +36,12 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y git ca-certificates curl
-          
+          apt-get install -y \
+            git ca-certificates curl wget patch zip unzip \
+            build-essential \
+            libx11-dev libxext-dev libxrender-dev libxft-dev \
+            libfontconfig1-dev libfreetype6-dev
+
       - name: Install Go
         run: |
           curl -fsSL https://go.dev/dl/go${{ inputs.go_version }}.linux-amd64.tar.gz -o go.tar.gz
@@ -55,27 +59,38 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git status --porcelain=v1 || true
 
+      - name: Build tk9.0 purego libs (Debian 10)
+        run: |
+          set -eux
+          sed -i '/^replace modernc.org\/tk9\.0 /d' go.mod
+          go mod download modernc.org/tk9.0
+          TK_DIR="$(go env GOPATH)/pkg/mod/$(go list -m -f '{{.Path}}@{{.Version}}' modernc.org/tk9.0)"
+          chmod -R u+w "$TK_DIR"
+          make -C "$TK_DIR" lib_linux_purego
+
       - name: Build for amd64
         env:
           CGO_ENABLED: "0"
           GOOS: linux
           GOARCH: amd64
+          GOFLAGS: "-mod=mod"
         run: |
           set -eux
           go version
           go env
           BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          go build -o linglong-store-installer-amd64 -mod=vendor -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
+          go build -o linglong-store-installer-amd64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
 
       - name: Build for arm64
         env:
           CGO_ENABLED: "0"
           GOOS: linux
           GOARCH: arm64
+          GOFLAGS: "-mod=mod"
         run: |
           set -eux
           BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          go build -o linglong-store-installer-arm64 -mod=vendor -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
+          go build -o linglong-store-installer-arm64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
 
       - name: Upload amd64 artifacts
         uses: actions/upload-artifact@v4
