@@ -8,7 +8,7 @@ SERV_DIR="$HOME/.config/systemd/user"
 
 mkdir -p "$BIN_DIR"
 if [ ! -f "$BIN" ]; then
-  cp /opt/apps/com.dongpl.linglong-store.v2/files/bin/linyaps-dbus-server "$BIN"
+  cp /opt/apps/com.dongpl.linglong-store.v2/files/bin/linyaps-dbus-server "$BIN" || true
 fi
 
 if [ ! -x "$BIN" ]; then
