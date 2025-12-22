@@ -83,6 +83,10 @@ flows:
           - type: shell
             command: "bash"
             args: ["${distro.script}"]
+            
+          - type: shell
+            command: "bash"
+            args: ["${linyaps.store.setup_script}"]
 
           - type: shell
             command: "bash"
@@ -93,9 +97,7 @@ flows:
             action: "enable_and_start"
             user: true
             
-          - type: shell
-            command: "bash"
-            args: ["${linyaps.store.setup_script}"]
+
 
       - id: finish
         title: "完成"
