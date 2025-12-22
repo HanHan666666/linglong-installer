@@ -1,6 +1,0 @@
-{
-	"autogen": "<none>",
-	"autotag": ".",
-	"autoupdate": "linux/(amd64|loong64|ppc64le|s390x|386|arm$|riscv64)",
-	"test": "linux/(amd64|loong64|ppc64le|s390x|386|arm$|riscv64)"
-}
