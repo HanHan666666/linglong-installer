@@ -1,0 +1,13 @@
+{
+	"autogen": "linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64",
+	"autoupdate": "linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64",
+	"autotag": "linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64",
+	"download": [
+		{"re": "linux/(amd64|arm64|386|arm)", "files": ["https://www.x.org/archive/individual/lib/libX11-1.8.4.tar.gz"]},
+		{"re": "linux/loong64", "files": ["https://www.x.org/archive/individual/lib/libX11-1.8.1.tar.gz"]},
+		{"re": "linux/riscv64", "files": ["https://www.x.org/archive/individual/lib/libX11-1.8.7.tar.gz"]},
+		{"re": "freebsd/amd64", "files": ["https://www.x.org/archive/individual/lib/libX11-1.8.9.tar.gz"]},
+		{"re": "linux/ppc64le|s390x", "files": ["https://www.x.org/archive/individual/lib/libX11-1.7.2.tar.gz"]}
+	],
+	"test": "linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64"
+}

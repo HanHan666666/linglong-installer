@@ -55,3 +55,5 @@ require (
 	modernc.org/tk9.0 v1.73.0 // indirect
 	modernc.org/token v1.1.0 // indirect
 )
+
+replace modernc.org/tk9.0 => ../tk9.0

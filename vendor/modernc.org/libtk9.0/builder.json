@@ -1,0 +1,10 @@
+{
+	"autogen": "linux/(amd64|loong64|ppc64le|s390x|386|arm$|riscv64)",
+	"autotag": ".",
+	"autoupdate": "linux/(amd64|loong64|ppc64le|s390x|386|arm$|riscv64)",
+	"download": [
+		{"re": "linux/(amd64|loong64|ppc64le|s390x|386|arm$|riscv64)", 
+			"files": ["http://prdownloads.sourceforge.net/tcl//tk9.0.1-src.tar.gz"]}
+	],
+	"test": "linux/(amd64|loong64|ppc64le|s390x|386|arm$|riscv64)"
+}
