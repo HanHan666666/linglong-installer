@@ -66,7 +66,7 @@ jobs:
           go env
           go mod download
           BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          go build -o linglong-store-installer-amd64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
+          go build -o linglong-store-installer-amd64  -mod=vendor -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
 
       - name: Build for arm64
         env:
@@ -76,7 +76,7 @@ jobs:
         run: |
           set -eux
           BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          go build -o linglong-store-installer-arm64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
+          go build -o linglong-store-installer-arm64  -mod=vendor  -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
 
       - name: Build AppImage packages
         run: |
