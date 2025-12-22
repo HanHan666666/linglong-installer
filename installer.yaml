@@ -83,14 +83,14 @@ flows:
           - type: shell
             command: "bash"
             args: ["${distro.script}"]
-            
+
           - type: shell
             command: "bash"
             args: ["${linyaps.store.setup_script}"]
 
-          - type: shell
-            command: "bash"
-            args: ["${linyaps.dbus.setup_script}"]
+          # - type: shell
+          #   command: "bash"
+          #   args: ["${linyaps.dbus.setup_script}"]
 
           - type: systemdService
             name: "org.linglong_store.LinyapsManager"
