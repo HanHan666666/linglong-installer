@@ -66,8 +66,6 @@ jobs:
           go mod download modernc.org/tk9.0
           TK_DIR="$(go env GOPATH)/pkg/mod/$(go list -m -f '{{.Path}}@{{.Version}}' modernc.org/tk9.0)"
           chmod -R u+w "$TK_DIR"
-          git -C "$TK_DIR" init -q
-          git config --global --add safe.directory "$TK_DIR"
           make -C "$TK_DIR" lib_linux_purego
 
       - name: Build for amd64
