@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 jobs:
-  build-amd64:
+  build:
     runs-on: ubuntu-latest
     container:
       image: debian:10
@@ -83,64 +83,23 @@ jobs:
           BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           go build -o linglong-store-installer-amd64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
 
+      - name: Build for arm64
+        env:
+          CGO_ENABLED: "0"
+          GOOS: linux
+          GOARCH: arm64
+          GOFLAGS: "-mod=mod"
+        run: |
+          set -eux
+          BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          go build -o linglong-store-installer-arm64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
+
       - name: Upload amd64 artifacts
         uses: actions/upload-artifact@v4
         with:
           name: linglong-store-installer-amd64
           path: linglong-store-installer-amd64
           retention-days: 30
-
-  build-arm64:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Enable QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Build for arm64 (Debian 10)
-        env:
-          GO_VERSION: ${{ inputs.go_version }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
-        run: |
-          set -eux
-          docker run --rm --platform=linux/arm64 \
-            -v "$PWD:/src" -w /src \
-            -e GO_VERSION -e RELEASE_TAG \
-            debian:10 bash -euxc '
-              sed -i "s|http://deb.debian.org/debian|http://archive.debian.org/debian|g" /etc/apt/sources.list
-              sed -i "s|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g" /etc/apt/sources.list
-              sed -i "s|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g" /etc/apt/sources.list
-              printf "Acquire::Check-Valid-Until \"false\";\n" > /etc/apt/apt.conf.d/99no-check-valid-until
-
-              apt-get update
-              apt-get install -y \
-                git ca-certificates curl wget patch zip unzip \
-                build-essential \
-                libx11-dev libxext-dev libxrender-dev libxft-dev \
-                libfontconfig1-dev libfreetype6-dev
-
-              curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-arm64.tar.gz -o go.tar.gz
-              rm -rf /usr/local/go
-              tar -C /usr/local -xzf go.tar.gz
-              rm go.tar.gz
-              export PATH=/usr/local/go/bin:$PATH
-
-              git config --global --add safe.directory /src
-              sed -i "/^replace modernc.org\\/tk9\\.0 /d" go.mod
-              go mod download modernc.org/tk9.0
-              TK_DIR="$(go env GOPATH)/pkg/mod/$(go list -m -f "{{.Path}}@{{.Version}}" modernc.org/tk9.0)"
-              chmod -R u+w "$TK_DIR"
-              git -C "$TK_DIR" init -q
-              git config --global --add safe.directory "$TK_DIR"
-              make -C "$TK_DIR" lib_linux_purego
-
-              BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-              GOFLAGS="-mod=mod" CGO_ENABLED=0 GOOS=linux GOARCH=arm64 \
-                go build -o linglong-store-installer-arm64 \
-                -ldflags="-X main.version=${RELEASE_TAG} -X main.buildTime=${BUILD_TIME}" .
-            '
 
       - name: Upload arm64 artifacts
         uses: actions/upload-artifact@v4
@@ -149,27 +108,13 @@ jobs:
           path: linglong-store-installer-arm64
           retention-days: 30
 
-  release:
-    runs-on: ubuntu-latest
-    needs: [build-amd64, build-arm64]
-    if: ${{ inputs.create_release == 'true' }}
-    steps:
-      - name: Download amd64 artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: linglong-store-installer-amd64
-
-      - name: Download arm64 artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: linglong-store-installer-arm64
-
       - name: Create Release
+        if: ${{ inputs.create_release == 'true' }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.release_tag }}
           name: ${{ inputs.release_tag }}
           target_commitish: ${{ github.sha }}
           files: |
-            linglong-store-installer-amd64/linglong-store-installer-amd64
-            linglong-store-installer-arm64/linglong-store-installer-arm64
+            linglong-store-installer-amd64
+            linglong-store-installer-arm64
