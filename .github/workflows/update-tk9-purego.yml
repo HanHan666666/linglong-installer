@@ -12,14 +12,24 @@ permissions:
   contents: write
 
 jobs:
-  build-amd64:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+            go_tar_arch: amd64
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+            go_tar_arch: arm64
+    runs-on: ${{ matrix.runner }}
     container:
       image: debian:10
     env:
       GO_VERSION: ${{ inputs.go_version }}
-      TK_ARCH: amd64
-      GO_TAR_ARCH: amd64
+      TK_ARCH: ${{ matrix.arch }}
+      GO_TAR_ARCH: ${{ matrix.go_tar_arch }}
     steps:
       - name: Fix Debian 10 apt sources (EOL)
         run: |
@@ -43,7 +53,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Build purego libs (amd64)
+      - name: Build purego libs
         run: |
           set -eux
           curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-${GO_TAR_ARCH}.tar.gz -o go.tar.gz
@@ -53,18 +63,15 @@ jobs:
           export PATH=/usr/local/go/bin:$PATH
 
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          cp "$GITHUB_WORKSPACE/go.mod" /tmp/go.mod
-          cp "$GITHUB_WORKSPACE/go.sum" /tmp/go.sum
-          sed -i '/^replace modernc.org\/tk9\.0 /d' /tmp/go.mod
-          export GOMOD=/tmp/go.mod
-
-          go mod download modernc.org/tk9.0
-          TK_DIR="$(go env GOMODCACHE)/$(go list -m -f '{{.Path}}@{{.Version}}' modernc.org/tk9.0)"
+          TK_DIR="$GITHUB_WORKSPACE/vendor/modernc.org/tk9.0"
           test -d "$TK_DIR"
-          chmod -R u+w "$TK_DIR"
-          git -C "$TK_DIR" init -q
-          git config --global --add safe.directory "$TK_DIR"
+          cat > "$TK_DIR/go.mod" <<'EOF'
+          module modernc.org/tk9.0
+
+          go 1.24.0
+          EOF
           make -C "$TK_DIR" lib_linux_purego
+          rm -f "$TK_DIR/go.mod" "$TK_DIR/go.sum"
 
           OUT_DIR="$GITHUB_WORKSPACE/out/vendor/modernc.org/tk9.0/embed/linux/${TK_ARCH}"
           mkdir -p "$OUT_DIR"
@@ -72,83 +79,16 @@ jobs:
           cp -f "$TK_DIR/tk_linux_${TK_ARCH}.go" \
             "$GITHUB_WORKSPACE/out/vendor/modernc.org/tk9.0/tk_linux_${TK_ARCH}.go"
 
-      - name: Upload amd64 artifacts
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: tk9-purego-amd64
-          path: out
-          retention-days: 30
-
-  build-arm64:
-    runs-on: ubuntu-24.04-arm
-    container:
-      image: debian:10
-    env:
-      GO_VERSION: ${{ inputs.go_version }}
-      TK_ARCH: arm64
-      GO_TAR_ARCH: arm64
-    steps:
-      - name: Fix Debian 10 apt sources (EOL)
-        run: |
-          set -eux
-          sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list
-          sed -i 's|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list
-          sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list
-          printf 'Acquire::Check-Valid-Until "false";\n' > /etc/apt/apt.conf.d/99no-check-valid-until
-
-      - name: Install dependencies
-        run: |
-          apt-get update
-          apt-get install -y \
-            git ca-certificates curl wget patch zip unzip \
-            build-essential \
-            libx11-dev libxext-dev libxrender-dev libxft-dev \
-            libfontconfig1-dev libfreetype6-dev
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Build purego libs (arm64)
-        run: |
-          set -eux
-          curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-${GO_TAR_ARCH}.tar.gz -o go.tar.gz
-          rm -rf /usr/local/go
-          tar -C /usr/local -xzf go.tar.gz
-          rm go.tar.gz
-          export PATH=/usr/local/go/bin:$PATH
-
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          cp "$GITHUB_WORKSPACE/go.mod" /tmp/go.mod
-          cp "$GITHUB_WORKSPACE/go.sum" /tmp/go.sum
-          sed -i '/^replace modernc.org\/tk9\.0 /d' /tmp/go.mod
-          export GOMOD=/tmp/go.mod
-
-          go mod download modernc.org/tk9.0
-          TK_DIR="$(go env GOMODCACHE)/$(go list -m -f '{{.Path}}@{{.Version}}' modernc.org/tk9.0)"
-          test -d "$TK_DIR"
-          chmod -R u+w "$TK_DIR"
-          git -C "$TK_DIR" init -q
-          git config --global --add safe.directory "$TK_DIR"
-          make -C "$TK_DIR" lib_linux_purego
-
-          OUT_DIR="$GITHUB_WORKSPACE/out/vendor/modernc.org/tk9.0/embed/linux/${TK_ARCH}"
-          mkdir -p "$OUT_DIR"
-          cp -f "$TK_DIR/embed/linux/${TK_ARCH}/lib.zip" "$OUT_DIR/lib.zip"
-          cp -f "$TK_DIR/tk_linux_${TK_ARCH}.go" \
-            "$GITHUB_WORKSPACE/out/vendor/modernc.org/tk9.0/tk_linux_${TK_ARCH}.go"
-
-      - name: Upload arm64 artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: tk9-purego-arm64
+          name: tk9-purego-${{ matrix.arch }}
           path: out
           retention-days: 30
 
   commit:
     runs-on: ubuntu-latest
-    needs: [build-amd64, build-arm64]
+    needs: [build]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
