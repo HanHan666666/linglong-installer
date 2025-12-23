@@ -1,0 +1,195 @@
+# github.com/HanHan666666/go-pkg-installer v0.0.0-20251221125939-d8c6214c2431
+## explicit; go 1.24.0
+github.com/HanHan666666/go-pkg-installer/pkg/builtin
+github.com/HanHan666666/go-pkg-installer/pkg/core
+github.com/HanHan666666/go-pkg-installer/pkg/schema
+github.com/HanHan666666/go-pkg-installer/pkg/ui
+# github.com/adrg/xdg v0.5.3
+## explicit; go 1.19
+github.com/adrg/xdg
+github.com/adrg/xdg/internal/pathutil
+github.com/adrg/xdg/internal/userdirs
+# github.com/disintegration/imaging v1.6.2
+## explicit
+github.com/disintegration/imaging
+# github.com/dustin/go-humanize v1.0.1
+## explicit; go 1.16
+github.com/dustin/go-humanize
+# github.com/ebitengine/purego v0.8.4
+## explicit; go 1.18
+github.com/ebitengine/purego
+github.com/ebitengine/purego/internal/cgo
+github.com/ebitengine/purego/internal/fakecgo
+github.com/ebitengine/purego/internal/strings
+# github.com/evilsocket/islazy v1.11.0
+## explicit; go 1.19
+github.com/evilsocket/islazy/zip
+# github.com/google/uuid v1.6.0
+## explicit
+github.com/google/uuid
+# github.com/hashicorp/golang-lru/v2 v2.0.7
+## explicit; go 1.18
+github.com/hashicorp/golang-lru/v2
+github.com/hashicorp/golang-lru/v2/internal
+github.com/hashicorp/golang-lru/v2/simplelru
+# github.com/mattn/go-isatty v0.0.20
+## explicit; go 1.15
+github.com/mattn/go-isatty
+# github.com/ncruces/go-strftime v0.1.9
+## explicit; go 1.17
+github.com/ncruces/go-strftime
+# github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec
+## explicit; go 1.12
+github.com/remyoudompheng/bigfft
+# github.com/santhosh-tekuri/jsonschema/v5 v5.3.1
+## explicit; go 1.19
+github.com/santhosh-tekuri/jsonschema/v5
+# golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
+## explicit; go 1.23.0
+golang.org/x/exp/constraints
+# golang.org/x/image v0.26.0
+## explicit; go 1.23.0
+golang.org/x/image/bmp
+golang.org/x/image/ccitt
+golang.org/x/image/font
+golang.org/x/image/math/fixed
+golang.org/x/image/tiff
+golang.org/x/image/tiff/lzw
+# golang.org/x/net v0.39.0
+## explicit; go 1.23.0
+golang.org/x/net/html
+golang.org/x/net/html/atom
+# golang.org/x/sys v0.36.0
+## explicit; go 1.24.0
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# gopkg.in/yaml.v3 v3.0.1
+## explicit
+gopkg.in/yaml.v3
+# modernc.org/fileutil v1.3.40
+## explicit; go 1.21
+modernc.org/fileutil/ccgo
+# modernc.org/fsm v1.3.2
+## explicit; go 1.21
+modernc.org/fsm
+# modernc.org/gc/v3 v3.1.1
+## explicit; go 1.23.0
+modernc.org/gc/v3
+# modernc.org/knuth v0.5.5
+## explicit; go 1.21
+modernc.org/knuth
+modernc.org/knuth/dvi
+modernc.org/knuth/font/fixed
+modernc.org/knuth/font/pkf
+modernc.org/knuth/font/tfm
+modernc.org/knuth/internal/iobuf
+modernc.org/knuth/internal/tds
+modernc.org/knuth/kpath
+modernc.org/knuth/tex
+# modernc.org/libX11 v0.11.23
+## explicit; go 1.24.0
+modernc.org/libX11
+# modernc.org/libXau v0.9.18
+## explicit; go 1.23.0
+modernc.org/libXau
+# modernc.org/libXdmcp v0.12.18
+## explicit; go 1.23.0
+modernc.org/libXdmcp
+# modernc.org/libXft v0.10.36
+## explicit; go 1.23.0
+modernc.org/libXft
+# modernc.org/libXrender v0.9.21
+## explicit; go 1.23.0
+modernc.org/libXrender
+# modernc.org/libbsd v0.11.17
+## explicit; go 1.23.0
+modernc.org/libbsd
+# modernc.org/libc v1.66.10
+## explicit; go 1.23.0
+modernc.org/libc
+modernc.org/libc/errno
+modernc.org/libc/fcntl
+modernc.org/libc/fts
+modernc.org/libc/grp
+modernc.org/libc/honnef.co/go/netdb
+modernc.org/libc/langinfo
+modernc.org/libc/limits
+modernc.org/libc/netdb
+modernc.org/libc/netinet/in
+modernc.org/libc/poll
+modernc.org/libc/pthread
+modernc.org/libc/pwd
+modernc.org/libc/signal
+modernc.org/libc/stdio
+modernc.org/libc/stdlib
+modernc.org/libc/sys/socket
+modernc.org/libc/sys/stat
+modernc.org/libc/sys/types
+modernc.org/libc/termios
+modernc.org/libc/time
+modernc.org/libc/unistd
+modernc.org/libc/utime
+modernc.org/libc/uuid
+modernc.org/libc/uuid/uuid
+modernc.org/libc/wctype
+# modernc.org/libexpat v0.10.22
+## explicit; go 1.23.0
+modernc.org/libexpat
+# modernc.org/libfontconfig v0.8.12
+## explicit; go 1.23.0
+modernc.org/libfontconfig
+# modernc.org/libfreetype v0.9.25
+## explicit; go 1.23.0
+modernc.org/libfreetype
+# modernc.org/libmd v0.12.24
+## explicit; go 1.23.0
+modernc.org/libmd
+# modernc.org/libtcl9.0 v0.16.15
+## explicit; go 1.24.0
+modernc.org/libtcl9.0
+modernc.org/libtcl9.0/library
+# modernc.org/libtk9.0 v0.16.11
+## explicit; go 1.23.0
+modernc.org/libtk9.0
+modernc.org/libtk9.0/library
+# modernc.org/libxcb v0.12.4
+## explicit; go 1.23.0
+modernc.org/libxcb
+# modernc.org/libz v0.16.23
+## explicit; go 1.23.0
+modernc.org/libz
+# modernc.org/mathutil v1.7.1
+## explicit; go 1.21
+modernc.org/mathutil
+# modernc.org/memory v1.11.0
+## explicit; go 1.23.0
+modernc.org/memory
+# modernc.org/ngrab v0.1.0
+## explicit; go 1.20
+modernc.org/ngrab/lib
+# modernc.org/rec v0.3.5
+## explicit; go 1.23.0
+modernc.org/rec/lib
+# modernc.org/regexp v1.7.9
+## explicit; go 1.21
+modernc.org/regexp
+modernc.org/regexp/syntax
+# modernc.org/sortutil v1.2.1
+## explicit; go 1.21
+modernc.org/sortutil
+# modernc.org/strutil v1.2.1
+## explicit; go 1.21
+modernc.org/strutil
+# modernc.org/tcl9.0 v0.16.23
+## explicit; go 1.23.0
+modernc.org/tcl9.0
+# modernc.org/tk9.0 v1.73.0 => ../tk9.0
+## explicit; go 1.24.0
+modernc.org/tk9.0
+modernc.org/tk9.0/cgo
+modernc.org/tk9.0/internal/img
+modernc.org/tk9.0/themes/azure
+# modernc.org/token v1.1.0
+## explicit
+modernc.org/token
+# modernc.org/tk9.0 => ../tk9.0

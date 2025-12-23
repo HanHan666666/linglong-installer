@@ -1,0 +1,9 @@
+{
+	"autogen": "linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64",
+	"autoupdate": "linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64",
+	"autotag": ".",
+	"download": [
+		{"re": "linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64", "files": ["https://www.x.org/archive/individual/lib/libXrender-0.9.10.tar.gz"]}
+	],
+	"test": "linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64"
+}

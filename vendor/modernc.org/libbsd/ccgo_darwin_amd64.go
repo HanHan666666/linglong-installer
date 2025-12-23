@@ -1,0 +1,5633 @@
+// Code generated for darwin/amd64 by 'gcc -no-main-minimize --prefix-enumerator=_ --prefix-external=x_ --prefix-field=F --prefix-macro=m_ --prefix-static-internal=_ --prefix-static-none=_ --prefix-tagged-enum=_ --prefix-tagged-struct=T --prefix-tagged-union=T --prefix-typename=T --prefix-undefined=_ -extended-errors -ignore-link-errors -ignore-unsupported-alignment -ignore-link-errors -I /Users/jnml/src/modernc.org/builder/.exclude/modernc.org/libc/include/darwin/amd64 -I /Users/jnml/src/modernc.org/builder/.exclude/modernc.org/limd/include/darwin/amd64 -o .libs/libbsd.0.dylib.go .libs/closefrom.o.go .libs/expand_number.o.go .libs/explicit_bzero.o.go .libs/flopen.o.go .libs/freezero.o.go .libs/getbsize.o.go .libs/dehumanize_number.o.go .libs/humanize_number.o.go .libs/pidfile.o.go .libs/setproctitle.o.go .libs/pwcache.o.go .libs/reallocarray.o.go .libs/recallocarray.o.go .libs/strtoi.o.go .libs/strtou.o.go -mlong-double-64 -pthread', DO NOT EDIT.
+
+//go:build darwin && amd64
+
+package libbsd
+
+import (
+	"reflect"
+	"unsafe"
+
+	"modernc.org/libc"
+)
+
+var _ reflect.Type
+var _ unsafe.Pointer
+
+const m_ACCESSX_MAX_DESCRIPTORS = 100
+const m_ATTRIBUTION_NAME_MAX = 255
+const m_AT_EACCESS = 0x0010
+const m_AT_FDONLY = 0x0400
+const m_AT_REALDEV = 0x0200
+const m_AT_REMOVEDIR = 0x0080
+const m_AT_SYMLINK_FOLLOW = 0x0040
+const m_AT_SYMLINK_NOFOLLOW = 0x0020
+const m_AT_SYMLINK_NOFOLLOW_ANY = 0x0800
+const m_BADSIG = "SIG_ERR"
+const m_BC_BASE_MAX = 99
+const m_BC_DIM_MAX = 2048
+const m_BC_SCALE_MAX = 99
+const m_BC_STRING_MAX = 1000
+const m_BIG_ENDIAN = "__DARWIN_BIG_ENDIAN"
+const m_BUFSIZ = 1024
+const m_BUS_ADRALN = 1
+const m_BUS_ADRERR = 2
+const m_BUS_NOOP = 0
+const m_BUS_OBJERR = 3
+const m_BYTE_ORDER = "__DARWIN_BYTE_ORDER"
+const m_CHARCLASS_NAME_MAX = 14
+const m_CHILD_MAX = 266
+const m_CLD_CONTINUED = 6
+const m_CLD_DUMPED = 3
+const m_CLD_EXITED = 1
+const m_CLD_KILLED = 2
+const m_CLD_NOOP = 0
+const m_CLD_STOPPED = 5
+const m_CLD_TRAPPED = 4
+const m_CLK_TCK = "__DARWIN_CLK_TCK"
+const m_COLL_WEIGHTS_MAX = 2
+const m_CPF_IGNORE_MODE = 0x0002
+const m_CPF_OVERWRITE = 0x0001
+const m_CPUMON_MAKE_FATAL = 0x1000
+const m_DIRBLKSIZ = 1024
+const m_DTF_HIDEW = 0x0001
+const m_DTF_NODUP = 0x0002
+const m_DTF_REWIND = 0x0004
+const m_DT_BLK = 6
+const m_DT_CHR = 2
+const m_DT_DIR = 4
+const m_DT_FIFO = 1
+const m_DT_LNK = 10
+const m_DT_REG = 8
+const m_DT_SOCK = 12
+const m_DT_UNKNOWN = 0
+const m_DT_WHT = 14
+const m_E2BIG = 7
+const m_EACCES = 13
+const m_EADDRINUSE = 48
+const m_EADDRNOTAVAIL = 49
+const m_EAFNOSUPPORT = 47
+const m_EAGAIN = 35
+const m_EALREADY = 37
+const m_EAUTH = 80
+const m_EBADARCH = 86
+const m_EBADEXEC = 85
+const m_EBADF = 9
+const m_EBADMACHO = 88
+const m_EBADMSG = 94
+const m_EBADRPC = 72
+const m_EBUSY = 16
+const m_ECANCELED = 89
+const m_ECHILD = 10
+const m_ECONNABORTED = 53
+const m_ECONNREFUSED = 61
+const m_ECONNRESET = 54
+const m_EDEADLK = 11
+const m_EDESTADDRREQ = 39
+const m_EDEVERR = 83
+const m_EDOM = 33
+const m_EDQUOT = 69
+const m_EEXIST = 17
+const m_EFAULT = 14
+const m_EFBIG = 27
+const m_EFTYPE = 79
+const m_EF_IS_PURGEABLE = 0x00000008
+const m_EF_IS_SPARSE = 0x00000010
+const m_EF_IS_SYNC_ROOT = 0x00000004
+const m_EF_IS_SYNTHETIC = 0x00000020
+const m_EF_MAY_SHARE_BLOCKS = 0x00000001
+const m_EF_NO_XATTRS = 0x00000002
+const m_EF_SHARES_ALL_BLOCKS = 0x00000040
+const m_EHOSTDOWN = 64
+const m_EHOSTUNREACH = 65
+const m_EIDRM = 90
+const m_EILSEQ = 92
+const m_EINPROGRESS = 36
+const m_EINTR = 4
+const m_EINVAL = 22
+const m_EIO = 5
+const m_EISCONN = 56
+const m_EISDIR = 21
+const m_ELAST = 106
+const m_ELOOP = 62
+const m_EMFILE = 24
+const m_EMLINK = 31
+const m_EMSGSIZE = 40
+const m_EMULTIHOP = 95
+const m_ENAMETOOLONG = 63
+const m_ENEEDAUTH = 81
+const m_ENETDOWN = 50
+const m_ENETRESET = 52
+const m_ENETUNREACH = 51
+const m_ENFILE = 23
+const m_ENOATTR = 93
+const m_ENOBUFS = 55
+const m_ENODATA = 96
+const m_ENODEV = 19
+const m_ENOENT = 2
+const m_ENOEXEC = 8
+const m_ENOLCK = 77
+const m_ENOLINK = 97
+const m_ENOMEM = 12
+const m_ENOMSG = 91
+const m_ENOPOLICY = 103
+const m_ENOPROTOOPT = 42
+const m_ENOSPC = 28
+const m_ENOSR = 98
+const m_ENOSTR = 99
+const m_ENOSYS = 78
+const m_ENOTBLK = 15
+const m_ENOTCONN = 57
+const m_ENOTDIR = 20
+const m_ENOTEMPTY = 66
+const m_ENOTRECOVERABLE = 104
+const m_ENOTSOCK = 38
+const m_ENOTSUP = 45
+const m_ENOTTY = 25
+const m_ENXIO = 6
+const m_EOPNOTSUPP = 102
+const m_EOVERFLOW = 84
+const m_EOWNERDEAD = 105
+const m_EPERM = 1
+const m_EPFNOSUPPORT = 46
+const m_EPIPE = 32
+const m_EPROCLIM = 67
+const m_EPROCUNAVAIL = 76
+const m_EPROGMISMATCH = 75
+const m_EPROGUNAVAIL = 74
+const m_EPROTO = 100
+const m_EPROTONOSUPPORT = 43
+const m_EPROTOTYPE = 41
+const m_EPWROFF = 82
+const m_EQFULL = 106
+const m_EQUIV_CLASS_MAX = 2
+const m_ERANGE = 34
+const m_EREMOTE = 71
+const m_EROFS = 30
+const m_ERPCMISMATCH = 73
+const m_ESHLIBVERS = 87
+const m_ESHUTDOWN = 58
+const m_ESOCKTNOSUPPORT = 44
+const m_ESPIPE = 29
+const m_ESRCH = 3
+const m_ESTALE = 70
+const m_ETIME = 101
+const m_ETIMEDOUT = 60
+const m_ETOOMANYREFS = 59
+const m_ETXTBSY = 26
+const m_EUSERS = 68
+const m_EWOULDBLOCK = "EAGAIN"
+const m_EXDEV = 18
+const m_EXIT_FAILURE = 1
+const m_EXIT_SUCCESS = 0
+const m_EXPR_NEST_MAX = 32
+const m_FAPPEND = "O_APPEND"
+const m_FASYNC = "O_ASYNC"
+const m_FCNTL_FS_SPECIFIC_BASE = 0x00010000
+const m_FD_CLOEXEC = 1
+const m_FD_SETSIZE = "__DARWIN_FD_SETSIZE"
+const m_FFDSYNC = "O_DSYNC"
+const m_FFSYNC = "O_FSYNC"
+const m_FILENAME_MAX = 1024
+const m_FILESEC_GUID = "FILESEC_UUID"
+const m_FNDELAY = "O_NONBLOCK"
+const m_FNONBLOCK = "O_NONBLOCK"
+const m_FOOTPRINT_INTERVAL_RESET = 0x1
+const m_FOPEN_MAX = 20
+const m_FPARSELN_UNESCALL = 0x0f
+const m_FPARSELN_UNESCCOMM = 0x04
+const m_FPARSELN_UNESCCONT = 0x02
+const m_FPARSELN_UNESCESC = 0x01
+const m_FPARSELN_UNESCREST = 0x08
+const m_FPE_FLTDIV = 1
+const m_FPE_FLTINV = 5
+const m_FPE_FLTOVF = 2
+const m_FPE_FLTRES = 4
+const m_FPE_FLTSUB = 6
+const m_FPE_FLTUND = 3
+const m_FPE_INTDIV = 7
+const m_FPE_INTOVF = 8
+const m_FPE_NOOP = 0
+const m_FP_CHOP = 3
+const m_FP_PREC_24B = 0
+const m_FP_PREC_53B = 2
+const m_FP_PREC_64B = 3
+const m_FP_RND_DOWN = 1
+const m_FP_RND_NEAR = 0
+const m_FP_RND_UP = 2
+const m_FP_STATE_BYTES = 512
+const m_FREAD = 0x00000001
+const m_FWRITE = 0x00000002
+const m_F_ADDFILESIGS = 61
+const m_F_ADDFILESIGS_FOR_DYLD_SIM = 83
+const m_F_ADDFILESIGS_INFO = 103
+const m_F_ADDFILESIGS_RETURN = 97
+const m_F_ADDFILESUPPL = 104
+const m_F_ADDSIGS = 59
+const m_F_ADDSIGS_MAIN_BINARY = 113
+const m_F_ALLOCATEALL = 0x00000004
+const m_F_ALLOCATECONTIG = 0x00000002
+const m_F_ALLOCATEPERSIST = 0x00000008
+const m_F_ATTRIBUTION_TAG = 111
+const m_F_BARRIERFSYNC = 85
+const m_F_CHECK_LV = 98
+const m_F_CHKCLEAN = 41
+const m_F_CREATE_TAG = 0x00000001
+const m_F_DELETE_TAG = 0x00000002
+const m_F_DUPFD = 0
+const m_F_DUPFD_CLOEXEC = 67
+const m_F_FINDSIGS = 78
+const m_F_FLUSH_DATA = 40
+const m_F_FREEZE_FS = 53
+const m_F_FULLFSYNC = 51
+const m_F_GETCODEDIR = 72
+const m_F_GETFD = 1
+const m_F_GETFL = 3
+const m_F_GETLEASE = 107
+const m_F_GETLK = 7
+const m_F_GETLKPID = 66
+const m_F_GETNOSIGPIPE = 74
+const m_F_GETOWN = 5
+const m_F_GETPATH = 50
+const m_F_GETPATH_MTMINFO = 71
+const m_F_GETPATH_NOFIRMLINK = 102
+const m_F_GETPROTECTIONCLASS = 63
+const m_F_GETPROTECTIONLEVEL = 77
+const m_F_GETSIGSINFO = 105
+const m_F_GLOBAL_NOCACHE = 55
+const m_F_LOCK = 1
+const m_F_LOG2PHYS = 49
+const m_F_LOG2PHYS_EXT = 65
+const m_F_NOCACHE = 48
+const m_F_NODIRECT = 62
+const m_F_OFD_GETLK = 92
+const m_F_OFD_SETLK = 90
+const m_F_OFD_SETLKW = 91
+const m_F_OFD_SETLKWTIMEOUT = 93
+const m_F_OK = 0
+const m_F_PATHPKG_CHECK = 52
+const m_F_PEOFPOSMODE = 3
+const m_F_PREALLOCATE = 42
+const m_F_PUNCHHOLE = 99
+const m_F_QUERY_TAG = 0x00000004
+const m_F_RDADVISE = 44
+const m_F_RDAHEAD = 45
+const m_F_RDLCK = 1
+const m_F_SETBACKINGSTORE = 70
+const m_F_SETFD = 2
+const m_F_SETFL = 4
+const m_F_SETLEASE = 106
+const m_F_SETLK = 8
+const m_F_SETLKW = 9
+const m_F_SETLKWTIMEOUT = 10
+const m_F_SETNOSIGPIPE = 73
+const m_F_SETOWN = 6
+const m_F_SETPROTECTIONCLASS = 64
+const m_F_SETSIZE = 43
+const m_F_SINGLE_WRITER = 76
+const m_F_SPECULATIVE_READ = 101
+const m_F_TEST = 3
+const m_F_THAW_FS = 54
+const m_F_TLOCK = 2
+const m_F_TRANSCODEKEY = 75
+const m_F_TRANSFEREXTENTS = 110
+const m_F_TRIM_ACTIVE_FILE = 100
+const m_F_ULOCK = 0
+const m_F_UNLCK = 2
+const m_F_VOLPOSMODE = 4
+const m_F_WRLCK = 3
+const m_GETSIGSINFO_PLATFORM_BINARY = 1
+const m_GID_MAX = 2147483647
+const m_HAVE_ASPRINTF = 1
+const m_HAVE_CONFIG_H = 1
+const m_HAVE_DECL_ENVIRON = 0
+const m_HAVE_DIRENT_H = 1
+const m_HAVE_DIRFD = 1
+const m_HAVE_DLFCN_H = 1
+const m_HAVE_FLOCK = 1
+const m_HAVE_FUNOPEN = 1
+const m_HAVE_GETENTROPY = 1
+const m_HAVE_GETLINE = 1
+const m_HAVE_GROUP_FROM_GID = 1
+const m_HAVE_GRP_H = 1
+const m_HAVE_INTTYPES_H = 1
+const m_HAVE_OPEN_MEMSTREAM = 1
+const m_HAVE_PWD_H = 1
+const m_HAVE_STDINT_H = 1
+const m_HAVE_STDIO_H = 1
+const m_HAVE_STDLIB_H = 1
+const m_HAVE_STRINGS_H = 1
+const m_HAVE_STRING_H = 1
+const m_HAVE_SYSCONF = 1
+const m_HAVE_SYS_DIR_H = 1
+const m_HAVE_SYS_STAT_H = 1
+const m_HAVE_SYS_TYPES_H = 1
+const m_HAVE_TYPEOF = 1
+const m_HAVE_UNISTD_H = 1
+const m_HAVE_USER_FROM_UID = 1
+const m_HAVE_VASPRINTF = 1
+const m_HAVE_WCHAR_H = 1
+const m_HAVE___PROGNAME = 1
+const m_HN_AUTOSCALE = 0x20
+const m_HN_B = 0x04
+const m_HN_DECIMAL = 0x01
+const m_HN_DIVISOR_1000 = 0x08
+const m_HN_GETSCALE = 0x10
+const m_HN_IEC_PREFIXES = 0x10
+const m_HN_NOSPACE = 0x02
+const m_ILL_BADSTK = 8
+const m_ILL_COPROC = 7
+const m_ILL_ILLADR = 5
+const m_ILL_ILLOPC = 1
+const m_ILL_ILLOPN = 4
+const m_ILL_ILLTRP = 2
+const m_ILL_NOOP = 0
+const m_ILL_PRVOPC = 3
+const m_ILL_PRVREG = 6
+const m_INT16_MAX = 32767
+const m_INT32_MAX = 2147483647
+const m_INT64_MAX = 9223372036854775807
+const m_INT8_MAX = 127
+const m_INTPTR_MAX = 9223372036854775807
+const m_INT_FAST16_MAX = "INT16_MAX"
+const m_INT_FAST16_MIN = "INT16_MIN"
+const m_INT_FAST32_MAX = "INT32_MAX"
+const m_INT_FAST32_MIN = "INT32_MIN"
+const m_INT_FAST64_MAX = "INT64_MAX"
+const m_INT_FAST64_MIN = "INT64_MIN"
+const m_INT_FAST8_MAX = "INT8_MAX"
+const m_INT_FAST8_MIN = "INT8_MIN"
+const m_INT_LEAST16_MAX = "INT16_MAX"
+const m_INT_LEAST16_MIN = "INT16_MIN"
+const m_INT_LEAST32_MAX = "INT32_MAX"
+const m_INT_LEAST32_MIN = "INT32_MIN"
+const m_INT_LEAST64_MAX = "INT64_MAX"
+const m_INT_LEAST64_MIN = "INT64_MIN"
+const m_INT_LEAST8_MAX = "INT8_MAX"
+const m_INT_LEAST8_MIN = "INT8_MIN"
+const m_IOPOL_APPLICATION = "IOPOL_STANDARD"
+const m_IOPOL_ATIME_UPDATES_DEFAULT = 0
+const m_IOPOL_ATIME_UPDATES_OFF = 1
+const m_IOPOL_DEFAULT = 0
+const m_IOPOL_IMPORTANT = 1
+const m_IOPOL_MATERIALIZE_DATALESS_FILES_DEFAULT = 0
+const m_IOPOL_MATERIALIZE_DATALESS_FILES_OFF = 1
+const m_IOPOL_MATERIALIZE_DATALESS_FILES_ON = 2
+const m_IOPOL_NORMAL = "IOPOL_IMPORTANT"
+const m_IOPOL_PASSIVE = 2
+const m_IOPOL_SCOPE_DARWIN_BG = 2
+const m_IOPOL_SCOPE_PROCESS = 0
+const m_IOPOL_SCOPE_THREAD = 1
+const m_IOPOL_STANDARD = 5
+const m_IOPOL_THROTTLE = 3
+const m_IOPOL_TYPE_DISK = 0
+const m_IOPOL_TYPE_VFS_ALLOW_LOW_SPACE_WRITES = 9
+const m_IOPOL_TYPE_VFS_ATIME_UPDATES = 2
+const m_IOPOL_TYPE_VFS_DISALLOW_RW_FOR_O_EVTONLY = 10
+const m_IOPOL_TYPE_VFS_IGNORE_CONTENT_PROTECTION = 6
+const m_IOPOL_TYPE_VFS_IGNORE_PERMISSIONS = 7
+const m_IOPOL_TYPE_VFS_MATERIALIZE_DATALESS_FILES = 3
+const m_IOPOL_TYPE_VFS_SKIP_MTIME_UPDATE = 8
+const m_IOPOL_TYPE_VFS_STATFS_NO_DATA_VOLUME = 4
+const m_IOPOL_TYPE_VFS_TRIGGER_RESOLVE = 5
+const m_IOPOL_UTILITY = 4
+const m_IOPOL_VFS_ALLOW_LOW_SPACE_WRITES_OFF = 0
+const m_IOPOL_VFS_ALLOW_LOW_SPACE_WRITES_ON = 1
+const m_IOPOL_VFS_CONTENT_PROTECTION_DEFAULT = 0
+const m_IOPOL_VFS_CONTENT_PROTECTION_IGNORE = 1
+const m_IOPOL_VFS_DISALLOW_RW_FOR_O_EVTONLY_DEFAULT = 0
+const m_IOPOL_VFS_DISALLOW_RW_FOR_O_EVTONLY_ON = 1
+const m_IOPOL_VFS_IGNORE_PERMISSIONS_OFF = 0
+const m_IOPOL_VFS_IGNORE_PERMISSIONS_ON = 1
+const m_IOPOL_VFS_NOCACHE_WRITE_FS_BLKSIZE_DEFAULT = 0
+const m_IOPOL_VFS_NOCACHE_WRITE_FS_BLKSIZE_ON = 1
+const m_IOPOL_VFS_SKIP_MTIME_UPDATE_IGNORE = 2
+const m_IOPOL_VFS_SKIP_MTIME_UPDATE_OFF = 0
+const m_IOPOL_VFS_SKIP_MTIME_UPDATE_ON = 1
+const m_IOPOL_VFS_STATFS_FORCE_NO_DATA_VOLUME = 1
+const m_IOPOL_VFS_STATFS_NO_DATA_VOLUME_DEFAULT = 0
+const m_IOPOL_VFS_TRIGGER_RESOLVE_DEFAULT = 0
+const m_IOPOL_VFS_TRIGGER_RESOLVE_OFF = 1
+const m_IOV_MAX = 1024
+const m_LIBBSD_ABI_ACCMODE = 0
+const m_LIBBSD_ABI_ARC4RANDOM = 0
+const m_LIBBSD_ABI_ARC4RANDOM_STIR = 0
+const m_LIBBSD_ABI_ASPRINTF = 0
+const m_LIBBSD_ABI_BSD_GETOPT = 0
+const m_LIBBSD_ABI_CLOSEFROM = 1
+const m_LIBBSD_ABI_ERR = 0
+const m_LIBBSD_ABI_ERRC = 0
+const m_LIBBSD_ABI_ERR_H = 0
+const m_LIBBSD_ABI_EXPAND_NUMBER = 1
+const m_LIBBSD_ABI_EXPLICIT_BZERO = 1
+const m_LIBBSD_ABI_FGETLN = 0
+const m_LIBBSD_ABI_FLOPEN = 1
+const m_LIBBSD_ABI_FMTCHECK = 0
+const m_LIBBSD_ABI_FPURGE = 0
+const m_LIBBSD_ABI_FREEZERO = 1
+const m_LIBBSD_ABI_FUNOPEN = 0
+const m_LIBBSD_ABI_GETBSIZE = 1
+const m_LIBBSD_ABI_GETPEEREID = 0
+const m_LIBBSD_ABI_HUMANIZE_NUMBER = 1
+const m_LIBBSD_ABI_ID_FROM_NAME = 1
+const m_LIBBSD_ABI_INET_NET_PTON = 0
+const m_LIBBSD_ABI_MD5 = 0
+const m_LIBBSD_ABI_NAME_FROM_ID = 0
+const m_LIBBSD_ABI_NLIST = 0
+const m_LIBBSD_ABI_PIDFILE = 1
+const m_LIBBSD_ABI_PROCTITLE = 1
+const m_LIBBSD_ABI_PROGNAME = 0
+const m_LIBBSD_ABI_PWCACHE = 1
+const m_LIBBSD_ABI_READPASSPHRASE = 0
+const m_LIBBSD_ABI_REALLOCARRAY = 1
+const m_LIBBSD_ABI_REALLOCF = 0
+const m_LIBBSD_ABI_RECALLOCARRAY = 1
+const m_LIBBSD_ABI_SORT = 0
+const m_LIBBSD_ABI_STRINGLIST = 0
+const m_LIBBSD_ABI_STRL = 0
+const m_LIBBSD_ABI_STRMODE = 0
+const m_LIBBSD_ABI_STRNSTR = 0
+const m_LIBBSD_ABI_STRTONUM = 0
+const m_LIBBSD_ABI_STRTOX = 1
+const m_LIBBSD_ABI_TIME64 = 0
+const m_LIBBSD_ABI_TIMECONV = 0
+const m_LIBBSD_ABI_TRANSPARENT_LIBMD = 0
+const m_LIBBSD_ABI_VIS = 0
+const m_LIBBSD_ABI_WCSL = 0
+const m_LIBBSD_API_TIME_MACROS = 0
+const m_LIBBSD_DISABLE_DEPRECATED = 1
+const m_LIBBSD_OVERLAY = 1
+const m_LIBBSD_SYS_HAS_TIME64 = 1
+const m_LIBBSD_SYS_TIME_BITS = 64
+const m_LINE_MAX = 2048
+const m_LINK_MAX = 32767
+const m_LITTLE_ENDIAN = "__DARWIN_LITTLE_ENDIAN"
+const m_LOCK_EX = 0x02
+const m_LOCK_NB = 0x04
+const m_LOCK_SH = 0x01
+const m_LOCK_UN = 0x08
+const m_LONG_BIT = 64
+const m_LT_OBJDIR = ".libs/"
+const m_L_INCR = "SEEK_CUR"
+const m_L_SET = "SEEK_SET"
+const m_L_XTND = "SEEK_END"
+const m_L_ctermid = 1024
+const m_L_tmpnam = 1024
+const m_MAC_OS_VERSION_11_0 = "__MAC_11_0"
+const m_MAC_OS_VERSION_11_1 = "__MAC_11_1"
+const m_MAC_OS_VERSION_11_3 = "__MAC_11_3"
+const m_MAC_OS_VERSION_11_4 = "__MAC_11_4"
+const m_MAC_OS_VERSION_11_5 = "__MAC_11_5"
+const m_MAC_OS_VERSION_11_6 = "__MAC_11_6"
+const m_MAC_OS_VERSION_12_0 = "__MAC_12_0"
+const m_MAC_OS_VERSION_12_1 = "__MAC_12_1"
+const m_MAC_OS_VERSION_12_2 = "__MAC_12_2"
+const m_MAC_OS_VERSION_12_3 = "__MAC_12_3"
+const m_MAC_OS_VERSION_12_4 = "__MAC_12_4"
+const m_MAC_OS_VERSION_12_5 = "__MAC_12_5"
+const m_MAC_OS_VERSION_12_6 = "__MAC_12_6"
+const m_MAC_OS_VERSION_12_7 = "__MAC_12_7"
+const m_MAC_OS_VERSION_13_0 = "__MAC_13_0"
+const m_MAC_OS_VERSION_13_1 = "__MAC_13_1"
+const m_MAC_OS_VERSION_13_2 = "__MAC_13_2"
+const m_MAC_OS_VERSION_13_3 = "__MAC_13_3"
+const m_MAC_OS_VERSION_13_4 = "__MAC_13_4"
+const m_MAC_OS_VERSION_13_5 = "__MAC_13_5"
+const m_MAC_OS_VERSION_13_6 = "__MAC_13_6"
+const m_MAC_OS_VERSION_13_7 = "__MAC_13_7"
+const m_MAC_OS_VERSION_14_0 = "__MAC_14_0"
+const m_MAC_OS_VERSION_14_1 = "__MAC_14_1"
+const m_MAC_OS_VERSION_14_2 = "__MAC_14_2"
+const m_MAC_OS_VERSION_14_3 = "__MAC_14_3"
+const m_MAC_OS_VERSION_14_4 = "__MAC_14_4"
+const m_MAC_OS_VERSION_14_5 = "__MAC_14_5"
+const m_MAC_OS_VERSION_14_6 = "__MAC_14_6"
+const m_MAC_OS_VERSION_14_7 = "__MAC_14_7"
+const m_MAC_OS_VERSION_15_0 = "__MAC_15_0"
+const m_MAC_OS_VERSION_15_1 = "__MAC_15_1"
+const m_MAC_OS_VERSION_15_2 = "__MAC_15_2"
+const m_MAC_OS_VERSION_15_3 = "__MAC_15_3"
+const m_MAC_OS_VERSION_15_4 = "__MAC_15_4"
+const m_MAC_OS_VERSION_15_5 = "__MAC_15_5"
+const m_MAC_OS_X_VERSION_10_0 = "__MAC_10_0"
+const m_MAC_OS_X_VERSION_10_1 = "__MAC_10_1"
+const m_MAC_OS_X_VERSION_10_10 = "__MAC_10_10"
+const m_MAC_OS_X_VERSION_10_10_2 = "__MAC_10_10_2"
+const m_MAC_OS_X_VERSION_10_10_3 = "__MAC_10_10_3"
+const m_MAC_OS_X_VERSION_10_11 = "__MAC_10_11"
+const m_MAC_OS_X_VERSION_10_11_2 = "__MAC_10_11_2"
+const m_MAC_OS_X_VERSION_10_11_3 = "__MAC_10_11_3"
+const m_MAC_OS_X_VERSION_10_11_4 = "__MAC_10_11_4"
+const m_MAC_OS_X_VERSION_10_12 = "__MAC_10_12"
+const m_MAC_OS_X_VERSION_10_12_1 = "__MAC_10_12_1"
+const m_MAC_OS_X_VERSION_10_12_2 = "__MAC_10_12_2"
+const m_MAC_OS_X_VERSION_10_12_4 = "__MAC_10_12_4"
+const m_MAC_OS_X_VERSION_10_13 = "__MAC_10_13"
+const m_MAC_OS_X_VERSION_10_13_1 = "__MAC_10_13_1"
+const m_MAC_OS_X_VERSION_10_13_2 = "__MAC_10_13_2"
+const m_MAC_OS_X_VERSION_10_13_4 = "__MAC_10_13_4"
+const m_MAC_OS_X_VERSION_10_14 = "__MAC_10_14"
+const m_MAC_OS_X_VERSION_10_14_1 = "__MAC_10_14_1"
+const m_MAC_OS_X_VERSION_10_14_4 = "__MAC_10_14_4"
+const m_MAC_OS_X_VERSION_10_14_5 = "__MAC_10_14_5"
+const m_MAC_OS_X_VERSION_10_14_6 = "__MAC_10_14_6"
+const m_MAC_OS_X_VERSION_10_15 = "__MAC_10_15"
+const m_MAC_OS_X_VERSION_10_15_1 = "__MAC_10_15_1"
+const m_MAC_OS_X_VERSION_10_15_4 = "__MAC_10_15_4"
+const m_MAC_OS_X_VERSION_10_16 = "__MAC_10_16"
+const m_MAC_OS_X_VERSION_10_2 = "__MAC_10_2"
+const m_MAC_OS_X_VERSION_10_3 = "__MAC_10_3"
+const m_MAC_OS_X_VERSION_10_4 = "__MAC_10_4"
+const m_MAC_OS_X_VERSION_10_5 = "__MAC_10_5"
+const m_MAC_OS_X_VERSION_10_6 = "__MAC_10_6"
+const m_MAC_OS_X_VERSION_10_7 = "__MAC_10_7"
+const m_MAC_OS_X_VERSION_10_8 = "__MAC_10_8"
+const m_MAC_OS_X_VERSION_10_9 = "__MAC_10_9"
+const m_MAXNAMLEN = "__DARWIN_MAXNAMLEN"
+const m_MAX_CANON = 1024
+const m_MAX_INPUT = 1024
+const m_MB_CUR_MAX = "__mb_cur_max"
+const m_MINSIGSTKSZ = 32768
+const m_NAME_MAX = 255
+const m_NBBY = "__DARWIN_NBBY"
+const m_NDEBUG = 1
+const m_NFDBITS = "__DARWIN_NFDBITS"
+const m_NGROUPS_MAX = 16
+const m_NL_ARGMAX = 9
+const m_NL_LANGMAX = 14
+const m_NL_MSGMAX = 32767
+const m_NL_NMAX = 1
+const m_NL_SETMAX = 255
+const m_NL_TEXTMAX = 2048
+const m_NSIG = "__DARWIN_NSIG"
+const m_NULL = "__DARWIN_NULL"
+const m_NZERO = 20
+const m_OFF_MAX = "LLONG_MAX"
+const m_OFF_MIN = "LLONG_MIN"
+const m_OPEN_MAX = 10240
+const m_O_ACCMODE = 0x0003
+const m_O_ALERT = 0x20000000
+const m_O_APPEND = 0x00000008
+const m_O_ASYNC = 0x00000040
+const m_O_CLOEXEC = 0x01000000
+const m_O_CREAT = 0x00000200
+const m_O_DIRECTORY = 0x00100000
+const m_O_DP_AUTHENTICATE = 0x0004
+const m_O_DP_GETRAWENCRYPTED = 0x0001
+const m_O_DP_GETRAWUNENCRYPTED = 0x0002
+const m_O_DSYNC = 0x400000
+const m_O_EVTONLY = 0x00008000
+const m_O_EXCL = 0x00000800
+const m_O_EXEC = 0x40000000
+const m_O_EXLOCK = 0x00000020
+const m_O_FSYNC = "O_SYNC"
+const m_O_NDELAY = "O_NONBLOCK"
+const m_O_NOCTTY = 0x00020000
+const m_O_NOFOLLOW = 0x00000100
+const m_O_NOFOLLOW_ANY = 0x20000000
+const m_O_NONBLOCK = 0x00000004
+const m_O_POPUP = 0x80000000
+const m_O_RDONLY = 0x0000
+const m_O_RDWR = 0x0002
+const m_O_RESOLVE_BENEATH = 0x00001000
+const m_O_SHLOCK = 0x00000010
+const m_O_SYMLINK = 0x00200000
+const m_O_SYNC = 0x0080
+const m_O_TRUNC = 0x00000400
+const m_O_WRONLY = 0x0001
+const m_PACKAGE = "libbsd"
+const m_PACKAGE_BUGREPORT = "libbsd@lists.freedesktop.org"
+const m_PACKAGE_NAME = "libbsd"
+const m_PACKAGE_STRING = "libbsd 0.12.2"
+const m_PACKAGE_TARNAME = "libbsd"
+const m_PACKAGE_URL = ""
+const m_PACKAGE_VERSION = "0.12.2"
+const m_PASS_MAX = 128
+const m_PATH_MAX = 1024
+const m_PDP_ENDIAN = "__DARWIN_PDP_ENDIAN"
+const m_PIC = 1
+const m_PIPE_BUF = 512
+const m_POLL_ERR = 4
+const m_POLL_HUP = 6
+const m_POLL_IN = 1
+const m_POLL_MSG = 3
+const m_POLL_OUT = 2
+const m_POLL_PRI = 5
+const m_PRIO_DARWIN_BG = 0x1000
+const m_PRIO_DARWIN_NONUI = 0x1001
+const m_PRIO_DARWIN_PROCESS = 4
+const m_PRIO_DARWIN_THREAD = 3
+const m_PRIO_MAX = 20
+const m_PRIO_PGRP = 1
+const m_PRIO_PROCESS = 0
+const m_PRIO_USER = 2
+const m_PTHREAD_DESTRUCTOR_ITERATIONS = 4
+const m_PTHREAD_KEYS_MAX = 512
+const m_PTHREAD_STACK_MIN = 8192
+const m_PTRDIFF_MAX = "INTMAX_MAX"
+const m_PTRDIFF_MIN = "INTMAX_MIN"
+const m_P_tmpdir = "/var/tmp/"
+const m_QUAD_MAX = "LLONG_MAX"
+const m_QUAD_MIN = "LLONG_MIN"
+const m_RAND_MAX = 0x7fffffff
+const m_RENAME_EXCL = 0x00000004
+const m_RENAME_NOFOLLOW_ANY = 0x00000010
+const m_RENAME_RESERVED1 = 0x00000008
+const m_RENAME_SECLUDE = 0x00000001
+const m_RENAME_SWAP = 0x00000002
+const m_RE_DUP_MAX = 255
+const m_RLIMIT_AS = 5
+const m_RLIMIT_CORE = 4
+const m_RLIMIT_CPU = 0
+const m_RLIMIT_CPU_USAGE_MONITOR = 0x2
+const m_RLIMIT_DATA = 2
+const m_RLIMIT_FOOTPRINT_INTERVAL = 0x4
+const m_RLIMIT_FSIZE = 1
+const m_RLIMIT_MEMLOCK = 6
+const m_RLIMIT_NOFILE = 8
+const m_RLIMIT_NPROC = 7
+const m_RLIMIT_RSS = "RLIMIT_AS"
+const m_RLIMIT_STACK = 3
+const m_RLIMIT_THREAD_CPULIMITS = 0x3
+const m_RLIMIT_WAKEUPS_MONITOR = 0x1
+const m_RLIM_NLIMITS = 9
+const m_RLIM_SAVED_CUR = "RLIM_INFINITY"
+const m_RLIM_SAVED_MAX = "RLIM_INFINITY"
+const m_RUSAGE_INFO_CURRENT = "RUSAGE_INFO_V6"
+const m_RUSAGE_INFO_V0 = 0
+const m_RUSAGE_INFO_V1 = 1
+const m_RUSAGE_INFO_V2 = 2
+const m_RUSAGE_INFO_V3 = 3
+const m_RUSAGE_INFO_V4 = 4
+const m_RUSAGE_INFO_V5 = 5
+const m_RUSAGE_INFO_V6 = 6
+const m_RUSAGE_SELF = 0
+const m_RU_PROC_RUNS_RESLIDE = 0x00000001
+const m_SA_64REGSET = 0x0200
+const m_SA_NOCLDSTOP = 0x0008
+const m_SA_NOCLDWAIT = 0x0020
+const m_SA_NODEFER = 0x0010
+const m_SA_ONSTACK = 0x0001
+const m_SA_RESETHAND = 0x0004
+const m_SA_RESTART = 0x0002
+const m_SA_SIGINFO = 0x0040
+const m_SA_USERTRAMP = 0x0100
+const m_SEEK_CUR = 1
+const m_SEEK_DATA = 4
+const m_SEEK_END = 2
+const m_SEEK_HOLE = 3
+const m_SEEK_SET = 0
+const m_SEGV_ACCERR = 2
+const m_SEGV_MAPERR = 1
+const m_SEGV_NOOP = 0
+const m_SF_APPEND = 0x00040000
+const m_SF_ARCHIVED = 0x00010000
+const m_SF_DATALESS = 0x40000000
+const m_SF_FIRMLINK = 0x00800000
+const m_SF_IMMUTABLE = 0x00020000
+const m_SF_NOUNLINK = 0x00100000
+const m_SF_RESTRICTED = 0x00080000
+const m_SF_SETTABLE = 0x3fff0000
+const m_SF_SUPPORTED = 0x009f0000
+const m_SF_SYNTHETIC = 0xc0000000
+const m_SIGABRT = 6
+const m_SIGALRM = 14
+const m_SIGBUS = 10
+const m_SIGCHLD = 20
+const m_SIGCONT = 19
+const m_SIGEMT = 7
+const m_SIGEV_NONE = 0
+const m_SIGEV_SIGNAL = 1
+const m_SIGEV_THREAD = 3
+const m_SIGFPE = 8
+const m_SIGHUP = 1
+const m_SIGILL = 4
+const m_SIGINFO = 29
+const m_SIGINT = 2
+const m_SIGIO = 23
+const m_SIGIOT = "SIGABRT"
+const m_SIGKILL = 9
+const m_SIGPIPE = 13
+const m_SIGPROF = 27
+const m_SIGQUIT = 3
+const m_SIGSEGV = 11
+const m_SIGSTKSZ = 131072
+const m_SIGSTOP = 17
+const m_SIGSYS = 12
+const m_SIGTERM = 15
+const m_SIGTRAP = 5
+const m_SIGTSTP = 18
+const m_SIGTTIN = 21
+const m_SIGTTOU = 22
+const m_SIGURG = 16
+const m_SIGUSR1 = 30
+const m_SIGUSR2 = 31
+const m_SIGVTALRM = 26
+const m_SIGWINCH = 28
+const m_SIGXCPU = 24
+const m_SIGXFSZ = 25
+const m_SIG_ATOMIC_MAX = "INT32_MAX"
+const m_SIG_ATOMIC_MIN = "INT32_MIN"
+const m_SIG_BLOCK = 1
+const m_SIG_SETMASK = 3
+const m_SIG_UNBLOCK = 2
+const m_SIZEOF_OFF_T = 8
+const m_SIZEOF_TIME_T = 8
+const m_SIZE_MAX = "UINTPTR_MAX"
+const m_SIZE_T_MAX = "ULONG_MAX"
+const m_SI_ASYNCIO = 0x10004
+const m_SI_MESGQ = 0x10005
+const m_SI_QUEUE = 0x10002
+const m_SI_TIMER = 0x10003
+const m_SI_USER = 0x10001
+const m_SSIZE_MAX = "LONG_MAX"
+const m_SS_DISABLE = 0x0004
+const m_SS_ONSTACK = 0x0001
+const m_STDC_HEADERS = 1
+const m_STDERR_FILENO = 2
+const m_STDIN_FILENO = 0
+const m_STDOUT_FILENO = 1
+const m_SV_INTERRUPT = "SA_RESTART"
+const m_SV_NOCLDSTOP = "SA_NOCLDSTOP"
+const m_SV_NODEFER = "SA_NODEFER"
+const m_SV_ONSTACK = "SA_ONSTACK"
+const m_SV_RESETHAND = "SA_RESETHAND"
+const m_SV_SIGINFO = "SA_SIGINFO"
+const m_SYNC_VOLUME_FULLSYNC = 0x01
+const m_SYNC_VOLUME_WAIT = 0x02
+const m_S_BLKSIZE = 512
+const m_S_IEXEC = "S_IXUSR"
+const m_S_IFBLK = 0060000
+const m_S_IFCHR = 0020000
+const m_S_IFDIR = 0040000
+const m_S_IFIFO = 0010000
+const m_S_IFLNK = 0120000
+const m_S_IFMT = 0170000
+const m_S_IFREG = 0100000
+const m_S_IFSOCK = 0140000
+const m_S_IFWHT = 0160000
+const m_S_IREAD = "S_IRUSR"
+const m_S_IRGRP = 0000040
+const m_S_IROTH = 0000004
+const m_S_IRUSR = 0000400
+const m_S_IRWXG = 0000070
+const m_S_IRWXO = 0000007
+const m_S_IRWXU = 0000700
+const m_S_ISGID = 0002000
+const m_S_ISTXT = "S_ISVTX"
+const m_S_ISUID = 0004000
+const m_S_ISVTX = 0001000
+const m_S_IWGRP = 0000020
+const m_S_IWOTH = 0000002
+const m_S_IWRITE = "S_IWUSR"
+const m_S_IWUSR = 0000200
+const m_S_IXGRP = 0000010
+const m_S_IXOTH = 0000001
+const m_S_IXUSR = 0000100
+const m_TARGET_IPHONE_SIMULATOR = 0
+const m_TARGET_OS_ARROW = 0
+const m_TARGET_OS_BRIDGE = 0
+const m_TARGET_OS_DRIVERKIT = 0
+const m_TARGET_OS_EMBEDDED = 0
+const m_TARGET_OS_IOS = 0
+const m_TARGET_OS_IOSMAC = 0
+const m_TARGET_OS_IPHONE = 0
+const m_TARGET_OS_LINUX = 0
+const m_TARGET_OS_MAC = 1
+const m_TARGET_OS_MACCATALYST = 0
+const m_TARGET_OS_NANO = 0
+const m_TARGET_OS_OSX = 1
+const m_TARGET_OS_SIMULATOR = 0
+const m_TARGET_OS_TV = 0
+const m_TARGET_OS_UIKITFORMAC = 0
+const m_TARGET_OS_UNIX = 0
+const m_TARGET_OS_VISION = 0
+const m_TARGET_OS_WATCH = 0
+const m_TARGET_OS_WIN32 = 0
+const m_TARGET_OS_WINDOWS = 0
+const m_TARGET_OS_XR = 0
+const m_TMP_MAX = 308915776
+const m_TRAP_BRKPT = 1
+const m_TRAP_TRACE = 2
+const m_UF_APPEND = 0x00000004
+const m_UF_COMPRESSED = 0x00000020
+const m_UF_DATAVAULT = 0x00000080
+const m_UF_HIDDEN = 0x00008000
+const m_UF_IMMUTABLE = 0x00000002
+const m_UF_NODUMP = 0x00000001
+const m_UF_OPAQUE = 0x00000008
+const m_UF_SETTABLE = 0x0000ffff
+const m_UF_TRACKED = 0x00000040
+const m_UID_MAX = 2147483647
+const m_UINT16_MAX = 65535
+const m_UINT32_MAX = 4294967295
+const m_UINT64_MAX = "18446744073709551615U"
+const m_UINT8_MAX = 255
+const m_UINTPTR_MAX = 18446744073709551615
+const m_UINT_FAST16_MAX = "UINT16_MAX"
+const m_UINT_FAST32_MAX = "UINT32_MAX"
+const m_UINT_FAST64_MAX = "UINT64_MAX"
+const m_UINT_FAST8_MAX = "UINT8_MAX"
+const m_UINT_LEAST16_MAX = "UINT16_MAX"
+const m_UINT_LEAST32_MAX = "UINT32_MAX"
+const m_UINT_LEAST64_MAX = "UINT64_MAX"
+const m_UINT_LEAST8_MAX = "UINT8_MAX"
+const m_UQUAD_MAX = "ULLONG_MAX"
+const m_USER_FSIGNATURES_CDHASH_LEN = 20
+const m_VERSION = "0.12.2"
+const m_WAIT_MYPGRP = 0
+const m_WAKEMON_DISABLE = 0x02
+const m_WAKEMON_ENABLE = 0x01
+const m_WAKEMON_GET_PARAMS = 0x04
+const m_WAKEMON_MAKE_FATAL = 0x10
+const m_WAKEMON_SET_DEFAULTS = 0x08
+const m_WCHAR_MAX = "__WCHAR_MAX__"
+const m_WCONTINUED = 0x00000010
+const m_WCOREFLAG = 0200
+const m_WEXITED = 0x00000004
+const m_WINT_MAX = "INT32_MAX"
+const m_WINT_MIN = "INT32_MIN"
+const m_WNOHANG = 0x00000001
+const m_WNOWAIT = 0x00000020
+const m_WORD_BIT = 32
+const m_WSTOPPED = 0x00000008
+const m_WUNTRACED = 0x00000002
+const m__ALL_SOURCE = 1
+const m__CS_DARWIN_USER_CACHE_DIR = 65538
+const m__CS_DARWIN_USER_DIR = 65536
+const m__CS_DARWIN_USER_TEMP_DIR = 65537
+const m__CS_PATH = 1
+const m__CS_POSIX_V6_ILP32_OFF32_CFLAGS = 2
+const m__CS_POSIX_V6_ILP32_OFF32_LDFLAGS = 3
+const m__CS_POSIX_V6_ILP32_OFF32_LIBS = 4
+const m__CS_POSIX_V6_ILP32_OFFBIG_CFLAGS = 5
+const m__CS_POSIX_V6_ILP32_OFFBIG_LDFLAGS = 6
+const m__CS_POSIX_V6_ILP32_OFFBIG_LIBS = 7
+const m__CS_POSIX_V6_LP64_OFF64_CFLAGS = 8
+const m__CS_POSIX_V6_LP64_OFF64_LDFLAGS = 9
+const m__CS_POSIX_V6_LP64_OFF64_LIBS = 10
+const m__CS_POSIX_V6_LPBIG_OFFBIG_CFLAGS = 11
+const m__CS_POSIX_V6_LPBIG_OFFBIG_LDFLAGS = 12
+const m__CS_POSIX_V6_LPBIG_OFFBIG_LIBS = 13
+const m__CS_POSIX_V6_WIDTH_RESTRICTED_ENVS = 14
+const m__CS_XBS5_ILP32_OFF32_CFLAGS = 20
+const m__CS_XBS5_ILP32_OFF32_LDFLAGS = 21
+const m__CS_XBS5_ILP32_OFF32_LIBS = 22
+const m__CS_XBS5_ILP32_OFF32_LINTFLAGS = 23
+const m__CS_XBS5_ILP32_OFFBIG_CFLAGS = 24
+const m__CS_XBS5_ILP32_OFFBIG_LDFLAGS = 25
+const m__CS_XBS5_ILP32_OFFBIG_LIBS = 26
+const m__CS_XBS5_ILP32_OFFBIG_LINTFLAGS = 27
+const m__CS_XBS5_LP64_OFF64_CFLAGS = 28
+const m__CS_XBS5_LP64_OFF64_LDFLAGS = 29
+const m__CS_XBS5_LP64_OFF64_LIBS = 30
+const m__CS_XBS5_LP64_OFF64_LINTFLAGS = 31
+const m__CS_XBS5_LPBIG_OFFBIG_CFLAGS = 32
+const m__CS_XBS5_LPBIG_OFFBIG_LDFLAGS = 33
+const m__CS_XBS5_LPBIG_OFFBIG_LIBS = 34
+const m__CS_XBS5_LPBIG_OFFBIG_LINTFLAGS = 35
+const m__DARWIN_C_SOURCE = 1
+const m__DARWIN_FEATURE_64_BIT_INODE = 1
+const m__DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1
+const m__DARWIN_FEATURE_UNIX_CONFORMANCE = 3
+const m__FORTIFY_SOURCE = 2
+const m__GNU_SOURCE = 1
+const m__HPUX_ALT_XOPEN_SOCKET_API = 1
+const m__I386_SIGNAL_H_ = 1
+const m__IOFBF = 0
+const m__IOLBF = 1
+const m__IONBF = 2
+const m__LIBC_COUNT__MB_LEN_MAX = "_LIBC_UNSAFE_INDEXABLE"
+const m__LIBC_COUNT__PATH_MAX = "_LIBC_UNSAFE_INDEXABLE"
+const m__LP64 = 1
+const m__NETBSD_SOURCE = 1
+const m__OPENBSD_SOURCE = 1
+const m__PC_2_SYMLINKS = 15
+const m__PC_ALLOC_SIZE_MIN = 16
+const m__PC_ASYNC_IO = 17
+const m__PC_AUTH_OPAQUE_NP = 14
+const m__PC_CASE_PRESERVING = 12
+const m__PC_CASE_SENSITIVE = 11
+const m__PC_CHOWN_RESTRICTED = 7
+const m__PC_EXTENDED_SECURITY_NP = 13
+const m__PC_FILESIZEBITS = 18
+const m__PC_LINK_MAX = 1
+const m__PC_MAX_CANON = 2
+const m__PC_MAX_INPUT = 3
+const m__PC_MIN_HOLE_SIZE = 27
+const m__PC_NAME_CHARS_MAX = 10
+const m__PC_NAME_MAX = 4
+const m__PC_NO_TRUNC = 8
+const m__PC_PATH_MAX = 5
+const m__PC_PIPE_BUF = 6
+const m__PC_PRIO_IO = 19
+const m__PC_REC_INCR_XFER_SIZE = 20
+const m__PC_REC_MAX_XFER_SIZE = 21
+const m__PC_REC_MIN_XFER_SIZE = 22
+const m__PC_REC_XFER_ALIGN = 23
+const m__PC_SYMLINK_MAX = 24
+const m__PC_SYNC_IO = 25
+const m__PC_VDISABLE = 9
+const m__PC_XATTR_SIZE_BITS = 26
+const m__POSIX2_BC_BASE_MAX = 99
+const m__POSIX2_BC_DIM_MAX = 2048
+const m__POSIX2_BC_SCALE_MAX = 99
+const m__POSIX2_BC_STRING_MAX = 1000
+const m__POSIX2_CHARCLASS_NAME_MAX = 14
+const m__POSIX2_CHAR_TERM = 200112
+const m__POSIX2_COLL_WEIGHTS_MAX = 2
+const m__POSIX2_C_BIND = 200112
+const m__POSIX2_C_DEV = 200112
+const m__POSIX2_EQUIV_CLASS_MAX = 2
+const m__POSIX2_EXPR_NEST_MAX = 32
+const m__POSIX2_FORT_RUN = 200112
+const m__POSIX2_LINE_MAX = 2048
+const m__POSIX2_LOCALEDEF = 200112
+const m__POSIX2_RE_DUP_MAX = 255
+const m__POSIX2_SW_DEV = 200112
+const m__POSIX2_UPE = 200112
+const m__POSIX2_VERSION = 200112
+const m__POSIX_AIO_LISTIO_MAX = 2
+const m__POSIX_AIO_MAX = 1
+const m__POSIX_ARG_MAX = 4096
+const m__POSIX_CHILD_MAX = 25
+const m__POSIX_CHOWN_RESTRICTED = 200112
+const m__POSIX_CLOCKRES_MIN = 20000000
+const m__POSIX_DELAYTIMER_MAX = 32
+const m__POSIX_FSYNC = 200112
+const m__POSIX_HOST_NAME_MAX = 255
+const m__POSIX_IPV6 = 200112
+const m__POSIX_JOB_CONTROL = 200112
+const m__POSIX_LINK_MAX = 8
+const m__POSIX_LOGIN_NAME_MAX = 9
+const m__POSIX_MAPPED_FILES = 200112
+const m__POSIX_MAX_CANON = 255
+const m__POSIX_MAX_INPUT = 255
+const m__POSIX_MEMORY_PROTECTION = 200112
+const m__POSIX_MQ_OPEN_MAX = 8
+const m__POSIX_MQ_PRIO_MAX = 32
+const m__POSIX_NAME_MAX = 14
+const m__POSIX_NGROUPS_MAX = 8
+const m__POSIX_NO_TRUNC = 200112
+const m__POSIX_OPEN_MAX = 20
+const m__POSIX_PATH_MAX = 256
+const m__POSIX_PIPE_BUF = 512
+const m__POSIX_PTHREAD_SEMANTICS = 1
+const m__POSIX_READER_WRITER_LOCKS = 200112
+const m__POSIX_REGEXP = 200112
+const m__POSIX_RE_DUP_MAX = "_POSIX2_RE_DUP_MAX"
+const m__POSIX_RTSIG_MAX = 8
+const m__POSIX_SAVED_IDS = 200112
+const m__POSIX_SEM_NSEMS_MAX = 256
+const m__POSIX_SEM_VALUE_MAX = 32767
+const m__POSIX_SHELL = 200112
+const m__POSIX_SIGQUEUE_MAX = 32
+const m__POSIX_SPAWN = 200112
+const m__POSIX_SSIZE_MAX = 32767
+const m__POSIX_SS_REPL_MAX = 4
+const m__POSIX_STREAM_MAX = 8
+const m__POSIX_SYMLINK_MAX = 255
+const m__POSIX_SYMLOOP_MAX = 8
+const m__POSIX_THREADS = 200112
+const m__POSIX_THREAD_ATTR_STACKADDR = 200112
+const m__POSIX_THREAD_ATTR_STACKSIZE = 200112
+const m__POSIX_THREAD_DESTRUCTOR_ITERATIONS = 4
+const m__POSIX_THREAD_KEYS_MAX = 128
+const m__POSIX_THREAD_PROCESS_SHARED = 200112
+const m__POSIX_THREAD_SAFE_FUNCTIONS = 200112
+const m__POSIX_THREAD_THREADS_MAX = 64
+const m__POSIX_TIMER_MAX = 32
+const m__POSIX_TRACE_EVENT_NAME_MAX = 30
+const m__POSIX_TRACE_NAME_MAX = 8
+const m__POSIX_TRACE_SYS_MAX = 8
+const m__POSIX_TRACE_USER_EVENT_MAX = 32
+const m__POSIX_TTY_NAME_MAX = 9
+const m__POSIX_TZNAME_MAX = 6
+const m__POSIX_V6_ILP32_OFF32 = "__ILP32_OFF32"
+const m__POSIX_V6_ILP32_OFFBIG = "__ILP32_OFFBIG"
+const m__POSIX_V6_LP64_OFF64 = "__LP64_OFF64"
+const m__POSIX_V6_LPBIG_OFFBIG = "__LPBIG_OFFBIG"
+const m__POSIX_V7_ILP32_OFF32 = "__ILP32_OFF32"
+const m__POSIX_V7_ILP32_OFFBIG = "__ILP32_OFFBIG"
+const m__POSIX_V7_LP64_OFF64 = "__LP64_OFF64"
+const m__POSIX_V7_LPBIG_OFFBIG = "__LPBIG_OFFBIG"
+const m__POSIX_VERSION = 200112
+const m__QUAD_HIGHWORD = 1
+const m__QUAD_LOWWORD = 0
+const m__RLIMIT_POSIX_FLAG = 0x1000
+const m__SC_2_CHAR_TERM = 20
+const m__SC_2_C_BIND = 18
+const m__SC_2_C_DEV = 19
+const m__SC_2_FORT_DEV = 21
+const m__SC_2_FORT_RUN = 22
+const m__SC_2_LOCALEDEF = 23
+const m__SC_2_PBS = 59
+const m__SC_2_PBS_ACCOUNTING = 60
+const m__SC_2_PBS_CHECKPOINT = 61
+const m__SC_2_PBS_LOCATE = 62
+const m__SC_2_PBS_MESSAGE = 63
+const m__SC_2_PBS_TRACK = 64
+const m__SC_2_SW_DEV = 24
+const m__SC_2_UPE = 25
+const m__SC_2_VERSION = 17
+const m__SC_ADVISORY_INFO = 65
+const m__SC_AIO_LISTIO_MAX = 42
+const m__SC_AIO_MAX = 43
+const m__SC_AIO_PRIO_DELTA_MAX = 44
+const m__SC_ARG_MAX = 1
+const m__SC_ASYNCHRONOUS_IO = 28
+const m__SC_ATEXIT_MAX = 107
+const m__SC_BARRIERS = 66
+const m__SC_BC_BASE_MAX = 9
+const m__SC_BC_DIM_MAX = 10
+const m__SC_BC_SCALE_MAX = 11
+const m__SC_BC_STRING_MAX = 12
+const m__SC_CHILD_MAX = 2
+const m__SC_CLK_TCK = 3
+const m__SC_CLOCK_SELECTION = 67
+const m__SC_COLL_WEIGHTS_MAX = 13
+const m__SC_CPUTIME = 68
+const m__SC_DELAYTIMER_MAX = 45
+const m__SC_EXPR_NEST_MAX = 14
+const m__SC_FILE_LOCKING = 69
+const m__SC_FSYNC = 38
+const m__SC_GETGR_R_SIZE_MAX = 70
+const m__SC_GETPW_R_SIZE_MAX = 71
+const m__SC_HOST_NAME_MAX = 72
+const m__SC_IOV_MAX = 56
+const m__SC_IPV6 = 118
+const m__SC_JOB_CONTROL = 6
+const m__SC_LINE_MAX = 15
+const m__SC_LOGIN_NAME_MAX = 73
+const m__SC_MAPPED_FILES = 47
+const m__SC_MEMLOCK = 30
+const m__SC_MEMLOCK_RANGE = 31
+const m__SC_MEMORY_PROTECTION = 32
+const m__SC_MESSAGE_PASSING = 33
+const m__SC_MONOTONIC_CLOCK = 74
+const m__SC_MQ_OPEN_MAX = 46
+const m__SC_MQ_PRIO_MAX = 75
+const m__SC_NGROUPS_MAX = 4
+const m__SC_NPROCESSORS_CONF = 57
+const m__SC_NPROCESSORS_ONLN = 58
+const m__SC_OPEN_MAX = 5
+const m__SC_PAGESIZE = 29
+const m__SC_PAGE_SIZE = "_SC_PAGESIZE"
+const m__SC_PASS_MAX = 131
+const m__SC_PHYS_PAGES = 200
+const m__SC_PRIORITIZED_IO = 34
+const m__SC_PRIORITY_SCHEDULING = 35
+const m__SC_RAW_SOCKETS = 119
+const m__SC_READER_WRITER_LOCKS = 76
+const m__SC_REALTIME_SIGNALS = 36
+const m__SC_REGEXP = 77
+const m__SC_RE_DUP_MAX = 16
+const m__SC_RTSIG_MAX = 48
+const m__SC_SAVED_IDS = 7
+const m__SC_SEMAPHORES = 37
+const m__SC_SEM_NSEMS_MAX = 49
+const m__SC_SEM_VALUE_MAX = 50
+const m__SC_SHARED_MEMORY_OBJECTS = 39
+const m__SC_SHELL = 78
+const m__SC_SIGQUEUE_MAX = 51
+const m__SC_SPAWN = 79
+const m__SC_SPIN_LOCKS = 80
+const m__SC_SPORADIC_SERVER = 81
+const m__SC_SS_REPL_MAX = 126
+const m__SC_STREAM_MAX = 26
+const m__SC_SYMLOOP_MAX = 120
+const m__SC_SYNCHRONIZED_IO = 40
+const m__SC_THREADS = 96
+const m__SC_THREAD_ATTR_STACKADDR = 82
+const m__SC_THREAD_ATTR_STACKSIZE = 83
+const m__SC_THREAD_CPUTIME = 84
+const m__SC_THREAD_DESTRUCTOR_ITERATIONS = 85
+const m__SC_THREAD_KEYS_MAX = 86
+const m__SC_THREAD_PRIORITY_SCHEDULING = 89
+const m__SC_THREAD_PRIO_INHERIT = 87
+const m__SC_THREAD_PRIO_PROTECT = 88
+const m__SC_THREAD_PROCESS_SHARED = 90
+const m__SC_THREAD_SAFE_FUNCTIONS = 91
+const m__SC_THREAD_SPORADIC_SERVER = 92
+const m__SC_THREAD_STACK_MIN = 93
+const m__SC_THREAD_THREADS_MAX = 94
+const m__SC_TIMEOUTS = 95
+const m__SC_TIMERS = 41
+const m__SC_TIMER_MAX = 52
+const m__SC_TRACE = 97
+const m__SC_TRACE_EVENT_FILTER = 98
+const m__SC_TRACE_EVENT_NAME_MAX = 127
+const m__SC_TRACE_INHERIT = 99
+const m__SC_TRACE_LOG = 100
+const m__SC_TRACE_NAME_MAX = 128
+const m__SC_TRACE_SYS_MAX = 129
+const m__SC_TRACE_USER_EVENT_MAX = 130
+const m__SC_TTY_NAME_MAX = 101
+const m__SC_TYPED_MEMORY_OBJECTS = 102
+const m__SC_TZNAME_MAX = 27
+const m__SC_V6_ILP32_OFF32 = 103
+const m__SC_V6_ILP32_OFFBIG = 104
+const m__SC_V6_LP64_OFF64 = 105
+const m__SC_V6_LPBIG_OFFBIG = 106
+const m__SC_VERSION = 8
+const m__SC_XBS5_ILP32_OFF32 = 122
+const m__SC_XBS5_ILP32_OFFBIG = 123
+const m__SC_XBS5_LP64_OFF64 = 124
+const m__SC_XBS5_LPBIG_OFFBIG = 125
+const m__SC_XOPEN_CRYPT = 108
+const m__SC_XOPEN_ENH_I18N = 109
+const m__SC_XOPEN_LEGACY = 110
+const m__SC_XOPEN_REALTIME = 111
+const m__SC_XOPEN_REALTIME_THREADS = 112
+const m__SC_XOPEN_SHM = 113
+const m__SC_XOPEN_STREAMS = 114
+const m__SC_XOPEN_UNIX = 115
+const m__SC_XOPEN_VERSION = 116
+const m__SC_XOPEN_XCU_VERSION = 121
+const m__STRUCT_MCONTEXT = "_STRUCT_MCONTEXT64"
+const m__TANDEM_SOURCE = 1
+const m__V6_ILP32_OFF32 = "__ILP32_OFF32"
+const m__V6_ILP32_OFFBIG = "__ILP32_OFFBIG"
+const m__V6_LP64_OFF64 = "__LP64_OFF64"
+const m__V6_LPBIG_OFFBIG = "__LPBIG_OFFBIG"
+const m__WSTOPPED = 0177
+const m__X86_INSTRUCTION_STATE_CACHELINE_SIZE = 64
+const m__XBS5_ILP32_OFF32 = "__ILP32_OFF32"
+const m__XBS5_ILP32_OFFBIG = "__ILP32_OFFBIG"
+const m__XBS5_LP64_OFF64 = "__LP64_OFF64"
+const m__XBS5_LPBIG_OFFBIG = "__LPBIG_OFFBIG"
+const m__XOPEN_CRYPT = 1
+const m__XOPEN_ENH_I18N = 1
+const m__XOPEN_IOV_MAX = 16
+const m__XOPEN_NAME_MAX = 255
+const m__XOPEN_PATH_MAX = 1024
+const m__XOPEN_SHM = 1
+const m__XOPEN_UNIX = 1
+const m__XOPEN_VERSION = 600
+const m__XOPEN_XCU_VERSION = 4
+const m___API_TO_BE_DEPRECATED = 100000
+const m___API_TO_BE_DEPRECATED_DRIVERKIT = 100000
+const m___API_TO_BE_DEPRECATED_IOS = 100000
+const m___API_TO_BE_DEPRECATED_IOSAPPLICATIONEXTENSION = 100000
+const m___API_TO_BE_DEPRECATED_KERNELKIT = 100000
+const m___API_TO_BE_DEPRECATED_MACCATALYST = 100000
+const m___API_TO_BE_DEPRECATED_MACCATALYSTAPPLICATIONEXTENSION = 100000
+const m___API_TO_BE_DEPRECATED_MACOS = 100000
+const m___API_TO_BE_DEPRECATED_MACOSAPPLICATIONEXTENSION = 100000
+const m___API_TO_BE_DEPRECATED_TVOS = 100000
+const m___API_TO_BE_DEPRECATED_TVOSAPPLICATIONEXTENSION = 100000
+const m___API_TO_BE_DEPRECATED_VISIONOS = 100000
+const m___API_TO_BE_DEPRECATED_VISIONOSAPPLICATIONEXTENSION = 100000
+const m___API_TO_BE_DEPRECATED_WATCHOS = 100000
+const m___API_TO_BE_DEPRECATED_WATCHOSAPPLICATIONEXTENSION = 100000
+const m___APPLE_CC__ = 6000
+const m___APPLE__ = 1
+const m___ATOMIC_ACQUIRE = 2
+const m___ATOMIC_ACQ_REL = 4
+const m___ATOMIC_CONSUME = 1
+const m___ATOMIC_RELAXED = 0
+const m___ATOMIC_RELEASE = 3
+const m___ATOMIC_SEQ_CST = 5
+const m___AVAILABILITY_FILE = "AvailabilityVersions.h"
+const m___AVAILABILITY_VERSIONS_VERSION_HASH = 93585900
+const m___AVAILABILITY_VERSIONS_VERSION_STRING = "Local"
+const m___BIGGEST_ALIGNMENT__ = 16
+const m___BITINT_MAXWIDTH__ = 8388608
+const m___BLOCKS__ = 1
+const m___BOOL_WIDTH__ = 8
+const m___BRIDGEOS_2_0 = 20000
+const m___BRIDGEOS_3_0 = 30000
+const m___BRIDGEOS_3_1 = 30100
+const m___BRIDGEOS_3_4 = 30400
+const m___BRIDGEOS_4_0 = 40000
+const m___BRIDGEOS_4_1 = 40100
+const m___BRIDGEOS_5_0 = 50000
+const m___BRIDGEOS_5_1 = 50100
+const m___BRIDGEOS_5_3 = 50300
+const m___BRIDGEOS_6_0 = 60000
+const m___BRIDGEOS_6_2 = 60200
+const m___BRIDGEOS_6_4 = 60400
+const m___BRIDGEOS_6_5 = 60500
+const m___BRIDGEOS_6_6 = 60600
+const m___BRIDGEOS_7_0 = 70000
+const m___BRIDGEOS_7_1 = 70100
+const m___BRIDGEOS_7_2 = 70200
+const m___BRIDGEOS_7_3 = 70300
+const m___BRIDGEOS_7_4 = 70400
+const m___BRIDGEOS_7_6 = 70600
+const m___BRIDGEOS_8_0 = 80000
+const m___BRIDGEOS_8_1 = 80100
+const m___BRIDGEOS_8_2 = 80200
+const m___BRIDGEOS_8_3 = 80300
+const m___BRIDGEOS_8_4 = 80400
+const m___BRIDGEOS_8_5 = 80500
+const m___BRIDGEOS_8_6 = 80600
+const m___BRIDGEOS_9_0 = 90000
+const m___BRIDGEOS_9_1 = 90100
+const m___BRIDGEOS_9_2 = 90200
+const m___BRIDGEOS_9_3 = 90300
+const m___BRIDGEOS_9_4 = 90400
+const m___BRIDGEOS_9_5 = 90500
+const m___BYTE_ORDER__ = "__ORDER_LITTLE_ENDIAN__"
+const m___CCGO__ = 1
+const m___CHAR_BIT__ = 8
+const m___CLANG_ATOMIC_BOOL_LOCK_FREE = 2
+const m___CLANG_ATOMIC_CHAR16_T_LOCK_FREE = 2
+const m___CLANG_ATOMIC_CHAR32_T_LOCK_FREE = 2
+const m___CLANG_ATOMIC_CHAR_LOCK_FREE = 2
+const m___CLANG_ATOMIC_INT_LOCK_FREE = 2
+const m___CLANG_ATOMIC_LLONG_LOCK_FREE = 2
+const m___CLANG_ATOMIC_LONG_LOCK_FREE = 2
+const m___CLANG_ATOMIC_POINTER_LOCK_FREE = 2
+const m___CLANG_ATOMIC_SHORT_LOCK_FREE = 2
+const m___CLANG_ATOMIC_WCHAR_T_LOCK_FREE = 2
+const m___CONSTANT_CFSTRINGS__ = 1
+const m___DARWIN_64_BIT_INO_T = 1
+const m___DARWIN_BIG_ENDIAN = 4321
+const m___DARWIN_BYTE_ORDER = "__DARWIN_LITTLE_ENDIAN"
+const m___DARWIN_CLK_TCK = 100
+const m___DARWIN_C_ANSI = 010000
+const m___DARWIN_C_FULL = 900000
+const m___DARWIN_C_LEVEL = "__DARWIN_C_FULL"
+const m___DARWIN_FD_SETSIZE = 1024
+const m___DARWIN_LITTLE_ENDIAN = 1234
+const m___DARWIN_MAXNAMLEN = 255
+const m___DARWIN_MAXPATHLEN = 1024
+const m___DARWIN_NBBY = 8
+const m___DARWIN_NON_CANCELABLE = 0
+const m___DARWIN_NO_LONG_LONG = 0
+const m___DARWIN_NSIG = 32
+const m___DARWIN_ONLY_64_BIT_INO_T = 0
+const m___DARWIN_ONLY_UNIX_CONFORMANCE = 1
+const m___DARWIN_ONLY_VERS_1050 = 0
+const m___DARWIN_PDP_ENDIAN = 3412
+const m___DARWIN_SUF_1050 = "$1050"
+const m___DARWIN_SUF_64_BIT_INO_T = "$INODE64"
+const m___DARWIN_SUF_EXTSN = "$DARWIN_EXTSN"
+const m___DARWIN_UNIX03 = 1
+const m___DARWIN_VERS_1050 = 1
+const m___DARWIN_WCHAR_MAX = "__WCHAR_MAX__"
+const m___DBL_DECIMAL_DIG__ = 17
+const m___DBL_DENORM_MIN__ = 4.9406564584124654e-324
+const m___DBL_DIG__ = 15
+const m___DBL_EPSILON__ = 2.2204460492503131e-16
+const m___DBL_HAS_DENORM__ = 1
+const m___DBL_HAS_INFINITY__ = 1
+const m___DBL_HAS_QUIET_NAN__ = 1
+const m___DBL_MANT_DIG__ = 53
+const m___DBL_MAX_10_EXP__ = 308
+const m___DBL_MAX_EXP__ = 1024
+const m___DBL_MAX__ = 1.7976931348623157e+308
+const m___DBL_MIN__ = 2.2250738585072014e-308
+const m___DBL_NORM_MAX__ = 1.7976931348623157e+308
+const m___DECIMAL_DIG__ = "__LDBL_DECIMAL_DIG__"
+const m___DRIVERKIT_19_0 = 190000
+const m___DRIVERKIT_20_0 = 200000
+const m___DRIVERKIT_21_0 = 210000
+const m___DRIVERKIT_22_0 = 220000
+const m___DRIVERKIT_22_4 = 220400
+const m___DRIVERKIT_22_5 = 220500
+const m___DRIVERKIT_22_6 = 220600
+const m___DRIVERKIT_23_0 = 230000
+const m___DRIVERKIT_23_1 = 230100
+const m___DRIVERKIT_23_2 = 230200
+const m___DRIVERKIT_23_3 = 230300
+const m___DRIVERKIT_23_4 = 230400
+const m___DRIVERKIT_23_5 = 230500
+const m___DRIVERKIT_23_6 = 230600
+const m___DRIVERKIT_24_0 = 240000
+const m___DRIVERKIT_24_1 = 240100
+const m___DRIVERKIT_24_2 = 240200
+const m___DRIVERKIT_24_3 = 240300
+const m___DRIVERKIT_24_4 = 240400
+const m___DRIVERKIT_24_5 = 240500
+const m___DTF_ATEND = 0x0020
+const m___DTF_READALL = 0x0008
+const m___DTF_SKIPREAD = 0x0010
+const m___DYNAMIC__ = 1
+const m___ENABLE_LEGACY_MAC_AVAILABILITY = 1
+const m___ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ = 150000
+const m___ENVIRONMENT_OS_VERSION_MIN_REQUIRED__ = 150000
+const m___EXTENSIONS__ = 1
+const m___FINITE_MATH_ONLY__ = 0
+const m___FLT16_DECIMAL_DIG__ = 5
+const m___FLT16_DENORM_MIN__ = 5.9604644775390625e-8
+const m___FLT16_DIG__ = 3
+const m___FLT16_EPSILON__ = 9.765625e-4
+const m___FLT16_HAS_DENORM__ = 1
+const m___FLT16_HAS_INFINITY__ = 1
+const m___FLT16_HAS_QUIET_NAN__ = 1
+const m___FLT16_MANT_DIG__ = 11
+const m___FLT16_MAX_10_EXP__ = 4
+const m___FLT16_MAX_EXP__ = 16
+const m___FLT16_MAX__ = 6.5504e+4
+const m___FLT16_MIN__ = 6.103515625e-5
+const m___FLT16_NORM_MAX__ = 6.5504e+4
+const m___FLT_DECIMAL_DIG__ = 9
+const m___FLT_DENORM_MIN__ = 1.40129846e-45
+const m___FLT_DIG__ = 6
+const m___FLT_EPSILON__ = 1.19209290e-7
+const m___FLT_HAS_DENORM__ = 1
+const m___FLT_HAS_INFINITY__ = 1
+const m___FLT_HAS_QUIET_NAN__ = 1
+const m___FLT_MANT_DIG__ = 24
+const m___FLT_MAX_10_EXP__ = 38
+const m___FLT_MAX_EXP__ = 128
+const m___FLT_MAX__ = 3.40282347e+38
+const m___FLT_MIN__ = 1.17549435e-38
+const m___FLT_NORM_MAX__ = 3.40282347e+38
+const m___FLT_RADIX__ = 2
+const m___FPCLASS_NEGINF = 0x0004
+const m___FPCLASS_NEGNORMAL = 0x0008
+const m___FPCLASS_NEGSUBNORMAL = 0x0010
+const m___FPCLASS_NEGZERO = 0x0020
+const m___FPCLASS_POSINF = 0x0200
+const m___FPCLASS_POSNORMAL = 0x0100
+const m___FPCLASS_POSSUBNORMAL = 0x0080
+const m___FPCLASS_POSZERO = 0x0040
+const m___FPCLASS_QNAN = 0x0002
+const m___FPCLASS_SNAN = 0x0001
+const m___FUNCTION__ = "__func__"
+const m___FXSR__ = 1
+const m___GCC_ASM_FLAG_OUTPUTS__ = 1
+const m___GCC_ATOMIC_BOOL_LOCK_FREE = 2
+const m___GCC_ATOMIC_CHAR16_T_LOCK_FREE = 2
+const m___GCC_ATOMIC_CHAR32_T_LOCK_FREE = 2
+const m___GCC_ATOMIC_CHAR_LOCK_FREE = 2
+const m___GCC_ATOMIC_INT_LOCK_FREE = 2
+const m___GCC_ATOMIC_LLONG_LOCK_FREE = 2
+const m___GCC_ATOMIC_LONG_LOCK_FREE = 2
+const m___GCC_ATOMIC_POINTER_LOCK_FREE = 2
+const m___GCC_ATOMIC_SHORT_LOCK_FREE = 2
+const m___GCC_ATOMIC_TEST_AND_SET_TRUEVAL = 1
+const m___GCC_ATOMIC_WCHAR_T_LOCK_FREE = 2
+const m___GCC_CONSTRUCTIVE_SIZE = 64
+const m___GCC_DESTRUCTIVE_SIZE = 64
+const m___GCC_HAVE_DWARF2_CFI_ASM = 1
+const m___GCC_HAVE_SYNC_COMPARE_AND_SWAP_1 = 1
+const m___GCC_HAVE_SYNC_COMPARE_AND_SWAP_16 = 1
+const m___GCC_HAVE_SYNC_COMPARE_AND_SWAP_2 = 1
+const m___GCC_HAVE_SYNC_COMPARE_AND_SWAP_4 = 1
+const m___GCC_HAVE_SYNC_COMPARE_AND_SWAP_8 = 1
+const m___GNUC_MINOR__ = 2
+const m___GNUC_PATCHLEVEL__ = 1
+const m___GNUC_STDC_INLINE__ = 1
+const m___GNUC__ = 4
+const m___GXX_ABI_VERSION = 1002
+const m___INT16_FMTd__ = "hd"
+const m___INT16_FMTi__ = "hi"
+const m___INT16_MAX__ = 32767
+const m___INT16_TYPE__ = "short"
+const m___INT32_FMTd__ = "d"
+const m___INT32_FMTi__ = "i"
+const m___INT32_MAX__ = 2147483647
+const m___INT32_TYPE__ = "int"
+const m___INT64_C_SUFFIX__ = "LL"
+const m___INT64_FMTd__ = "lld"
+const m___INT64_FMTi__ = "lli"
+const m___INT64_MAX__ = 9223372036854775807
+const m___INT8_FMTd__ = "hhd"
+const m___INT8_FMTi__ = "hhi"
+const m___INT8_MAX__ = 127
+const m___INTMAX_C_SUFFIX__ = "L"
+const m___INTMAX_FMTd__ = "ld"
+const m___INTMAX_FMTi__ = "li"
+const m___INTMAX_MAX__ = 9223372036854775807
+const m___INTMAX_WIDTH__ = 64
+const m___INTPTR_FMTd__ = "ld"
+const m___INTPTR_FMTi__ = "li"
+const m___INTPTR_MAX__ = 9223372036854775807
+const m___INTPTR_WIDTH__ = 64
+const m___INT_FAST16_FMTd__ = "hd"
+const m___INT_FAST16_FMTi__ = "hi"
+const m___INT_FAST16_MAX__ = 32767
+const m___INT_FAST16_TYPE__ = "short"
+const m___INT_FAST16_WIDTH__ = 16
+const m___INT_FAST32_FMTd__ = "d"
+const m___INT_FAST32_FMTi__ = "i"
+const m___INT_FAST32_MAX__ = 2147483647
+const m___INT_FAST32_TYPE__ = "int"
+const m___INT_FAST32_WIDTH__ = 32
+const m___INT_FAST64_FMTd__ = "lld"
+const m___INT_FAST64_FMTi__ = "lli"
+const m___INT_FAST64_MAX__ = 9223372036854775807
+const m___INT_FAST64_WIDTH__ = 64
+const m___INT_FAST8_FMTd__ = "hhd"
+const m___INT_FAST8_FMTi__ = "hhi"
+const m___INT_FAST8_MAX__ = 127
+const m___INT_FAST8_WIDTH__ = 8
+const m___INT_LEAST16_FMTd__ = "hd"
+const m___INT_LEAST16_FMTi__ = "hi"
+const m___INT_LEAST16_MAX__ = 32767
+const m___INT_LEAST16_TYPE__ = "short"
+const m___INT_LEAST16_WIDTH__ = 16
+const m___INT_LEAST32_FMTd__ = "d"
+const m___INT_LEAST32_FMTi__ = "i"
+const m___INT_LEAST32_MAX__ = 2147483647
+const m___INT_LEAST32_TYPE__ = "int"
+const m___INT_LEAST32_WIDTH__ = 32
+const m___INT_LEAST64_FMTd__ = "lld"
+const m___INT_LEAST64_FMTi__ = "lli"
+const m___INT_LEAST64_MAX__ = 9223372036854775807
+const m___INT_LEAST64_WIDTH__ = 64
+const m___INT_LEAST8_FMTd__ = "hhd"
+const m___INT_LEAST8_FMTi__ = "hhi"
+const m___INT_LEAST8_MAX__ = 127
+const m___INT_LEAST8_WIDTH__ = 8
+const m___INT_MAX__ = 2147483647
+const m___INT_WIDTH__ = 32
+const m___IPHONE_10_0 = 100000
+const m___IPHONE_10_1 = 100100
+const m___IPHONE_10_2 = 100200
+const m___IPHONE_10_3 = 100300
+const m___IPHONE_11_0 = 110000
+const m___IPHONE_11_1 = 110100
+const m___IPHONE_11_2 = 110200
+const m___IPHONE_11_3 = 110300
+const m___IPHONE_11_4 = 110400
+const m___IPHONE_12_0 = 120000
+const m___IPHONE_12_1 = 120100
+const m___IPHONE_12_2 = 120200
+const m___IPHONE_12_3 = 120300
+const m___IPHONE_12_4 = 120400
+const m___IPHONE_13_0 = 130000
+const m___IPHONE_13_1 = 130100
+const m___IPHONE_13_2 = 130200
+const m___IPHONE_13_3 = 130300
+const m___IPHONE_13_4 = 130400
+const m___IPHONE_13_5 = 130500
+const m___IPHONE_13_6 = 130600
+const m___IPHONE_13_7 = 130700
+const m___IPHONE_14_0 = 140000
+const m___IPHONE_14_1 = 140100
+const m___IPHONE_14_2 = 140200
+const m___IPHONE_14_3 = 140300
+const m___IPHONE_14_4 = 140400
+const m___IPHONE_14_5 = 140500
+const m___IPHONE_14_6 = 140600
+const m___IPHONE_14_7 = 140700
+const m___IPHONE_14_8 = 140800
+const m___IPHONE_15_0 = 150000
+const m___IPHONE_15_1 = 150100
+const m___IPHONE_15_2 = 150200
+const m___IPHONE_15_3 = 150300
+const m___IPHONE_15_4 = 150400
+const m___IPHONE_15_5 = 150500
+const m___IPHONE_15_6 = 150600
+const m___IPHONE_15_7 = 150700
+const m___IPHONE_15_8 = 150800
+const m___IPHONE_16_0 = 160000
+const m___IPHONE_16_1 = 160100
+const m___IPHONE_16_2 = 160200
+const m___IPHONE_16_3 = 160300
+const m___IPHONE_16_4 = 160400
+const m___IPHONE_16_5 = 160500
+const m___IPHONE_16_6 = 160600
+const m___IPHONE_16_7 = 160700
+const m___IPHONE_17_0 = 170000
+const m___IPHONE_17_1 = 170100
+const m___IPHONE_17_2 = 170200
+const m___IPHONE_17_3 = 170300
+const m___IPHONE_17_4 = 170400
+const m___IPHONE_17_5 = 170500
+const m___IPHONE_17_6 = 170600
+const m___IPHONE_17_7 = 170700
+const m___IPHONE_18_0 = 180000
+const m___IPHONE_18_1 = 180100
+const m___IPHONE_18_2 = 180200
+const m___IPHONE_18_3 = 180300
+const m___IPHONE_18_4 = 180400
+const m___IPHONE_18_5 = 180500
+const m___IPHONE_2_0 = 20000
+const m___IPHONE_2_1 = 20100
+const m___IPHONE_2_2 = 20200
+const m___IPHONE_3_0 = 30000
+const m___IPHONE_3_1 = 30100
+const m___IPHONE_3_2 = 30200
+const m___IPHONE_4_0 = 40000
+const m___IPHONE_4_1 = 40100
+const m___IPHONE_4_2 = 40200
+const m___IPHONE_4_3 = 40300
+const m___IPHONE_5_0 = 50000
+const m___IPHONE_5_1 = 50100
+const m___IPHONE_6_0 = 60000
+const m___IPHONE_6_1 = 60100
+const m___IPHONE_7_0 = 70000
+const m___IPHONE_7_1 = 70100
+const m___IPHONE_8_0 = 80000
+const m___IPHONE_8_1 = 80100
+const m___IPHONE_8_2 = 80200
+const m___IPHONE_8_3 = 80300
+const m___IPHONE_8_4 = 80400
+const m___IPHONE_9_0 = 90000
+const m___IPHONE_9_1 = 90100
+const m___IPHONE_9_2 = 90200
+const m___IPHONE_9_3 = 90300
+const m___LAHF_SAHF__ = 1
+const m___LASTBRANCH_MAX = 32
+const m___LDBL_DECIMAL_DIG__ = 17
+const m___LDBL_DENORM_MIN__ = 4.9406564584124654e-324
+const m___LDBL_DIG__ = 15
+const m___LDBL_EPSILON__ = 2.2204460492503131e-16
+const m___LDBL_HAS_DENORM__ = 1
+const m___LDBL_HAS_INFINITY__ = 1
+const m___LDBL_HAS_QUIET_NAN__ = 1
+const m___LDBL_MANT_DIG__ = 53
+const m___LDBL_MAX_10_EXP__ = 308
+const m___LDBL_MAX_EXP__ = 1024
+const m___LDBL_MAX__ = 1.7976931348623157e+308
+const m___LDBL_MIN__ = 2.2250738585072014e-308
+const m___LDBL_NORM_MAX__ = 1.7976931348623157e+308
+const m___LITTLE_ENDIAN__ = 1
+const m___LLONG_WIDTH__ = 64
+const m___LONG_LONG_MAX__ = 9223372036854775807
+const m___LONG_MAX__ = 9223372036854775807
+const m___LONG_WIDTH__ = 64
+const m___LP64_OFF64 = 1
+const m___LP64__ = 1
+const m___LPBIG_OFFBIG = 1
+const m___MACH__ = 1
+const m___MAC_10_0 = 1000
+const m___MAC_10_1 = 1010
+const m___MAC_10_10 = 101000
+const m___MAC_10_10_2 = 101002
+const m___MAC_10_10_3 = 101003
+const m___MAC_10_11 = 101100
+const m___MAC_10_11_2 = 101102
+const m___MAC_10_11_3 = 101103
+const m___MAC_10_11_4 = 101104
+const m___MAC_10_12 = 101200
+const m___MAC_10_12_1 = 101201
+const m___MAC_10_12_2 = 101202
+const m___MAC_10_12_4 = 101204
+const m___MAC_10_13 = 101300
+const m___MAC_10_13_1 = 101301
+const m___MAC_10_13_2 = 101302
+const m___MAC_10_13_4 = 101304
+const m___MAC_10_14 = 101400
+const m___MAC_10_14_1 = 101401
+const m___MAC_10_14_4 = 101404
+const m___MAC_10_14_5 = 101405
+const m___MAC_10_14_6 = 101406
+const m___MAC_10_15 = 101500
+const m___MAC_10_15_1 = 101501
+const m___MAC_10_15_4 = 101504
+const m___MAC_10_16 = 101600
+const m___MAC_10_2 = 1020
+const m___MAC_10_3 = 1030
+const m___MAC_10_4 = 1040
+const m___MAC_10_5 = 1050
+const m___MAC_10_6 = 1060
+const m___MAC_10_7 = 1070
+const m___MAC_10_8 = 1080
+const m___MAC_10_9 = 1090
+const m___MAC_11_0 = 110000
+const m___MAC_11_1 = 110100
+const m___MAC_11_3 = 110300
+const m___MAC_11_4 = 110400
+const m___MAC_11_5 = 110500
+const m___MAC_11_6 = 110600
+const m___MAC_12_0 = 120000
+const m___MAC_12_1 = 120100
+const m___MAC_12_2 = 120200
+const m___MAC_12_3 = 120300
+const m___MAC_12_4 = 120400
+const m___MAC_12_5 = 120500
+const m___MAC_12_6 = 120600
+const m___MAC_12_7 = 120700
+const m___MAC_13_0 = 130000
+const m___MAC_13_1 = 130100
+const m___MAC_13_2 = 130200
+const m___MAC_13_3 = 130300
+const m___MAC_13_4 = 130400
+const m___MAC_13_5 = 130500
+const m___MAC_13_6 = 130600
+const m___MAC_13_7 = 130700
+const m___MAC_14_0 = 140000
+const m___MAC_14_1 = 140100
+const m___MAC_14_2 = 140200
+const m___MAC_14_3 = 140300
+const m___MAC_14_4 = 140400
+const m___MAC_14_5 = 140500
+const m___MAC_14_6 = 140600
+const m___MAC_14_7 = 140700
+const m___MAC_15_0 = 150000
+const m___MAC_15_1 = 150100
+const m___MAC_15_2 = 150200
+const m___MAC_15_3 = 150300
+const m___MAC_15_4 = 150400
+const m___MAC_15_5 = 150500
+const m___MAC_OS_X_VERSION_MAX_ALLOWED = "__MAC_15_5"
+const m___MAC_OS_X_VERSION_MIN_REQUIRED = "__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__"
+const m___MEMORY_SCOPE_DEVICE = 1
+const m___MEMORY_SCOPE_SINGLE = 4
+const m___MEMORY_SCOPE_SYSTEM = 0
+const m___MEMORY_SCOPE_WRKGRP = 2
+const m___MEMORY_SCOPE_WVFRNT = 3
+const m___MMX__ = 1
+const m___NO_INLINE__ = 1
+const m___NO_MATH_ERRNO__ = 1
+const m___NO_MATH_INLINES = 1
+const m___OBJC_BOOL_IS_BOOL = 0
+const m___OPENCL_MEMORY_SCOPE_ALL_SVM_DEVICES = 3
+const m___OPENCL_MEMORY_SCOPE_DEVICE = 2
+const m___OPENCL_MEMORY_SCOPE_SUB_GROUP = 4
+const m___OPENCL_MEMORY_SCOPE_WORK_GROUP = 1
+const m___OPENCL_MEMORY_SCOPE_WORK_ITEM = 0
+const m___ORDER_BIG_ENDIAN__ = 4321
+const m___ORDER_LITTLE_ENDIAN__ = 1234
+const m___ORDER_PDP_ENDIAN__ = 3412
+const m___PIC__ = 2
+const m___POINTER_WIDTH__ = 64
+const m___PRAGMA_REDEFINE_EXTNAME = 1
+const m___PRETTY_FUNCTION__ = "__func__"
+const m___PTHREAD_ATTR_SIZE__ = 56
+const m___PTHREAD_CONDATTR_SIZE__ = 8
+const m___PTHREAD_COND_SIZE__ = 40
+const m___PTHREAD_MUTEXATTR_SIZE__ = 8
+const m___PTHREAD_MUTEX_SIZE__ = 56
+const m___PTHREAD_ONCE_SIZE__ = 8
+const m___PTHREAD_RWLOCKATTR_SIZE__ = 16
+const m___PTHREAD_RWLOCK_SIZE__ = 192
+const m___PTHREAD_SIZE__ = 8176
+const m___PTRDIFF_FMTd__ = "ld"
+const m___PTRDIFF_FMTi__ = "li"
+const m___PTRDIFF_MAX__ = 9223372036854775807
+const m___PTRDIFF_WIDTH__ = 64
+const m___REENTRANT = 1
+const m___SALC = 0x4000
+const m___SAPP = 0x0100
+const m___SCHAR_MAX__ = 127
+const m___SEG_FS = 1
+const m___SEG_GS = 1
+const m___SEOF = 0x0020
+const m___SERR = 0x0040
+const m___SHRT_MAX__ = 32767
+const m___SHRT_WIDTH__ = 16
+const m___SIGN = 0x8000
+const m___SIG_ATOMIC_MAX__ = 2147483647
+const m___SIG_ATOMIC_WIDTH__ = 32
+const m___SIZEOF_DOUBLE__ = 8
+const m___SIZEOF_FLOAT__ = 4
+const m___SIZEOF_INT128__ = 16
+const m___SIZEOF_INT__ = 4
+const m___SIZEOF_LONG_DOUBLE__ = 8
+const m___SIZEOF_LONG_LONG__ = 8
+const m___SIZEOF_LONG__ = 8
+const m___SIZEOF_POINTER__ = 8
+const m___SIZEOF_PTRDIFF_T__ = 8
+const m___SIZEOF_SHORT__ = 2
+const m___SIZEOF_SIZE_T__ = 8
+const m___SIZEOF_WCHAR_T__ = 4
+const m___SIZEOF_WINT_T__ = 4
+const m___SIZE_FMTX__ = "lX"
+const m___SIZE_FMTo__ = "lo"
+const m___SIZE_FMTu__ = "lu"
+const m___SIZE_FMTx__ = "lx"
+const m___SIZE_MAX__ = 18446744073709551615
+const m___SIZE_WIDTH__ = 64
+const m___SLBF = 0x0001
+const m___SMBF = 0x0080
+const m___SMOD = 0x2000
+const m___SNBF = 0x0002
+const m___SNPT = 0x0800
+const m___SOFF = 0x1000
+const m___SOPT = 0x0400
+const m___SRD = 0x0004
+const m___SRW = 0x0010
+const m___SSE2_MATH__ = 1
+const m___SSE2__ = 1
+const m___SSE3__ = 1
+const m___SSE4_1__ = 1
+const m___SSE_MATH__ = 1
+const m___SSE__ = 1
+const m___SSP__ = 1
+const m___SSSE3__ = 1
+const m___SSTR = 0x0200
+const m___STDC_EMBED_EMPTY__ = 2
+const m___STDC_EMBED_FOUND__ = 1
+const m___STDC_EMBED_NOT_FOUND__ = 0
+const m___STDC_HOSTED__ = 1
+const m___STDC_NO_THREADS__ = 1
+const m___STDC_UTF_16__ = 1
+const m___STDC_UTF_32__ = 1
+const m___STDC_VERSION__ = 201710
+const m___STDC_WANT_IEC_60559_ATTRIBS_EXT__ = 1
+const m___STDC_WANT_IEC_60559_BFP_EXT__ = 1
+const m___STDC_WANT_IEC_60559_DFP_EXT__ = 1
+const m___STDC_WANT_IEC_60559_EXT__ = 1
+const m___STDC_WANT_IEC_60559_FUNCS_EXT__ = 1
+const m___STDC_WANT_IEC_60559_TYPES_EXT__ = 1
+const m___STDC_WANT_LIB_EXT1__ = 1
+const m___STDC_WANT_LIB_EXT2__ = 1
+const m___STDC_WANT_MATH_SPEC_FUNCS__ = 1
+const m___STDC__ = 1
+const m___SWR = 0x0008
+const m___TVOS_10_0 = 100000
+const m___TVOS_10_0_1 = 100001
+const m___TVOS_10_1 = 100100
+const m___TVOS_10_2 = 100200
+const m___TVOS_11_0 = 110000
+const m___TVOS_11_1 = 110100
+const m___TVOS_11_2 = 110200
+const m___TVOS_11_3 = 110300
+const m___TVOS_11_4 = 110400
+const m___TVOS_12_0 = 120000
+const m___TVOS_12_1 = 120100
+const m___TVOS_12_2 = 120200
+const m___TVOS_12_3 = 120300
+const m___TVOS_12_4 = 120400
+const m___TVOS_13_0 = 130000
+const m___TVOS_13_2 = 130200
+const m___TVOS_13_3 = 130300
+const m___TVOS_13_4 = 130400
+const m___TVOS_14_0 = 140000
+const m___TVOS_14_1 = 140100
+const m___TVOS_14_2 = 140200
+const m___TVOS_14_3 = 140300
+const m___TVOS_14_5 = 140500
+const m___TVOS_14_6 = 140600
+const m___TVOS_14_7 = 140700
+const m___TVOS_15_0 = 150000
+const m___TVOS_15_1 = 150100
+const m___TVOS_15_2 = 150200
+const m___TVOS_15_3 = 150300
+const m___TVOS_15_4 = 150400
+const m___TVOS_15_5 = 150500
+const m___TVOS_15_6 = 150600
+const m___TVOS_16_0 = 160000
+const m___TVOS_16_1 = 160100
+const m___TVOS_16_2 = 160200
+const m___TVOS_16_3 = 160300
+const m___TVOS_16_4 = 160400
+const m___TVOS_16_5 = 160500
+const m___TVOS_16_6 = 160600
+const m___TVOS_17_0 = 170000
+const m___TVOS_17_1 = 170100
+const m___TVOS_17_2 = 170200
+const m___TVOS_17_3 = 170300
+const m___TVOS_17_4 = 170400
+const m___TVOS_17_5 = 170500
+const m___TVOS_17_6 = 170600
+const m___TVOS_18_0 = 180000
+const m___TVOS_18_1 = 180100
+const m___TVOS_18_2 = 180200
+const m___TVOS_18_3 = 180300
+const m___TVOS_18_4 = 180400
+const m___TVOS_18_5 = 180500
+const m___TVOS_9_0 = 90000
+const m___TVOS_9_1 = 90100
+const m___TVOS_9_2 = 90200
+const m___UINT16_FMTX__ = "hX"
+const m___UINT16_FMTo__ = "ho"
+const m___UINT16_FMTu__ = "hu"
+const m___UINT16_FMTx__ = "hx"
+const m___UINT16_MAX__ = 65535
+const m___UINT32_C_SUFFIX__ = "U"
+const m___UINT32_FMTX__ = "X"
+const m___UINT32_FMTo__ = "o"
+const m___UINT32_FMTu__ = "u"
+const m___UINT32_FMTx__ = "x"
+const m___UINT32_MAX__ = 4294967295
+const m___UINT64_C_SUFFIX__ = "ULL"
+const m___UINT64_FMTX__ = "llX"
+const m___UINT64_FMTo__ = "llo"
+const m___UINT64_FMTu__ = "llu"
+const m___UINT64_FMTx__ = "llx"
+const m___UINT64_MAX__ = "18446744073709551615U"
+const m___UINT8_FMTX__ = "hhX"
+const m___UINT8_FMTo__ = "hho"
+const m___UINT8_FMTu__ = "hhu"
+const m___UINT8_FMTx__ = "hhx"
+const m___UINT8_MAX__ = 255
+const m___UINTMAX_C_SUFFIX__ = "UL"
+const m___UINTMAX_FMTX__ = "lX"
+const m___UINTMAX_FMTo__ = "lo"
+const m___UINTMAX_FMTu__ = "lu"
+const m___UINTMAX_FMTx__ = "lx"
+const m___UINTMAX_MAX__ = 18446744073709551615
+const m___UINTMAX_WIDTH__ = 64
+const m___UINTPTR_FMTX__ = "lX"
+const m___UINTPTR_FMTo__ = "lo"
+const m___UINTPTR_FMTu__ = "lu"
+const m___UINTPTR_FMTx__ = "lx"
+const m___UINTPTR_MAX__ = 18446744073709551615
+const m___UINTPTR_WIDTH__ = 64
+const m___UINT_FAST16_FMTX__ = "hX"
+const m___UINT_FAST16_FMTo__ = "ho"
+const m___UINT_FAST16_FMTu__ = "hu"
+const m___UINT_FAST16_FMTx__ = "hx"
+const m___UINT_FAST16_MAX__ = 65535
+const m___UINT_FAST32_FMTX__ = "X"
+const m___UINT_FAST32_FMTo__ = "o"
+const m___UINT_FAST32_FMTu__ = "u"
+const m___UINT_FAST32_FMTx__ = "x"
+const m___UINT_FAST32_MAX__ = 4294967295
+const m___UINT_FAST64_FMTX__ = "llX"
+const m___UINT_FAST64_FMTo__ = "llo"
+const m___UINT_FAST64_FMTu__ = "llu"
+const m___UINT_FAST64_FMTx__ = "llx"
+const m___UINT_FAST64_MAX__ = "18446744073709551615U"
+const m___UINT_FAST8_FMTX__ = "hhX"
+const m___UINT_FAST8_FMTo__ = "hho"
+const m___UINT_FAST8_FMTu__ = "hhu"
+const m___UINT_FAST8_FMTx__ = "hhx"
+const m___UINT_FAST8_MAX__ = 255
+const m___UINT_LEAST16_FMTX__ = "hX"
+const m___UINT_LEAST16_FMTo__ = "ho"
+const m___UINT_LEAST16_FMTu__ = "hu"
+const m___UINT_LEAST16_FMTx__ = "hx"
+const m___UINT_LEAST16_MAX__ = 65535
+const m___UINT_LEAST32_FMTX__ = "X"
+const m___UINT_LEAST32_FMTo__ = "o"
+const m___UINT_LEAST32_FMTu__ = "u"
+const m___UINT_LEAST32_FMTx__ = "x"
+const m___UINT_LEAST32_MAX__ = 4294967295
+const m___UINT_LEAST64_FMTX__ = "llX"
+const m___UINT_LEAST64_FMTo__ = "llo"
+const m___UINT_LEAST64_FMTu__ = "llu"
+const m___UINT_LEAST64_FMTx__ = "llx"
+const m___UINT_LEAST64_MAX__ = "18446744073709551615U"
+const m___UINT_LEAST8_FMTX__ = "hhX"
+const m___UINT_LEAST8_FMTo__ = "hho"
+const m___UINT_LEAST8_FMTu__ = "hhu"
+const m___UINT_LEAST8_FMTx__ = "hhx"
+const m___UINT_LEAST8_MAX__ = 255
+const m___USER_LABEL_PREFIX__ = "_"
+const m___VERSION__ = "Apple LLVM 17.0.0 (clang-1700.0.13.5)"
+const m___VISIONOS_1_0 = 10000
+const m___VISIONOS_1_1 = 10100
+const m___VISIONOS_1_2 = 10200
+const m___VISIONOS_1_3 = 10300
+const m___VISIONOS_2_0 = 20000
+const m___VISIONOS_2_1 = 20100
+const m___VISIONOS_2_2 = 20200
+const m___VISIONOS_2_3 = 20300
+const m___VISIONOS_2_4 = 20400
+const m___VISIONOS_2_5 = 20500
+const m___WATCHOS_10_0 = 100000
+const m___WATCHOS_10_1 = 100100
+const m___WATCHOS_10_2 = 100200
+const m___WATCHOS_10_3 = 100300
+const m___WATCHOS_10_4 = 100400
+const m___WATCHOS_10_5 = 100500
+const m___WATCHOS_10_6 = 100600
+const m___WATCHOS_10_7 = 100700
+const m___WATCHOS_11_0 = 110000
+const m___WATCHOS_11_1 = 110100
+const m___WATCHOS_11_2 = 110200
+const m___WATCHOS_11_3 = 110300
+const m___WATCHOS_11_4 = 110400
+const m___WATCHOS_11_5 = 110500
+const m___WATCHOS_1_0 = 10000
+const m___WATCHOS_2_0 = 20000
+const m___WATCHOS_2_1 = 20100
+const m___WATCHOS_2_2 = 20200
+const m___WATCHOS_3_0 = 30000
+const m___WATCHOS_3_1 = 30100
+const m___WATCHOS_3_1_1 = 30101
+const m___WATCHOS_3_2 = 30200
+const m___WATCHOS_4_0 = 40000
+const m___WATCHOS_4_1 = 40100
+const m___WATCHOS_4_2 = 40200
+const m___WATCHOS_4_3 = 40300
+const m___WATCHOS_5_0 = 50000
+const m___WATCHOS_5_1 = 50100
+const m___WATCHOS_5_2 = 50200
+const m___WATCHOS_5_3 = 50300
+const m___WATCHOS_6_0 = 60000
+const m___WATCHOS_6_1 = 60100
+const m___WATCHOS_6_2 = 60200
+const m___WATCHOS_7_0 = 70000
+const m___WATCHOS_7_1 = 70100
+const m___WATCHOS_7_2 = 70200
+const m___WATCHOS_7_3 = 70300
+const m___WATCHOS_7_4 = 70400
+const m___WATCHOS_7_5 = 70500
+const m___WATCHOS_7_6 = 70600
+const m___WATCHOS_8_0 = 80000
+const m___WATCHOS_8_1 = 80100
+const m___WATCHOS_8_3 = 80300
+const m___WATCHOS_8_4 = 80400
+const m___WATCHOS_8_5 = 80500
+const m___WATCHOS_8_6 = 80600
+const m___WATCHOS_8_7 = 80700
+const m___WATCHOS_8_8 = 80800
+const m___WATCHOS_9_0 = 90000
+const m___WATCHOS_9_1 = 90100
+const m___WATCHOS_9_2 = 90200
+const m___WATCHOS_9_3 = 90300
+const m___WATCHOS_9_4 = 90400
+const m___WATCHOS_9_5 = 90500
+const m___WATCHOS_9_6 = 90600
+const m___WCHAR_MAX__ = 2147483647
+const m___WCHAR_TYPE__ = "int"
+const m___WCHAR_WIDTH__ = 32
+const m___WINT_MAX__ = 2147483647
+const m___WINT_TYPE__ = "int"
+const m___WINT_WIDTH__ = 32
+const m___WORDSIZE = 64
+const m___amd64 = 1
+const m___amd64__ = 1
+const m___apple_build_version__ = 17000013
+const m___clang__ = 1
+const m___clang_literal_encoding__ = "UTF-8"
+const m___clang_major__ = 17
+const m___clang_minor__ = 0
+const m___clang_patchlevel__ = 0
+const m___clang_version__ = "17.0.0 (clang-1700.0.13.5)"
+const m___clang_wide_literal_encoding__ = "UTF-32"
+const m___code_model_small__ = 1
+const m___const = "const"
+const m___core2 = 1
+const m___core2__ = 1
+const m___has_bounds_safety_attributes = 0
+const m___has_ptrcheck = 0
+const m___has_safe_buffers = 0
+const m___header_inline = "inline"
+const m___llvm__ = 1
+const m___nonnull = "_Nonnull"
+const m___null_unspecified = "_Null_unspecified"
+const m___nullable = "_Nullable"
+const m___pic__ = 2
+const m___restrict = "restrict"
+const m___restrict_arr = "restrict"
+const m___signed = "signed"
+const m___tune_core2__ = 1
+const m___volatile = "volatile"
+const m___x86_64 = 1
+const m___x86_64__ = 1
+const m_d_fileno = "d_ino"
+const m_ru_first = "ru_ixrss"
+const m_ru_last = "ru_nivcsw"
+const m_stderr = "__stderrp"
+const m_stdin = "__stdinp"
+const m_stdout = "__stdoutp"
+const m_sv_onstack = "sv_flags"
+
+type t__builtin_va_list = uintptr
+
+type t__predefined_size_t = uint64
+
+type t__predefined_wchar_t = int32
+
+type t__predefined_ptrdiff_t = int64
+
+type Terrno_t = int32
+
+type t__int8_t = int8
+
+type t__uint8_t = uint8
+
+type t__int16_t = int16
+
+type t__uint16_t = uint16
+
+type t__int32_t = int32
+
+type t__uint32_t = uint32
+
+type t__int64_t = int64
+
+type t__uint64_t = uint64
+
+type t__darwin_intptr_t = int64
+
+type t__darwin_natural_t = uint32
+
+type t__darwin_ct_rune_t = int32
+
+type t__mbstate_t = struct {
+	F_mbstateL  [0]int64
+	F__mbstate8 [128]int8
+}
+
+type t__darwin_mbstate_t = struct {
+	F_mbstateL  [0]int64
+	F__mbstate8 [128]int8
+}
+
+type t__darwin_ptrdiff_t = int64
+
+type t__darwin_size_t = uint64
+
+type t__darwin_va_list = uintptr
+
+type t__darwin_wchar_t = int32
+
+type t__darwin_rune_t = int32
+
+type t__darwin_wint_t = int32
+
+type t__darwin_clock_t = uint64
+
+type t__darwin_socklen_t = uint32
+
+type t__darwin_ssize_t = int64
+
+type t__darwin_time_t = int64
+
+type t__darwin_blkcnt_t = int64
+
+type t__darwin_blksize_t = int32
+
+type t__darwin_dev_t = int32
+
+type t__darwin_fsblkcnt_t = uint32
+
+type t__darwin_fsfilcnt_t = uint32
+
+type t__darwin_gid_t = uint32
+
+type t__darwin_id_t = uint32
+
+type t__darwin_ino64_t = uint64
+
+type t__darwin_ino_t = uint64
+
+type t__darwin_mach_port_name_t = uint32
+
+type t__darwin_mach_port_t = uint32
+
+type t__darwin_mode_t = uint16
+
+type t__darwin_off_t = int64
+
+type t__darwin_pid_t = int32
+
+type t__darwin_sigset_t = uint32
+
+type t__darwin_suseconds_t = int32
+
+type t__darwin_uid_t = uint32
+
+type t__darwin_useconds_t = uint32
+
+type t__darwin_uuid_t = [16]uint8
+
+type t__darwin_uuid_string_t = [37]int8
+
+type t__darwin_pthread_handler_rec = struct {
+	F__routine uintptr
+	F__arg     uintptr
+	F__next    uintptr
+}
+
+type T_opaque_pthread_attr_t = struct {
+	F__sig    int64
+	F__opaque [56]int8
+}
+
+type T_opaque_pthread_cond_t = struct {
+	F__sig    int64
+	F__opaque [40]int8
+}
+
+type T_opaque_pthread_condattr_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type T_opaque_pthread_mutex_t = struct {
+	F__sig    int64
+	F__opaque [56]int8
+}
+
+type T_opaque_pthread_mutexattr_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type T_opaque_pthread_once_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type T_opaque_pthread_rwlock_t = struct {
+	F__sig    int64
+	F__opaque [192]int8
+}
+
+type T_opaque_pthread_rwlockattr_t = struct {
+	F__sig    int64
+	F__opaque [16]int8
+}
+
+type T_opaque_pthread_t = struct {
+	F__sig           int64
+	F__cleanup_stack uintptr
+	F__opaque        [8176]int8
+}
+
+type t__darwin_pthread_attr_t = struct {
+	F__sig    int64
+	F__opaque [56]int8
+}
+
+type t__darwin_pthread_cond_t = struct {
+	F__sig    int64
+	F__opaque [40]int8
+}
+
+type t__darwin_pthread_condattr_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type t__darwin_pthread_key_t = uint64
+
+type t__darwin_pthread_mutex_t = struct {
+	F__sig    int64
+	F__opaque [56]int8
+}
+
+type t__darwin_pthread_mutexattr_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type t__darwin_pthread_once_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type t__darwin_pthread_rwlock_t = struct {
+	F__sig    int64
+	F__opaque [192]int8
+}
+
+type t__darwin_pthread_rwlockattr_t = struct {
+	F__sig    int64
+	F__opaque [16]int8
+}
+
+type t__darwin_pthread_t = uintptr
+
+type Tsize_t = uint64
+
+type Tmode_t = uint16
+
+type Toff_t = int64
+
+type Tpid_t = int32
+
+type Tflock = struct {
+	Fl_start  Toff_t
+	Fl_len    Toff_t
+	Fl_pid    Tpid_t
+	Fl_type   int16
+	Fl_whence int16
+}
+
+type Tint8_t = int8
+
+type Tint16_t = int16
+
+type Tint32_t = int32
+
+type Tint64_t = int64
+
+type Tu_int8_t = uint8
+
+type Tu_int16_t = uint16
+
+type Tu_int32_t = uint32
+
+type Tu_int64_t = uint64
+
+type Tregister_t = int64
+
+type Tintptr_t = int64
+
+type Tuintptr_t = uint64
+
+type Tuser_addr_t = uint64
+
+type Tuser_size_t = uint64
+
+type Tuser_ssize_t = int64
+
+type Tuser_long_t = int64
+
+type Tuser_ulong_t = uint64
+
+type Tuser_time_t = int64
+
+type Tuser_off_t = int64
+
+type Tsyscall_arg_t = uint64
+
+type Ttimespec = struct {
+	Ftv_sec  t__darwin_time_t
+	Ftv_nsec int64
+}
+
+type Tflocktimeout = struct {
+	Ffl      Tflock
+	Ftimeout Ttimespec
+}
+
+type Tradvisory = struct {
+	Fra_offset Toff_t
+	Fra_count  int32
+}
+
+type Tfsignatures_t = struct {
+	Ffs_file_start       Toff_t
+	Ffs_blob_start       uintptr
+	Ffs_blob_size        Tsize_t
+	Ffs_fsignatures_size Tsize_t
+	Ffs_cdhash           [20]int8
+	Ffs_hash_type        int32
+}
+
+type Tfsignatures = Tfsignatures_t
+
+type Tfsupplement_t = struct {
+	Ffs_file_start Toff_t
+	Ffs_blob_start Toff_t
+	Ffs_blob_size  Tsize_t
+	Ffs_orig_fd    int32
+}
+
+type Tfsupplement = Tfsupplement_t
+
+type Tfchecklv_t = struct {
+	Flv_file_start         Toff_t
+	Flv_error_message_size Tsize_t
+	Flv_error_message      uintptr
+}
+
+type Tfchecklv = Tfchecklv_t
+
+type Tfgetsigsinfo_t = struct {
+	Ffg_file_start      Toff_t
+	Ffg_info_request    int32
+	Ffg_sig_is_platform int32
+}
+
+type Tfgetsigsinfo = Tfgetsigsinfo_t
+
+type Tfstore_t = struct {
+	Ffst_flags      uint32
+	Ffst_posmode    int32
+	Ffst_offset     Toff_t
+	Ffst_length     Toff_t
+	Ffst_bytesalloc Toff_t
+}
+
+type Tfstore = Tfstore_t
+
+type Tfpunchhole_t = struct {
+	Ffp_flags  uint32
+	Freserved  uint32
+	Ffp_offset Toff_t
+	Ffp_length Toff_t
+}
+
+type Tfpunchhole = Tfpunchhole_t
+
+type Tftrimactivefile_t = struct {
+	Ffta_offset Toff_t
+	Ffta_length Toff_t
+}
+
+type Tftrimactivefile = Tftrimactivefile_t
+
+type Tfspecread_t = struct {
+	Ffsr_flags  uint32
+	Freserved   uint32
+	Ffsr_offset Toff_t
+	Ffsr_length Toff_t
+}
+
+type Tfspecread = Tfspecread_t
+
+type Tfattributiontag_t = struct {
+	Fft_flags            uint32
+	Fft_hash             uint64
+	Fft_attribution_name [255]int8
+}
+
+type Tfattributiontag = Tfattributiontag_t
+
+type Tlog2phys = struct {
+	Fl2p_flags       uint32
+	Fl2p_contigbytes Toff_t
+	Fl2p_devoffset   Toff_t
+}
+
+type Tfilesec_t = uintptr
+
+type Tfilesec_property_t = int32
+
+const _FILESEC_OWNER = 1
+const _FILESEC_GROUP = 2
+const _FILESEC_UUID = 3
+const _FILESEC_MODE = 4
+const _FILESEC_ACL = 5
+const _FILESEC_GRPUUID = 6
+const _FILESEC_ACL_RAW = 100
+const _FILESEC_ACL_ALLOCSIZE = 101
+
+type t__darwin_nl_item = int32
+
+type t__darwin_wctrans_t = int32
+
+type t__darwin_wctype_t = uint32
+
+type Tidtype_t = int32
+
+const _P_ALL = 0
+const _P_PID = 1
+const _P_PGID = 2
+
+type Tid_t = uint32
+
+type Tsig_atomic_t = int32
+
+type t__darwin_i386_thread_state = struct {
+	F__eax    uint32
+	F__ebx    uint32
+	F__ecx    uint32
+	F__edx    uint32
+	F__edi    uint32
+	F__esi    uint32
+	F__ebp    uint32
+	F__esp    uint32
+	F__ss     uint32
+	F__eflags uint32
+	F__eip    uint32
+	F__cs     uint32
+	F__ds     uint32
+	F__es     uint32
+	F__fs     uint32
+	F__gs     uint32
+}
+
+type t__darwin_fp_control = struct {
+	F__ccgo0 uint16
+}
+
+type t__darwin_fp_control_t = struct {
+	F__ccgo0 uint16
+}
+
+type t__darwin_fp_status = struct {
+	F__ccgo0 uint16
+}
+
+type t__darwin_fp_status_t = struct {
+	F__ccgo0 uint16
+}
+
+type t__darwin_mmst_reg = struct {
+	F__mmst_reg  [10]int8
+	F__mmst_rsrv [6]int8
+}
+
+type t__darwin_xmm_reg = struct {
+	F__xmm_reg [16]int8
+}
+
+type t__darwin_ymm_reg = struct {
+	F__ymm_reg [32]int8
+}
+
+type t__darwin_zmm_reg = struct {
+	F__zmm_reg [64]int8
+}
+
+type t__darwin_opmask_reg = struct {
+	F__opmask_reg [8]int8
+}
+
+type t__darwin_i386_float_state = struct {
+	F__fpu_reserved  [2]int32
+	F__fpu_fcw       t__darwin_fp_control
+	F__fpu_fsw       t__darwin_fp_status
+	F__fpu_ftw       t__uint8_t
+	F__fpu_rsrv1     t__uint8_t
+	F__fpu_fop       t__uint16_t
+	F__fpu_ip        t__uint32_t
+	F__fpu_cs        t__uint16_t
+	F__fpu_rsrv2     t__uint16_t
+	F__fpu_dp        t__uint32_t
+	F__fpu_ds        t__uint16_t
+	F__fpu_rsrv3     t__uint16_t
+	F__fpu_mxcsr     t__uint32_t
+	F__fpu_mxcsrmask t__uint32_t
+	F__fpu_stmm0     t__darwin_mmst_reg
+	F__fpu_stmm1     t__darwin_mmst_reg
+	F__fpu_stmm2     t__darwin_mmst_reg
+	F__fpu_stmm3     t__darwin_mmst_reg
+	F__fpu_stmm4     t__darwin_mmst_reg
+	F__fpu_stmm5     t__darwin_mmst_reg
+	F__fpu_stmm6     t__darwin_mmst_reg
+	F__fpu_stmm7     t__darwin_mmst_reg
+	F__fpu_xmm0      t__darwin_xmm_reg
+	F__fpu_xmm1      t__darwin_xmm_reg
+	F__fpu_xmm2      t__darwin_xmm_reg
+	F__fpu_xmm3      t__darwin_xmm_reg
+	F__fpu_xmm4      t__darwin_xmm_reg
+	F__fpu_xmm5      t__darwin_xmm_reg
+	F__fpu_xmm6      t__darwin_xmm_reg
+	F__fpu_xmm7      t__darwin_xmm_reg
+	F__fpu_rsrv4     [224]int8
+	F__fpu_reserved1 int32
+}
+
+type t__darwin_i386_avx_state = struct {
+	F__fpu_reserved  [2]int32
+	F__fpu_fcw       t__darwin_fp_control
+	F__fpu_fsw       t__darwin_fp_status
+	F__fpu_ftw       t__uint8_t
+	F__fpu_rsrv1     t__uint8_t
+	F__fpu_fop       t__uint16_t
+	F__fpu_ip        t__uint32_t
+	F__fpu_cs        t__uint16_t
+	F__fpu_rsrv2     t__uint16_t
+	F__fpu_dp        t__uint32_t
+	F__fpu_ds        t__uint16_t
+	F__fpu_rsrv3     t__uint16_t
+	F__fpu_mxcsr     t__uint32_t
+	F__fpu_mxcsrmask t__uint32_t
+	F__fpu_stmm0     t__darwin_mmst_reg
+	F__fpu_stmm1     t__darwin_mmst_reg
+	F__fpu_stmm2     t__darwin_mmst_reg
+	F__fpu_stmm3     t__darwin_mmst_reg
+	F__fpu_stmm4     t__darwin_mmst_reg
+	F__fpu_stmm5     t__darwin_mmst_reg
+	F__fpu_stmm6     t__darwin_mmst_reg
+	F__fpu_stmm7     t__darwin_mmst_reg
+	F__fpu_xmm0      t__darwin_xmm_reg
+	F__fpu_xmm1      t__darwin_xmm_reg
+	F__fpu_xmm2      t__darwin_xmm_reg
+	F__fpu_xmm3      t__darwin_xmm_reg
+	F__fpu_xmm4      t__darwin_xmm_reg
+	F__fpu_xmm5      t__darwin_xmm_reg
+	F__fpu_xmm6      t__darwin_xmm_reg
+	F__fpu_xmm7      t__darwin_xmm_reg
+	F__fpu_rsrv4     [224]int8
+	F__fpu_reserved1 int32
+	F__avx_reserved1 [64]int8
+	F__fpu_ymmh0     t__darwin_xmm_reg
+	F__fpu_ymmh1     t__darwin_xmm_reg
+	F__fpu_ymmh2     t__darwin_xmm_reg
+	F__fpu_ymmh3     t__darwin_xmm_reg
+	F__fpu_ymmh4     t__darwin_xmm_reg
+	F__fpu_ymmh5     t__darwin_xmm_reg
+	F__fpu_ymmh6     t__darwin_xmm_reg
+	F__fpu_ymmh7     t__darwin_xmm_reg
+}
+
+type t__darwin_i386_avx512_state = struct {
+	F__fpu_reserved  [2]int32
+	F__fpu_fcw       t__darwin_fp_control
+	F__fpu_fsw       t__darwin_fp_status
+	F__fpu_ftw       t__uint8_t
+	F__fpu_rsrv1     t__uint8_t
+	F__fpu_fop       t__uint16_t
+	F__fpu_ip        t__uint32_t
+	F__fpu_cs        t__uint16_t
+	F__fpu_rsrv2     t__uint16_t
+	F__fpu_dp        t__uint32_t
+	F__fpu_ds        t__uint16_t
+	F__fpu_rsrv3     t__uint16_t
+	F__fpu_mxcsr     t__uint32_t
+	F__fpu_mxcsrmask t__uint32_t
+	F__fpu_stmm0     t__darwin_mmst_reg
+	F__fpu_stmm1     t__darwin_mmst_reg
+	F__fpu_stmm2     t__darwin_mmst_reg
+	F__fpu_stmm3     t__darwin_mmst_reg
+	F__fpu_stmm4     t__darwin_mmst_reg
+	F__fpu_stmm5     t__darwin_mmst_reg
+	F__fpu_stmm6     t__darwin_mmst_reg
+	F__fpu_stmm7     t__darwin_mmst_reg
+	F__fpu_xmm0      t__darwin_xmm_reg
+	F__fpu_xmm1      t__darwin_xmm_reg
+	F__fpu_xmm2      t__darwin_xmm_reg
+	F__fpu_xmm3      t__darwin_xmm_reg
+	F__fpu_xmm4      t__darwin_xmm_reg
+	F__fpu_xmm5      t__darwin_xmm_reg
+	F__fpu_xmm6      t__darwin_xmm_reg
+	F__fpu_xmm7      t__darwin_xmm_reg
+	F__fpu_rsrv4     [224]int8
+	F__fpu_reserved1 int32
+	F__avx_reserved1 [64]int8
+	F__fpu_ymmh0     t__darwin_xmm_reg
+	F__fpu_ymmh1     t__darwin_xmm_reg
+	F__fpu_ymmh2     t__darwin_xmm_reg
+	F__fpu_ymmh3     t__darwin_xmm_reg
+	F__fpu_ymmh4     t__darwin_xmm_reg
+	F__fpu_ymmh5     t__darwin_xmm_reg
+	F__fpu_ymmh6     t__darwin_xmm_reg
+	F__fpu_ymmh7     t__darwin_xmm_reg
+	F__fpu_k0        t__darwin_opmask_reg
+	F__fpu_k1        t__darwin_opmask_reg
+	F__fpu_k2        t__darwin_opmask_reg
+	F__fpu_k3        t__darwin_opmask_reg
+	F__fpu_k4        t__darwin_opmask_reg
+	F__fpu_k5        t__darwin_opmask_reg
+	F__fpu_k6        t__darwin_opmask_reg
+	F__fpu_k7        t__darwin_opmask_reg
+	F__fpu_zmmh0     t__darwin_ymm_reg
+	F__fpu_zmmh1     t__darwin_ymm_reg
+	F__fpu_zmmh2     t__darwin_ymm_reg
+	F__fpu_zmmh3     t__darwin_ymm_reg
+	F__fpu_zmmh4     t__darwin_ymm_reg
+	F__fpu_zmmh5     t__darwin_ymm_reg
+	F__fpu_zmmh6     t__darwin_ymm_reg
+	F__fpu_zmmh7     t__darwin_ymm_reg
+}
+
+type t__darwin_i386_exception_state = struct {
+	F__trapno     t__uint16_t
+	F__cpu        t__uint16_t
+	F__err        t__uint32_t
+	F__faultvaddr t__uint32_t
+}
+
+type t__darwin_x86_debug_state32 = struct {
+	F__dr0 uint32
+	F__dr1 uint32
+	F__dr2 uint32
+	F__dr3 uint32
+	F__dr4 uint32
+	F__dr5 uint32
+	F__dr6 uint32
+	F__dr7 uint32
+}
+
+type t__x86_instruction_state = struct {
+	F__insn_stream_valid_bytes int32
+	F__insn_offset             int32
+	F__out_of_synch            int32
+	F__insn_bytes              [2380]t__uint8_t
+	F__insn_cacheline          [64]t__uint8_t
+}
+
+type t__last_branch_record = struct {
+	F__from_ip t__uint64_t
+	F__to_ip   t__uint64_t
+	F__ccgo16  uint32
+}
+
+type t__last_branch_state = struct {
+	F__lbr_count int32
+	F__ccgo4     uint32
+	F__lbrs      [32]t__last_branch_record
+}
+
+type t__x86_pagein_state = struct {
+	F__pagein_error int32
+}
+
+type t__darwin_x86_thread_state64 = struct {
+	F__rax    t__uint64_t
+	F__rbx    t__uint64_t
+	F__rcx    t__uint64_t
+	F__rdx    t__uint64_t
+	F__rdi    t__uint64_t
+	F__rsi    t__uint64_t
+	F__rbp    t__uint64_t
+	F__rsp    t__uint64_t
+	F__r8     t__uint64_t
+	F__r9     t__uint64_t
+	F__r10    t__uint64_t
+	F__r11    t__uint64_t
+	F__r12    t__uint64_t
+	F__r13    t__uint64_t
+	F__r14    t__uint64_t
+	F__r15    t__uint64_t
+	F__rip    t__uint64_t
+	F__rflags t__uint64_t
+	F__cs     t__uint64_t
+	F__fs     t__uint64_t
+	F__gs     t__uint64_t
+}
+
+type t__darwin_x86_thread_full_state64 = struct {
+	F__ss64   t__darwin_x86_thread_state64
+	F__ds     t__uint64_t
+	F__es     t__uint64_t
+	F__ss     t__uint64_t
+	F__gsbase t__uint64_t
+}
+
+type t__darwin_x86_float_state64 = struct {
+	F__fpu_reserved  [2]int32
+	F__fpu_fcw       t__darwin_fp_control
+	F__fpu_fsw       t__darwin_fp_status
+	F__fpu_ftw       t__uint8_t
+	F__fpu_rsrv1     t__uint8_t
+	F__fpu_fop       t__uint16_t
+	F__fpu_ip        t__uint32_t
+	F__fpu_cs        t__uint16_t
+	F__fpu_rsrv2     t__uint16_t
+	F__fpu_dp        t__uint32_t
+	F__fpu_ds        t__uint16_t
+	F__fpu_rsrv3     t__uint16_t
+	F__fpu_mxcsr     t__uint32_t
+	F__fpu_mxcsrmask t__uint32_t
+	F__fpu_stmm0     t__darwin_mmst_reg
+	F__fpu_stmm1     t__darwin_mmst_reg
+	F__fpu_stmm2     t__darwin_mmst_reg
+	F__fpu_stmm3     t__darwin_mmst_reg
+	F__fpu_stmm4     t__darwin_mmst_reg
+	F__fpu_stmm5     t__darwin_mmst_reg
+	F__fpu_stmm6     t__darwin_mmst_reg
+	F__fpu_stmm7     t__darwin_mmst_reg
+	F__fpu_xmm0      t__darwin_xmm_reg
+	F__fpu_xmm1      t__darwin_xmm_reg
+	F__fpu_xmm2      t__darwin_xmm_reg
+	F__fpu_xmm3      t__darwin_xmm_reg
+	F__fpu_xmm4      t__darwin_xmm_reg
+	F__fpu_xmm5      t__darwin_xmm_reg
+	F__fpu_xmm6      t__darwin_xmm_reg
+	F__fpu_xmm7      t__darwin_xmm_reg
+	F__fpu_xmm8      t__darwin_xmm_reg
+	F__fpu_xmm9      t__darwin_xmm_reg
+	F__fpu_xmm10     t__darwin_xmm_reg
+	F__fpu_xmm11     t__darwin_xmm_reg
+	F__fpu_xmm12     t__darwin_xmm_reg
+	F__fpu_xmm13     t__darwin_xmm_reg
+	F__fpu_xmm14     t__darwin_xmm_reg
+	F__fpu_xmm15     t__darwin_xmm_reg
+	F__fpu_rsrv4     [96]int8
+	F__fpu_reserved1 int32
+}
+
+type t__darwin_x86_avx_state64 = struct {
+	F__fpu_reserved  [2]int32
+	F__fpu_fcw       t__darwin_fp_control
+	F__fpu_fsw       t__darwin_fp_status
+	F__fpu_ftw       t__uint8_t
+	F__fpu_rsrv1     t__uint8_t
+	F__fpu_fop       t__uint16_t
+	F__fpu_ip        t__uint32_t
+	F__fpu_cs        t__uint16_t
+	F__fpu_rsrv2     t__uint16_t
+	F__fpu_dp        t__uint32_t
+	F__fpu_ds        t__uint16_t
+	F__fpu_rsrv3     t__uint16_t
+	F__fpu_mxcsr     t__uint32_t
+	F__fpu_mxcsrmask t__uint32_t
+	F__fpu_stmm0     t__darwin_mmst_reg
+	F__fpu_stmm1     t__darwin_mmst_reg
+	F__fpu_stmm2     t__darwin_mmst_reg
+	F__fpu_stmm3     t__darwin_mmst_reg
+	F__fpu_stmm4     t__darwin_mmst_reg
+	F__fpu_stmm5     t__darwin_mmst_reg
+	F__fpu_stmm6     t__darwin_mmst_reg
+	F__fpu_stmm7     t__darwin_mmst_reg
+	F__fpu_xmm0      t__darwin_xmm_reg
+	F__fpu_xmm1      t__darwin_xmm_reg
+	F__fpu_xmm2      t__darwin_xmm_reg
+	F__fpu_xmm3      t__darwin_xmm_reg
+	F__fpu_xmm4      t__darwin_xmm_reg
+	F__fpu_xmm5      t__darwin_xmm_reg
+	F__fpu_xmm6      t__darwin_xmm_reg
+	F__fpu_xmm7      t__darwin_xmm_reg
+	F__fpu_xmm8      t__darwin_xmm_reg
+	F__fpu_xmm9      t__darwin_xmm_reg
+	F__fpu_xmm10     t__darwin_xmm_reg
+	F__fpu_xmm11     t__darwin_xmm_reg
+	F__fpu_xmm12     t__darwin_xmm_reg
+	F__fpu_xmm13     t__darwin_xmm_reg
+	F__fpu_xmm14     t__darwin_xmm_reg
+	F__fpu_xmm15     t__darwin_xmm_reg
+	F__fpu_rsrv4     [96]int8
+	F__fpu_reserved1 int32
+	F__avx_reserved1 [64]int8
+	F__fpu_ymmh0     t__darwin_xmm_reg
+	F__fpu_ymmh1     t__darwin_xmm_reg
+	F__fpu_ymmh2     t__darwin_xmm_reg
+	F__fpu_ymmh3     t__darwin_xmm_reg
+	F__fpu_ymmh4     t__darwin_xmm_reg
+	F__fpu_ymmh5     t__darwin_xmm_reg
+	F__fpu_ymmh6     t__darwin_xmm_reg
+	F__fpu_ymmh7     t__darwin_xmm_reg
+	F__fpu_ymmh8     t__darwin_xmm_reg
+	F__fpu_ymmh9     t__darwin_xmm_reg
+	F__fpu_ymmh10    t__darwin_xmm_reg
+	F__fpu_ymmh11    t__darwin_xmm_reg
+	F__fpu_ymmh12    t__darwin_xmm_reg
+	F__fpu_ymmh13    t__darwin_xmm_reg
+	F__fpu_ymmh14    t__darwin_xmm_reg
+	F__fpu_ymmh15    t__darwin_xmm_reg
+}
+
+type t__darwin_x86_avx512_state64 = struct {
+	F__fpu_reserved  [2]int32
+	F__fpu_fcw       t__darwin_fp_control
+	F__fpu_fsw       t__darwin_fp_status
+	F__fpu_ftw       t__uint8_t
+	F__fpu_rsrv1     t__uint8_t
+	F__fpu_fop       t__uint16_t
+	F__fpu_ip        t__uint32_t
+	F__fpu_cs        t__uint16_t
+	F__fpu_rsrv2     t__uint16_t
+	F__fpu_dp        t__uint32_t
+	F__fpu_ds        t__uint16_t
+	F__fpu_rsrv3     t__uint16_t
+	F__fpu_mxcsr     t__uint32_t
+	F__fpu_mxcsrmask t__uint32_t
+	F__fpu_stmm0     t__darwin_mmst_reg
+	F__fpu_stmm1     t__darwin_mmst_reg
+	F__fpu_stmm2     t__darwin_mmst_reg
+	F__fpu_stmm3     t__darwin_mmst_reg
+	F__fpu_stmm4     t__darwin_mmst_reg
+	F__fpu_stmm5     t__darwin_mmst_reg
+	F__fpu_stmm6     t__darwin_mmst_reg
+	F__fpu_stmm7     t__darwin_mmst_reg
+	F__fpu_xmm0      t__darwin_xmm_reg
+	F__fpu_xmm1      t__darwin_xmm_reg
+	F__fpu_xmm2      t__darwin_xmm_reg
+	F__fpu_xmm3      t__darwin_xmm_reg
+	F__fpu_xmm4      t__darwin_xmm_reg
+	F__fpu_xmm5      t__darwin_xmm_reg
+	F__fpu_xmm6      t__darwin_xmm_reg
+	F__fpu_xmm7      t__darwin_xmm_reg
+	F__fpu_xmm8      t__darwin_xmm_reg
+	F__fpu_xmm9      t__darwin_xmm_reg
+	F__fpu_xmm10     t__darwin_xmm_reg
+	F__fpu_xmm11     t__darwin_xmm_reg
+	F__fpu_xmm12     t__darwin_xmm_reg
+	F__fpu_xmm13     t__darwin_xmm_reg
+	F__fpu_xmm14     t__darwin_xmm_reg
+	F__fpu_xmm15     t__darwin_xmm_reg
+	F__fpu_rsrv4     [96]int8
+	F__fpu_reserved1 int32
+	F__avx_reserved1 [64]int8
+	F__fpu_ymmh0     t__darwin_xmm_reg
+	F__fpu_ymmh1     t__darwin_xmm_reg
+	F__fpu_ymmh2     t__darwin_xmm_reg
+	F__fpu_ymmh3     t__darwin_xmm_reg
+	F__fpu_ymmh4     t__darwin_xmm_reg
+	F__fpu_ymmh5     t__darwin_xmm_reg
+	F__fpu_ymmh6     t__darwin_xmm_reg
+	F__fpu_ymmh7     t__darwin_xmm_reg
+	F__fpu_ymmh8     t__darwin_xmm_reg
+	F__fpu_ymmh9     t__darwin_xmm_reg
+	F__fpu_ymmh10    t__darwin_xmm_reg
+	F__fpu_ymmh11    t__darwin_xmm_reg
+	F__fpu_ymmh12    t__darwin_xmm_reg
+	F__fpu_ymmh13    t__darwin_xmm_reg
+	F__fpu_ymmh14    t__darwin_xmm_reg
+	F__fpu_ymmh15    t__darwin_xmm_reg
+	F__fpu_k0        t__darwin_opmask_reg
+	F__fpu_k1        t__darwin_opmask_reg
+	F__fpu_k2        t__darwin_opmask_reg
+	F__fpu_k3        t__darwin_opmask_reg
+	F__fpu_k4        t__darwin_opmask_reg
+	F__fpu_k5        t__darwin_opmask_reg
+	F__fpu_k6        t__darwin_opmask_reg
+	F__fpu_k7        t__darwin_opmask_reg
+	F__fpu_zmmh0     t__darwin_ymm_reg
+	F__fpu_zmmh1     t__darwin_ymm_reg
+	F__fpu_zmmh2     t__darwin_ymm_reg
+	F__fpu_zmmh3     t__darwin_ymm_reg
+	F__fpu_zmmh4     t__darwin_ymm_reg
+	F__fpu_zmmh5     t__darwin_ymm_reg
+	F__fpu_zmmh6     t__darwin_ymm_reg
+	F__fpu_zmmh7     t__darwin_ymm_reg
+	F__fpu_zmmh8     t__darwin_ymm_reg
+	F__fpu_zmmh9     t__darwin_ymm_reg
+	F__fpu_zmmh10    t__darwin_ymm_reg
+	F__fpu_zmmh11    t__darwin_ymm_reg
+	F__fpu_zmmh12    t__darwin_ymm_reg
+	F__fpu_zmmh13    t__darwin_ymm_reg
+	F__fpu_zmmh14    t__darwin_ymm_reg
+	F__fpu_zmmh15    t__darwin_ymm_reg
+	F__fpu_zmm16     t__darwin_zmm_reg
+	F__fpu_zmm17     t__darwin_zmm_reg
+	F__fpu_zmm18     t__darwin_zmm_reg
+	F__fpu_zmm19     t__darwin_zmm_reg
+	F__fpu_zmm20     t__darwin_zmm_reg
+	F__fpu_zmm21     t__darwin_zmm_reg
+	F__fpu_zmm22     t__darwin_zmm_reg
+	F__fpu_zmm23     t__darwin_zmm_reg
+	F__fpu_zmm24     t__darwin_zmm_reg
+	F__fpu_zmm25     t__darwin_zmm_reg
+	F__fpu_zmm26     t__darwin_zmm_reg
+	F__fpu_zmm27     t__darwin_zmm_reg
+	F__fpu_zmm28     t__darwin_zmm_reg
+	F__fpu_zmm29     t__darwin_zmm_reg
+	F__fpu_zmm30     t__darwin_zmm_reg
+	F__fpu_zmm31     t__darwin_zmm_reg
+}
+
+type t__darwin_x86_exception_state64 = struct {
+	F__trapno     t__uint16_t
+	F__cpu        t__uint16_t
+	F__err        t__uint32_t
+	F__faultvaddr t__uint64_t
+}
+
+type t__darwin_x86_debug_state64 = struct {
+	F__dr0 t__uint64_t
+	F__dr1 t__uint64_t
+	F__dr2 t__uint64_t
+	F__dr3 t__uint64_t
+	F__dr4 t__uint64_t
+	F__dr5 t__uint64_t
+	F__dr6 t__uint64_t
+	F__dr7 t__uint64_t
+}
+
+type t__darwin_x86_cpmu_state64 = struct {
+	F__ctrs [16]t__uint64_t
+}
+
+type t__darwin_mcontext32 = struct {
+	F__es t__darwin_i386_exception_state
+	F__ss t__darwin_i386_thread_state
+	F__fs t__darwin_i386_float_state
+}
+
+type t__darwin_mcontext_avx32 = struct {
+	F__es t__darwin_i386_exception_state
+	F__ss t__darwin_i386_thread_state
+	F__fs t__darwin_i386_avx_state
+}
+
+type t__darwin_mcontext_avx512_32 = struct {
+	F__es t__darwin_i386_exception_state
+	F__ss t__darwin_i386_thread_state
+	F__fs t__darwin_i386_avx512_state
+}
+
+type t__darwin_mcontext64 = struct {
+	F__es t__darwin_x86_exception_state64
+	F__ss t__darwin_x86_thread_state64
+	F__fs t__darwin_x86_float_state64
+}
+
+type t__darwin_mcontext64_full = struct {
+	F__es t__darwin_x86_exception_state64
+	F__ss t__darwin_x86_thread_full_state64
+	F__fs t__darwin_x86_float_state64
+}
+
+type t__darwin_mcontext_avx64 = struct {
+	F__es t__darwin_x86_exception_state64
+	F__ss t__darwin_x86_thread_state64
+	F__fs t__darwin_x86_avx_state64
+}
+
+type t__darwin_mcontext_avx64_full = struct {
+	F__es t__darwin_x86_exception_state64
+	F__ss t__darwin_x86_thread_full_state64
+	F__fs t__darwin_x86_avx_state64
+}
+
+type t__darwin_mcontext_avx512_64 = struct {
+	F__es t__darwin_x86_exception_state64
+	F__ss t__darwin_x86_thread_state64
+	F__fs t__darwin_x86_avx512_state64
+}
+
+type t__darwin_mcontext_avx512_64_full = struct {
+	F__es t__darwin_x86_exception_state64
+	F__ss t__darwin_x86_thread_full_state64
+	F__fs t__darwin_x86_avx512_state64
+}
+
+type Tmcontext_t = uintptr
+
+type Tpthread_attr_t = struct {
+	F__sig    int64
+	F__opaque [56]int8
+}
+
+type t__darwin_sigaltstack = struct {
+	Fss_sp    uintptr
+	Fss_size  t__darwin_size_t
+	Fss_flags int32
+}
+
+type Tstack_t = struct {
+	Fss_sp    uintptr
+	Fss_size  t__darwin_size_t
+	Fss_flags int32
+}
+
+type t__darwin_ucontext = struct {
+	Fuc_onstack  int32
+	Fuc_sigmask  t__darwin_sigset_t
+	Fuc_stack    t__darwin_sigaltstack
+	Fuc_link     uintptr
+	Fuc_mcsize   t__darwin_size_t
+	Fuc_mcontext uintptr
+}
+
+type Tucontext_t = struct {
+	Fuc_onstack  int32
+	Fuc_sigmask  t__darwin_sigset_t
+	Fuc_stack    t__darwin_sigaltstack
+	Fuc_link     uintptr
+	Fuc_mcsize   t__darwin_size_t
+	Fuc_mcontext uintptr
+}
+
+type Tsigset_t = uint32
+
+type Tuid_t = uint32
+
+type Tsigval = struct {
+	Fsival_ptr   [0]uintptr
+	Fsival_int   int32
+	F__ccgo_pad2 [4]byte
+}
+
+type Tsigevent = struct {
+	Fsigev_notify            int32
+	Fsigev_signo             int32
+	Fsigev_value             Tsigval
+	Fsigev_notify_function   uintptr
+	Fsigev_notify_attributes uintptr
+}
+
+type Tsiginfo_t = struct {
+	Fsi_signo  int32
+	Fsi_errno  int32
+	Fsi_code   int32
+	Fsi_pid    Tpid_t
+	Fsi_uid    Tuid_t
+	Fsi_status int32
+	Fsi_addr   uintptr
+	Fsi_value  Tsigval
+	Fsi_band   int64
+	F__pad     [7]uint64
+}
+
+type t__siginfo = Tsiginfo_t
+
+type t__sigaction_u = struct {
+	F__sa_sigaction [0]uintptr
+	F__sa_handler   uintptr
+}
+
+type t__sigaction = struct {
+	F__sigaction_u t__sigaction_u
+	Fsa_tramp      uintptr
+	Fsa_mask       Tsigset_t
+	Fsa_flags      int32
+}
+
+type Tsigaction = struct {
+	F__sigaction_u t__sigaction_u
+	Fsa_mask       Tsigset_t
+	Fsa_flags      int32
+}
+
+type Tsig_t = uintptr
+
+type Tsigvec = struct {
+	Fsv_handler uintptr
+	Fsv_mask    int32
+	Fsv_flags   int32
+}
+
+type Tsigstack = struct {
+	Fss_sp      uintptr
+	Fss_onstack int32
+}
+
+type Tuint8_t = uint8
+
+type Tuint16_t = uint16
+
+type Tuint32_t = uint32
+
+type Tuint64_t = uint64
+
+type Tint_least8_t = int8
+
+type Tint_least16_t = int16
+
+type Tint_least32_t = int32
+
+type Tint_least64_t = int64
+
+type Tuint_least8_t = uint8
+
+type Tuint_least16_t = uint16
+
+type Tuint_least32_t = uint32
+
+type Tuint_least64_t = uint64
+
+type Tint_fast8_t = int8
+
+type Tint_fast16_t = int16
+
+type Tint_fast32_t = int32
+
+type Tint_fast64_t = int64
+
+type Tuint_fast8_t = uint8
+
+type Tuint_fast16_t = uint16
+
+type Tuint_fast32_t = uint32
+
+type Tuint_fast64_t = uint64
+
+type Tintmax_t = int64
+
+type Tuintmax_t = uint64
+
+type Ttimeval = struct {
+	Ftv_sec  t__darwin_time_t
+	Ftv_usec t__darwin_suseconds_t
+}
+
+type Trlim_t = uint64
+
+type Trusage = struct {
+	Fru_utime    Ttimeval
+	Fru_stime    Ttimeval
+	Fru_maxrss   int64
+	Fru_ixrss    int64
+	Fru_idrss    int64
+	Fru_isrss    int64
+	Fru_minflt   int64
+	Fru_majflt   int64
+	Fru_nswap    int64
+	Fru_inblock  int64
+	Fru_oublock  int64
+	Fru_msgsnd   int64
+	Fru_msgrcv   int64
+	Fru_nsignals int64
+	Fru_nvcsw    int64
+	Fru_nivcsw   int64
+}
+
+type Trusage_info_t = uintptr
+
+type Trusage_info_v0 = struct {
+	Fri_uuid               [16]Tuint8_t
+	Fri_user_time          Tuint64_t
+	Fri_system_time        Tuint64_t
+	Fri_pkg_idle_wkups     Tuint64_t
+	Fri_interrupt_wkups    Tuint64_t
+	Fri_pageins            Tuint64_t
+	Fri_wired_size         Tuint64_t
+	Fri_resident_size      Tuint64_t
+	Fri_phys_footprint     Tuint64_t
+	Fri_proc_start_abstime Tuint64_t
+	Fri_proc_exit_abstime  Tuint64_t
+}
+
+type Trusage_info_v1 = struct {
+	Fri_uuid                  [16]Tuint8_t
+	Fri_user_time             Tuint64_t
+	Fri_system_time           Tuint64_t
+	Fri_pkg_idle_wkups        Tuint64_t
+	Fri_interrupt_wkups       Tuint64_t
+	Fri_pageins               Tuint64_t
+	Fri_wired_size            Tuint64_t
+	Fri_resident_size         Tuint64_t
+	Fri_phys_footprint        Tuint64_t
+	Fri_proc_start_abstime    Tuint64_t
+	Fri_proc_exit_abstime     Tuint64_t
+	Fri_child_user_time       Tuint64_t
+	Fri_child_system_time     Tuint64_t
+	Fri_child_pkg_idle_wkups  Tuint64_t
+	Fri_child_interrupt_wkups Tuint64_t
+	Fri_child_pageins         Tuint64_t
+	Fri_child_elapsed_abstime Tuint64_t
+}
+
+type Trusage_info_v2 = struct {
+	Fri_uuid                  [16]Tuint8_t
+	Fri_user_time             Tuint64_t
+	Fri_system_time           Tuint64_t
+	Fri_pkg_idle_wkups        Tuint64_t
+	Fri_interrupt_wkups       Tuint64_t
+	Fri_pageins               Tuint64_t
+	Fri_wired_size            Tuint64_t
+	Fri_resident_size         Tuint64_t
+	Fri_phys_footprint        Tuint64_t
+	Fri_proc_start_abstime    Tuint64_t
+	Fri_proc_exit_abstime     Tuint64_t
+	Fri_child_user_time       Tuint64_t
+	Fri_child_system_time     Tuint64_t
+	Fri_child_pkg_idle_wkups  Tuint64_t
+	Fri_child_interrupt_wkups Tuint64_t
+	Fri_child_pageins         Tuint64_t
+	Fri_child_elapsed_abstime Tuint64_t
+	Fri_diskio_bytesread      Tuint64_t
+	Fri_diskio_byteswritten   Tuint64_t
+}
+
+type Trusage_info_v3 = struct {
+	Fri_uuid                          [16]Tuint8_t
+	Fri_user_time                     Tuint64_t
+	Fri_system_time                   Tuint64_t
+	Fri_pkg_idle_wkups                Tuint64_t
+	Fri_interrupt_wkups               Tuint64_t
+	Fri_pageins                       Tuint64_t
+	Fri_wired_size                    Tuint64_t
+	Fri_resident_size                 Tuint64_t
+	Fri_phys_footprint                Tuint64_t
+	Fri_proc_start_abstime            Tuint64_t
+	Fri_proc_exit_abstime             Tuint64_t
+	Fri_child_user_time               Tuint64_t
+	Fri_child_system_time             Tuint64_t
+	Fri_child_pkg_idle_wkups          Tuint64_t
+	Fri_child_interrupt_wkups         Tuint64_t
+	Fri_child_pageins                 Tuint64_t
+	Fri_child_elapsed_abstime         Tuint64_t
+	Fri_diskio_bytesread              Tuint64_t
+	Fri_diskio_byteswritten           Tuint64_t
+	Fri_cpu_time_qos_default          Tuint64_t
+	Fri_cpu_time_qos_maintenance      Tuint64_t
+	Fri_cpu_time_qos_background       Tuint64_t
+	Fri_cpu_time_qos_utility          Tuint64_t
+	Fri_cpu_time_qos_legacy           Tuint64_t
+	Fri_cpu_time_qos_user_initiated   Tuint64_t
+	Fri_cpu_time_qos_user_interactive Tuint64_t
+	Fri_billed_system_time            Tuint64_t
+	Fri_serviced_system_time          Tuint64_t
+}
+
+type Trusage_info_v4 = struct {
+	Fri_uuid                          [16]Tuint8_t
+	Fri_user_time                     Tuint64_t
+	Fri_system_time                   Tuint64_t
+	Fri_pkg_idle_wkups                Tuint64_t
+	Fri_interrupt_wkups               Tuint64_t
+	Fri_pageins                       Tuint64_t
+	Fri_wired_size                    Tuint64_t
+	Fri_resident_size                 Tuint64_t
+	Fri_phys_footprint                Tuint64_t
+	Fri_proc_start_abstime            Tuint64_t
+	Fri_proc_exit_abstime             Tuint64_t
+	Fri_child_user_time               Tuint64_t
+	Fri_child_system_time             Tuint64_t
+	Fri_child_pkg_idle_wkups          Tuint64_t
+	Fri_child_interrupt_wkups         Tuint64_t
+	Fri_child_pageins                 Tuint64_t
+	Fri_child_elapsed_abstime         Tuint64_t
+	Fri_diskio_bytesread              Tuint64_t
+	Fri_diskio_byteswritten           Tuint64_t
+	Fri_cpu_time_qos_default          Tuint64_t
+	Fri_cpu_time_qos_maintenance      Tuint64_t
+	Fri_cpu_time_qos_background       Tuint64_t
+	Fri_cpu_time_qos_utility          Tuint64_t
+	Fri_cpu_time_qos_legacy           Tuint64_t
+	Fri_cpu_time_qos_user_initiated   Tuint64_t
+	Fri_cpu_time_qos_user_interactive Tuint64_t
+	Fri_billed_system_time            Tuint64_t
+	Fri_serviced_system_time          Tuint64_t
+	Fri_logical_writes                Tuint64_t
+	Fri_lifetime_max_phys_footprint   Tuint64_t
+	Fri_instructions                  Tuint64_t
+	Fri_cycles                        Tuint64_t
+	Fri_billed_energy                 Tuint64_t
+	Fri_serviced_energy               Tuint64_t
+	Fri_interval_max_phys_footprint   Tuint64_t
+	Fri_runnable_time                 Tuint64_t
+}
+
+type Trusage_info_v5 = struct {
+	Fri_uuid                          [16]Tuint8_t
+	Fri_user_time                     Tuint64_t
+	Fri_system_time                   Tuint64_t
+	Fri_pkg_idle_wkups                Tuint64_t
+	Fri_interrupt_wkups               Tuint64_t
+	Fri_pageins                       Tuint64_t
+	Fri_wired_size                    Tuint64_t
+	Fri_resident_size                 Tuint64_t
+	Fri_phys_footprint                Tuint64_t
+	Fri_proc_start_abstime            Tuint64_t
+	Fri_proc_exit_abstime             Tuint64_t
+	Fri_child_user_time               Tuint64_t
+	Fri_child_system_time             Tuint64_t
+	Fri_child_pkg_idle_wkups          Tuint64_t
+	Fri_child_interrupt_wkups         Tuint64_t
+	Fri_child_pageins                 Tuint64_t
+	Fri_child_elapsed_abstime         Tuint64_t
+	Fri_diskio_bytesread              Tuint64_t
+	Fri_diskio_byteswritten           Tuint64_t
+	Fri_cpu_time_qos_default          Tuint64_t
+	Fri_cpu_time_qos_maintenance      Tuint64_t
+	Fri_cpu_time_qos_background       Tuint64_t
+	Fri_cpu_time_qos_utility          Tuint64_t
+	Fri_cpu_time_qos_legacy           Tuint64_t
+	Fri_cpu_time_qos_user_initiated   Tuint64_t
+	Fri_cpu_time_qos_user_interactive Tuint64_t
+	Fri_billed_system_time            Tuint64_t
+	Fri_serviced_system_time          Tuint64_t
+	Fri_logical_writes                Tuint64_t
+	Fri_lifetime_max_phys_footprint   Tuint64_t
+	Fri_instructions                  Tuint64_t
+	Fri_cycles                        Tuint64_t
+	Fri_billed_energy                 Tuint64_t
+	Fri_serviced_energy               Tuint64_t
+	Fri_interval_max_phys_footprint   Tuint64_t
+	Fri_runnable_time                 Tuint64_t
+	Fri_flags                         Tuint64_t
+}
+
+type Trusage_info_v6 = struct {
+	Fri_uuid                          [16]Tuint8_t
+	Fri_user_time                     Tuint64_t
+	Fri_system_time                   Tuint64_t
+	Fri_pkg_idle_wkups                Tuint64_t
+	Fri_interrupt_wkups               Tuint64_t
+	Fri_pageins                       Tuint64_t
+	Fri_wired_size                    Tuint64_t
+	Fri_resident_size                 Tuint64_t
+	Fri_phys_footprint                Tuint64_t
+	Fri_proc_start_abstime            Tuint64_t
+	Fri_proc_exit_abstime             Tuint64_t
+	Fri_child_user_time               Tuint64_t
+	Fri_child_system_time             Tuint64_t
+	Fri_child_pkg_idle_wkups          Tuint64_t
+	Fri_child_interrupt_wkups         Tuint64_t
+	Fri_child_pageins                 Tuint64_t
+	Fri_child_elapsed_abstime         Tuint64_t
+	Fri_diskio_bytesread              Tuint64_t
+	Fri_diskio_byteswritten           Tuint64_t
+	Fri_cpu_time_qos_default          Tuint64_t
+	Fri_cpu_time_qos_maintenance      Tuint64_t
+	Fri_cpu_time_qos_background       Tuint64_t
+	Fri_cpu_time_qos_utility          Tuint64_t
+	Fri_cpu_time_qos_legacy           Tuint64_t
+	Fri_cpu_time_qos_user_initiated   Tuint64_t
+	Fri_cpu_time_qos_user_interactive Tuint64_t
+	Fri_billed_system_time            Tuint64_t
+	Fri_serviced_system_time          Tuint64_t
+	Fri_logical_writes                Tuint64_t
+	Fri_lifetime_max_phys_footprint   Tuint64_t
+	Fri_instructions                  Tuint64_t
+	Fri_cycles                        Tuint64_t
+	Fri_billed_energy                 Tuint64_t
+	Fri_serviced_energy               Tuint64_t
+	Fri_interval_max_phys_footprint   Tuint64_t
+	Fri_runnable_time                 Tuint64_t
+	Fri_flags                         Tuint64_t
+	Fri_user_ptime                    Tuint64_t
+	Fri_system_ptime                  Tuint64_t
+	Fri_pinstructions                 Tuint64_t
+	Fri_pcycles                       Tuint64_t
+	Fri_energy_nj                     Tuint64_t
+	Fri_penergy_nj                    Tuint64_t
+	Fri_secure_time_in_system         Tuint64_t
+	Fri_secure_ptime_in_system        Tuint64_t
+	Fri_neural_footprint              Tuint64_t
+	Fri_lifetime_max_neural_footprint Tuint64_t
+	Fri_interval_max_neural_footprint Tuint64_t
+	Fri_reserved                      [9]Tuint64_t
+}
+
+type Trusage_info_current = struct {
+	Fri_uuid                          [16]Tuint8_t
+	Fri_user_time                     Tuint64_t
+	Fri_system_time                   Tuint64_t
+	Fri_pkg_idle_wkups                Tuint64_t
+	Fri_interrupt_wkups               Tuint64_t
+	Fri_pageins                       Tuint64_t
+	Fri_wired_size                    Tuint64_t
+	Fri_resident_size                 Tuint64_t
+	Fri_phys_footprint                Tuint64_t
+	Fri_proc_start_abstime            Tuint64_t
+	Fri_proc_exit_abstime             Tuint64_t
+	Fri_child_user_time               Tuint64_t
+	Fri_child_system_time             Tuint64_t
+	Fri_child_pkg_idle_wkups          Tuint64_t
+	Fri_child_interrupt_wkups         Tuint64_t
+	Fri_child_pageins                 Tuint64_t
+	Fri_child_elapsed_abstime         Tuint64_t
+	Fri_diskio_bytesread              Tuint64_t
+	Fri_diskio_byteswritten           Tuint64_t
+	Fri_cpu_time_qos_default          Tuint64_t
+	Fri_cpu_time_qos_maintenance      Tuint64_t
+	Fri_cpu_time_qos_background       Tuint64_t
+	Fri_cpu_time_qos_utility          Tuint64_t
+	Fri_cpu_time_qos_legacy           Tuint64_t
+	Fri_cpu_time_qos_user_initiated   Tuint64_t
+	Fri_cpu_time_qos_user_interactive Tuint64_t
+	Fri_billed_system_time            Tuint64_t
+	Fri_serviced_system_time          Tuint64_t
+	Fri_logical_writes                Tuint64_t
+	Fri_lifetime_max_phys_footprint   Tuint64_t
+	Fri_instructions                  Tuint64_t
+	Fri_cycles                        Tuint64_t
+	Fri_billed_energy                 Tuint64_t
+	Fri_serviced_energy               Tuint64_t
+	Fri_interval_max_phys_footprint   Tuint64_t
+	Fri_runnable_time                 Tuint64_t
+	Fri_flags                         Tuint64_t
+	Fri_user_ptime                    Tuint64_t
+	Fri_system_ptime                  Tuint64_t
+	Fri_pinstructions                 Tuint64_t
+	Fri_pcycles                       Tuint64_t
+	Fri_energy_nj                     Tuint64_t
+	Fri_penergy_nj                    Tuint64_t
+	Fri_secure_time_in_system         Tuint64_t
+	Fri_secure_ptime_in_system        Tuint64_t
+	Fri_neural_footprint              Tuint64_t
+	Fri_lifetime_max_neural_footprint Tuint64_t
+	Fri_interval_max_neural_footprint Tuint64_t
+	Fri_reserved                      [9]Tuint64_t
+}
+
+type Trlimit = struct {
+	Frlim_cur Trlim_t
+	Frlim_max Trlim_t
+}
+
+type Tproc_rlimit_control_wakeupmon = struct {
+	Fwm_flags Tuint32_t
+	Fwm_rate  Tint32_t
+}
+
+type Twait = struct {
+	Fw_T [0]struct {
+		F__ccgo0 uint32
+	}
+	Fw_S [0]struct {
+		F__ccgo0 uint32
+	}
+	Fw_status int32
+}
+
+type Tct_rune_t = int32
+
+type Trune_t = int32
+
+type Twchar_t = int32
+
+type Tdiv_t = struct {
+	Fquot int32
+	Frem  int32
+}
+
+type Tldiv_t = struct {
+	Fquot int64
+	Frem  int64
+}
+
+type Tlldiv_t = struct {
+	Fquot int64
+	Frem  int64
+}
+
+type Tmalloc_type_id_t = uint64
+
+type Tdev_t = int32
+
+type Tu_char = uint8
+
+type Tu_short = uint16
+
+type Tu_int = uint32
+
+type Tu_long = uint64
+
+type Tushort = uint16
+
+type Tuint = uint32
+
+type Tu_quad_t = uint64
+
+type Tquad_t = int64
+
+type Tqaddr_t = uintptr
+
+type Tcaddr_t = uintptr
+
+type Tdaddr_t = int32
+
+type Tfixpt_t = uint32
+
+type Tblkcnt_t = int64
+
+type Tblksize_t = int32
+
+type Tgid_t = uint32
+
+type Tin_addr_t = uint32
+
+type Tin_port_t = uint16
+
+type Tino_t = uint64
+
+type Tino64_t = uint64
+
+type Tkey_t = int32
+
+type Tnlink_t = uint16
+
+type Tsegsz_t = int32
+
+type Tswblk_t = int32
+
+type Tclock_t = uint64
+
+type Tssize_t = int64
+
+type Ttime_t = int64
+
+type Tuseconds_t = uint32
+
+type Tsuseconds_t = int32
+
+type Trsize_t = uint64
+
+type Tfd_set = struct {
+	Ffds_bits [32]t__int32_t
+}
+
+type Tfd_mask = int32
+
+type Tpthread_cond_t = struct {
+	F__sig    int64
+	F__opaque [40]int8
+}
+
+type Tpthread_condattr_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type Tpthread_mutex_t = struct {
+	F__sig    int64
+	F__opaque [56]int8
+}
+
+type Tpthread_mutexattr_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type Tpthread_once_t = struct {
+	F__sig    int64
+	F__opaque [8]int8
+}
+
+type Tpthread_rwlock_t = struct {
+	F__sig    int64
+	F__opaque [192]int8
+}
+
+type Tpthread_rwlockattr_t = struct {
+	F__sig    int64
+	F__opaque [16]int8
+}
+
+type Tpthread_t = uintptr
+
+type Tpthread_key_t = uint64
+
+type Tfsblkcnt_t = uint32
+
+type Tfsfilcnt_t = uint32
+
+type Tva_list = uintptr
+
+type Tfpos_t = int64
+
+type t__sbuf = struct {
+	F_base uintptr
+	F_size int32
+}
+
+type TFILE = struct {
+	F_p       uintptr
+	F_r       int32
+	F_w       int32
+	F_flags   int16
+	F_file    int16
+	F_bf      t__sbuf
+	F_lbfsize int32
+	F_cookie  uintptr
+	F_close   uintptr
+	F_read    uintptr
+	F_seek    uintptr
+	F_write   uintptr
+	F_ub      t__sbuf
+	F_extra   uintptr
+	F_ur      int32
+	F_ubuf    [3]uint8
+	F_nbuf    [1]uint8
+	F_lb      t__sbuf
+	F_blksize int32
+	F_offset  Tfpos_t
+}
+
+type t__sFILE = TFILE
+
+type Tostat = struct {
+	Fst_dev       t__uint16_t
+	Fst_ino       Tino_t
+	Fst_mode      Tmode_t
+	Fst_nlink     Tnlink_t
+	Fst_uid       t__uint16_t
+	Fst_gid       t__uint16_t
+	Fst_rdev      t__uint16_t
+	Fst_size      t__int32_t
+	Fst_atimespec Ttimespec
+	Fst_mtimespec Ttimespec
+	Fst_ctimespec Ttimespec
+	Fst_blksize   t__int32_t
+	Fst_blocks    t__int32_t
+	Fst_flags     t__uint32_t
+	Fst_gen       t__uint32_t
+}
+
+type Tstat = struct {
+	Fst_dev           Tdev_t
+	Fst_mode          Tmode_t
+	Fst_nlink         Tnlink_t
+	Fst_ino           t__darwin_ino64_t
+	Fst_uid           Tuid_t
+	Fst_gid           Tgid_t
+	Fst_rdev          Tdev_t
+	Fst_atimespec     Ttimespec
+	Fst_mtimespec     Ttimespec
+	Fst_ctimespec     Ttimespec
+	Fst_birthtimespec Ttimespec
+	Fst_size          Toff_t
+	Fst_blocks        Tblkcnt_t
+	Fst_blksize       Tblksize_t
+	Fst_flags         t__uint32_t
+	Fst_gen           t__uint32_t
+	Fst_lspare        t__int32_t
+	Fst_qspare        [2]t__int64_t
+}
+
+type Tstat64 = struct {
+	Fst_dev           Tdev_t
+	Fst_mode          Tmode_t
+	Fst_nlink         Tnlink_t
+	Fst_ino           t__darwin_ino64_t
+	Fst_uid           Tuid_t
+	Fst_gid           Tgid_t
+	Fst_rdev          Tdev_t
+	Fst_atimespec     Ttimespec
+	Fst_mtimespec     Ttimespec
+	Fst_ctimespec     Ttimespec
+	Fst_birthtimespec Ttimespec
+	Fst_size          Toff_t
+	Fst_blocks        Tblkcnt_t
+	Fst_blksize       Tblksize_t
+	Fst_flags         t__uint32_t
+	Fst_gen           t__uint32_t
+	Fst_lspare        t__int32_t
+	Fst_qspare        [2]t__int64_t
+}
+
+type Taccessx_descriptor = struct {
+	Fad_name_offset uint32
+	Fad_flags       int32
+	Fad_pad         [2]int32
+}
+
+type Tuuid_t = [16]uint8
+
+type Tdirent = struct {
+	Fd_ino     t__uint64_t
+	Fd_seekoff t__uint64_t
+	Fd_reclen  t__uint16_t
+	Fd_namlen  t__uint16_t
+	Fd_type    t__uint8_t
+	Fd_name    [1024]int8
+}
+
+type TDIR = struct {
+	F__dd_fd    int32
+	F__dd_loc   int64
+	F__dd_size  int64
+	F__dd_buf   uintptr
+	F__dd_len   int32
+	F__dd_seek  int64
+	F__padding  int64
+	F__dd_flags int32
+	F__dd_lock  t__darwin_pthread_mutex_t
+	F__dd_td    uintptr
+}
+
+func _closefrom_close(tls *libc.TLS, fd int32) {
+	bp := tls.Alloc(16)
+	defer tls.Free(16)
+	/* Avoid potential libdispatch crash when we close its fds. */
+	libc.Xfcntl(tls, fd, int32(m_F_SETFD), libc.VaList(bp+8, int32(m_FD_CLOEXEC)))
+}
+
+// C documentation
+//
+//	/*
+//	 * Close all file descriptors greater than or equal to lowfd.
+//	 * This is the expensive (fallback) method.
+//	 */
+func _closefrom_fallback(tls *libc.TLS, lowfd int32) {
+	var fd, maxfd int64
+	_, _ = fd, maxfd
+	/*
+	 * Fall back on sysconf(_SC_OPEN_MAX) or getdtablesize(). This is
+	 * equivalent to checking the RLIMIT_NOFILE soft limit. It is
+	 * possible for there to be open file descriptors past this limit
+	 * but there is not much we can do about that since the hard limit
+	 * may be RLIM_INFINITY (LLONG_MAX or ULLONG_MAX on modern systems).
+	 */
+	maxfd = libc.Xsysconf(tls, int32(m__SC_OPEN_MAX))
+	if maxfd < int64(m_OPEN_MAX) {
+		maxfd = int64(m_OPEN_MAX)
+	}
+	/* Make sure we did not get RLIM_INFINITY as the upper limit. */
+	if maxfd > int64(m___INT_MAX__) {
+		maxfd = int64(m___INT_MAX__)
+	}
+	fd = int64(lowfd)
+	for {
+		if !(fd < maxfd) {
+			break
+		}
+		_closefrom_close(tls, int32(fd))
+		goto _1
+	_1:
+		;
+		fd++
+	}
+}
+
+func _closefrom_procfs(tls *libc.TLS, lowfd int32) (r int32) {
+	bp := tls.Alloc(16)
+	defer tls.Free(16)
+	var dent, dirp, fd_array, path, ptr, v1 uintptr
+	var fd, fd_array_size, fd_array_used, i, ret, v2 int32
+	var _ /* errstr at bp+0 */ uintptr
+	_, _, _, _, _, _, _, _, _, _, _, _ = dent, dirp, fd, fd_array, fd_array_size, fd_array_used, i, path, ptr, ret, v1, v2
+	fd_array = libc.UintptrFromInt32(0)
+	fd_array_used = 0
+	fd_array_size = 0
+	ret = 0
+	/* Use /proc/self/fd (or /dev/fd on macOS) if it exists. */
+	path = __ccgo_ts
+	dirp = libc.Xopendir(tls, path)
+	if dirp == libc.UintptrFromInt32(0) {
+		return -int32(1)
+	}
+	for {
+		v1 = libc.Xreaddir(tls, dirp)
+		dent = v1
+		if !(v1 != libc.UintptrFromInt32(0)) {
+			break
+		}
+		if int32(*(*int8)(unsafe.Pointer(dent + 21))) == int32('.') {
+			continue
+		}
+		fd = int32(_strtonum(tls, dent+21, int64(lowfd), int64(m___INT_MAX__), bp))
+		if *(*uintptr)(unsafe.Pointer(bp)) != libc.UintptrFromInt32(0) || fd == _dirfd(tls, dirp) {
+			continue
+		}
+		if fd_array_used >= fd_array_size {
+			if fd_array_size > 0 {
+				fd_array_size *= int32(2)
+			} else {
+				fd_array_size = int32(32)
+			}
+			ptr = Xreallocarray(tls, fd_array, libc.Uint64FromInt32(fd_array_size), uint64(4))
+			if ptr == libc.UintptrFromInt32(0) {
+				ret = -int32(1)
+				break
+			}
+			fd_array = ptr
+		}
+		v2 = fd_array_used
+		fd_array_used++
+		*(*int32)(unsafe.Pointer(fd_array + uintptr(v2)*4)) = fd
+	}
+	i = 0
+	for {
+		if !(i < fd_array_used) {
+			break
+		}
+		_closefrom_close(tls, *(*int32)(unsafe.Pointer(fd_array + uintptr(i)*4)))
+		goto _3
+	_3:
+		;
+		i++
+	}
+	libc.Xfree(tls, fd_array)
+	libc.Xclosedir(tls, dirp)
+	return ret
+}
+
+// C documentation
+//
+//	/*
+//	 * Close all file descriptors greater than or equal to lowfd.
+//	 * We try the fast way first, falling back on the slow method.
+//	 */
+func Xclosefrom(tls *libc.TLS, lowfd int32) {
+	if lowfd < 0 {
+		lowfd = 0
+	}
+	/* Try the fast methods first, if possible. */
+	if _closefrom_procfs(tls, lowfd) != -int32(1) {
+		return
+	}
+	/* Do things the slow way. */
+	_closefrom_fallback(tls, lowfd)
+}
+
+const m_PRIX16 = "hX"
+const m_PRIX32 = "X"
+const m_PRIXFAST16 = "PRIX16"
+const m_PRIXFAST32 = "PRIX32"
+const m_PRIXFAST64 = "PRIX64"
+const m_PRIXFAST8 = "PRIX8"
+const m_PRIXLEAST16 = "PRIX16"
+const m_PRIXLEAST32 = "PRIX32"
+const m_PRIXLEAST64 = "PRIX64"
+const m_PRIXLEAST8 = "PRIX8"
+const m_PRIXPTR = "lX"
+const m_PRId16 = "hd"
+const m_PRId32 = "d"
+const m_PRIdFAST16 = "PRId16"
+const m_PRIdFAST32 = "PRId32"
+const m_PRIdFAST64 = "PRId64"
+const m_PRIdFAST8 = "PRId8"
+const m_PRIdLEAST16 = "PRId16"
+const m_PRIdLEAST32 = "PRId32"
+const m_PRIdLEAST64 = "PRId64"
+const m_PRIdLEAST8 = "PRId8"
+const m_PRIdPTR = "ld"
+const m_PRIi16 = "hi"
+const m_PRIi32 = "i"
+const m_PRIiFAST16 = "PRIi16"
+const m_PRIiFAST32 = "PRIi32"
+const m_PRIiFAST64 = "PRIi64"
+const m_PRIiFAST8 = "PRIi8"
+const m_PRIiLEAST16 = "PRIi16"
+const m_PRIiLEAST32 = "PRIi32"
+const m_PRIiLEAST64 = "PRIi64"
+const m_PRIiLEAST8 = "PRIi8"
+const m_PRIiPTR = "li"
+const m_PRIo16 = "ho"
+const m_PRIo32 = "o"
+const m_PRIoFAST16 = "PRIo16"
+const m_PRIoFAST32 = "PRIo32"
+const m_PRIoFAST64 = "PRIo64"
+const m_PRIoFAST8 = "PRIo8"
+const m_PRIoLEAST16 = "PRIo16"
+const m_PRIoLEAST32 = "PRIo32"
+const m_PRIoLEAST64 = "PRIo64"
+const m_PRIoLEAST8 = "PRIo8"
+const m_PRIoPTR = "lo"
+const m_PRIu16 = "hu"
+const m_PRIu32 = "u"
+const m_PRIuFAST16 = "PRIu16"
+const m_PRIuFAST32 = "PRIu32"
+const m_PRIuFAST64 = "PRIu64"
+const m_PRIuFAST8 = "PRIu8"
+const m_PRIuLEAST16 = "PRIu16"
+const m_PRIuLEAST32 = "PRIu32"
+const m_PRIuLEAST64 = "PRIu64"
+const m_PRIuLEAST8 = "PRIu8"
+const m_PRIuPTR = "lu"
+const m_PRIx16 = "hx"
+const m_PRIx32 = "x"
+const m_PRIxFAST16 = "PRIx16"
+const m_PRIxFAST32 = "PRIx32"
+const m_PRIxFAST64 = "PRIx64"
+const m_PRIxFAST8 = "PRIx8"
+const m_PRIxLEAST16 = "PRIx16"
+const m_PRIxLEAST32 = "PRIx32"
+const m_PRIxLEAST64 = "PRIx64"
+const m_PRIxLEAST8 = "PRIx8"
+const m_PRIxPTR = "lx"
+const m_SCNd16 = "hd"
+const m_SCNd32 = "d"
+const m_SCNdFAST16 = "SCNd16"
+const m_SCNdFAST32 = "SCNd32"
+const m_SCNdFAST64 = "SCNd64"
+const m_SCNdFAST8 = "SCNd8"
+const m_SCNdLEAST16 = "SCNd16"
+const m_SCNdLEAST32 = "SCNd32"
+const m_SCNdLEAST64 = "SCNd64"
+const m_SCNdLEAST8 = "SCNd8"
+const m_SCNdPTR = "ld"
+const m_SCNi16 = "hi"
+const m_SCNi32 = "i"
+const m_SCNiFAST16 = "SCNi16"
+const m_SCNiFAST32 = "SCNi32"
+const m_SCNiFAST64 = "SCNi64"
+const m_SCNiFAST8 = "SCNi8"
+const m_SCNiLEAST16 = "SCNi16"
+const m_SCNiLEAST32 = "SCNi32"
+const m_SCNiLEAST64 = "SCNi64"
+const m_SCNiLEAST8 = "SCNi8"
+const m_SCNiPTR = "li"
+const m_SCNo16 = "ho"
+const m_SCNo32 = "o"
+const m_SCNoFAST16 = "SCNo16"
+const m_SCNoFAST32 = "SCNo32"
+const m_SCNoFAST64 = "SCNo64"
+const m_SCNoFAST8 = "SCNo8"
+const m_SCNoLEAST16 = "SCNo16"
+const m_SCNoLEAST32 = "SCNo32"
+const m_SCNoLEAST64 = "SCNo64"
+const m_SCNoLEAST8 = "SCNo8"
+const m_SCNoPTR = "lo"
+const m_SCNu16 = "hu"
+const m_SCNu32 = "u"
+const m_SCNuFAST16 = "SCNu16"
+const m_SCNuFAST32 = "SCNu32"
+const m_SCNuFAST64 = "SCNu64"
+const m_SCNuFAST8 = "SCNu8"
+const m_SCNuLEAST16 = "SCNu16"
+const m_SCNuLEAST32 = "SCNu32"
+const m_SCNuLEAST64 = "SCNu64"
+const m_SCNuLEAST8 = "SCNu8"
+const m_SCNuPTR = "lu"
+const m_SCNx16 = "hx"
+const m_SCNx32 = "x"
+const m_SCNxFAST16 = "SCNx16"
+const m_SCNxFAST32 = "SCNx32"
+const m_SCNxFAST64 = "SCNx64"
+const m_SCNxFAST8 = "SCNx8"
+const m_SCNxLEAST16 = "SCNx16"
+const m_SCNxLEAST32 = "SCNx32"
+const m_SCNxLEAST64 = "SCNx64"
+const m_SCNxLEAST8 = "SCNx8"
+const m_SCNxPTR = "lx"
+const m__CTYPE_A = 256
+const m__CTYPE_B = 131072
+const m__CTYPE_C = 512
+const m__CTYPE_D = 1024
+const m__CTYPE_G = 2048
+const m__CTYPE_I = 524288
+const m__CTYPE_L = 4096
+const m__CTYPE_P = 8192
+const m__CTYPE_Q = 2097152
+const m__CTYPE_R = 262144
+const m__CTYPE_S = 16384
+const m__CTYPE_SW0 = 0x20000000
+const m__CTYPE_SW1 = 0x40000000
+const m__CTYPE_SW2 = 0x80000000
+const m__CTYPE_SW3 = 0xc0000000
+const m__CTYPE_SWM = 3758096384
+const m__CTYPE_SWS = 30
+const m__CTYPE_T = 1048576
+const m__CTYPE_U = 32768
+const m__CTYPE_X = 65536
+const m__RUNE_MAGIC_A = "RuneMagA"
+const m___DARWIN_CTYPE_TOP_inline = "__header_inline"
+const m___DARWIN_CTYPE_inline = "__header_inline"
+const m___PRI_64_LENGTH_MODIFIER__ = "ll"
+const m___PRI_8_LENGTH_MODIFIER__ = "hh"
+const m___PRI_MAX_LENGTH_MODIFIER__ = "j"
+const m___SCN_64_LENGTH_MODIFIER__ = "ll"
+const m___SCN_MAX_LENGTH_MODIFIER__ = "j"
+
+type Twint_t = int32
+
+type T_RuneEntry = struct {
+	F__min   t__darwin_rune_t
+	F__max   t__darwin_rune_t
+	F__map   t__darwin_rune_t
+	F__types uintptr
+}
+
+type T_RuneRange = struct {
+	F__nranges int32
+	F__ranges  uintptr
+}
+
+type T_RuneCharClass = struct {
+	F__name [14]int8
+	F__mask t__uint32_t
+}
+
+type T_RuneLocale = struct {
+	F__magic        [8]int8
+	F__encoding     [32]int8
+	F__sgetrune     uintptr
+	F__sputrune     uintptr
+	F__invalid_rune t__darwin_rune_t
+	F__runetype     [256]t__uint32_t
+	F__maplower     [256]t__darwin_rune_t
+	F__mapupper     [256]t__darwin_rune_t
+	F__runetype_ext T_RuneRange
+	F__maplower_ext T_RuneRange
+	F__mapupper_ext T_RuneRange
+	F__variable     uintptr
+	F__variable_len int32
+	F__ncharclasses int32
+	F__charclasses  uintptr
+}
+
+type Timaxdiv_t = struct {
+	Fquot Tintmax_t
+	Frem  Tintmax_t
+}
+
+/* Values for humanize_number(3)'s flags parameter. */
+
+/* Values for humanize_number(3)'s scale parameter. */
+
+/*
+ * fparseln() specific operation flags.
+ */
+
+/*===---- stdint.h - Standard header for sized integer types --------------===* *
+ * Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+ * See https://llvm.org/LICENSE.txt for license information.
+ * SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+ *
+\*===----------------------------------------------------------------------===*/
+
+// C documentation
+//
+//	/*
+//	 * Convert an expression of the following forms to a uint64_t.
+//	 *	1) A positive decimal number.
+//	 *	2) A positive decimal number followed by a 'b' or 'B' (mult by 1).
+//	 *	3) A positive decimal number followed by a 'k' or 'K' (mult by 1 << 10).
+//	 *	4) A positive decimal number followed by a 'm' or 'M' (mult by 1 << 20).
+//	 *	5) A positive decimal number followed by a 'g' or 'G' (mult by 1 << 30).
+//	 *	6) A positive decimal number followed by a 't' or 'T' (mult by 1 << 40).
+//	 *	7) A positive decimal number followed by a 'p' or 'P' (mult by 1 << 50).
+//	 *	8) A positive decimal number followed by a 'e' or 'E' (mult by 1 << 60).
+//	 */
+func Xexpand_number(tls *libc.TLS, buf uintptr, num uintptr) (r int32) {
+	bp := tls.Alloc(16)
+	defer tls.Free(16)
+	var number Tuint64_t
+	var shift uint32
+	var v1 int32
+	var _ /* endptr at bp+0 */ uintptr
+	_, _, _ = number, shift, v1
+	number = uint64(libc.Xstrtoumax(tls, buf, bp, 0))
+	if *(*uintptr)(unsafe.Pointer(bp)) == buf {
+		/* No valid digits. */
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_EINVAL)
+		return -int32(1)
+	}
+	v1 = libc.X__tolower(tls, libc.Int32FromUint8(libc.Uint8FromInt8(*(*int8)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(bp)))))))
+	goto _2
+_2:
+	switch v1 {
+	case int32('e'):
+		shift = uint32(60)
+	case int32('p'):
+		shift = uint32(50)
+	case int32('t'):
+		shift = uint32(40)
+	case int32('g'):
+		shift = uint32(30)
+	case int32('m'):
+		shift = uint32(20)
+	case int32('k'):
+		shift = uint32(10)
+	case int32('b'):
+		fallthrough
+	case int32('\000'): /* No unit. */
+		*(*Tuint64_t)(unsafe.Pointer(num)) = number
+		return 0
+	default:
+		/* Unrecognized unit. */
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_EINVAL)
+		return -int32(1)
+	}
+	if number<<shift>>shift != number {
+		/* Overflow */
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_ERANGE)
+		return -int32(1)
+	}
+	*(*Tuint64_t)(unsafe.Pointer(num)) = number << shift
+	return 0
+}
+
+func X__explicit_bzero_hook(tls *libc.TLS, buf uintptr, len1 Tsize_t) {
+}
+
+func Xexplicit_bzero(tls *libc.TLS, buf uintptr, len1 Tsize_t) {
+	libc.X__builtin___memset_chk(tls, buf, 0, len1, ^t__predefined_size_t(0))
+	X__explicit_bzero_hook(tls, buf, len1)
+}
+
+const m_LOCK_EX1 = 2
+const m_LOCK_NB1 = 4
+const m_O_CREAT1 = 512
+const m_O_EXLOCK1 = 32
+const m_O_NONBLOCK1 = 4
+const m_O_TRUNC1 = 1024
+
+type Tkauth_cred_t = uintptr
+
+type Tposix_cred_t = uintptr
+
+type t__gnuc_va_list = uintptr
+
+/* Values for humanize_number(3)'s flags parameter. */
+
+/* Values for humanize_number(3)'s scale parameter. */
+
+/*
+ * fparseln() specific operation flags.
+ */
+
+func _lock_file(tls *libc.TLS, fd int32, flags int32) (r int32) {
+	var operation int32
+	_ = operation
+	operation = int32(m_LOCK_EX1)
+	if flags&int32(m_O_NONBLOCK1) != 0 {
+		operation |= int32(m_LOCK_NB1)
+	}
+	return libc.Xflock(tls, fd, operation)
+}
+
+// C documentation
+//
+//	/*
+//	 * Reliably open and lock a file.
+//	 *
+//	 * Please do not modify this code without first reading the revision history
+//	 * and discussing your changes with <des@freebsd.org>.  Don't be fooled by the
+//	 * code's apparent simplicity; there would be no need for this function if it
+//	 * was easy to get right.
+//	 */
+func _vflopenat(tls *libc.TLS, dirfd int32, path uintptr, flags int32, ap Tva_list) (r int32) {
+	bp := tls.Alloc(304)
+	defer tls.Free(304)
+	var fd, serrno, trunc, v2 int32
+	var mode Tmode_t
+	var _ /* fsb at bp+144 */ Tstat
+	var _ /* sb at bp+0 */ Tstat
+	_, _, _, _, _ = fd, mode, serrno, trunc, v2
+	flags &= ^libc.Int32FromInt32(m_O_EXLOCK1)
+	mode = uint16(0)
+	if flags&int32(m_O_CREAT1) != 0 {
+		mode = libc.Uint16FromInt32(libc.VaInt32(&ap)) /* mode_t promoted to int */
+	}
+	trunc = flags & int32(m_O_TRUNC1)
+	flags &= ^libc.Int32FromInt32(m_O_TRUNC1)
+	for {
+		v2 = _openat(tls, dirfd, path, flags, libc.VaList(bp+296, libc.Int32FromUint16(mode)))
+		fd = v2
+		if v2 == -int32(1) {
+			/* non-existent or no access */
+			return -int32(1)
+		}
+		if _lock_file(tls, fd, flags) == -int32(1) {
+			/* unsupported or interrupted */
+			serrno = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+			libc.Xclose(tls, fd)
+			*(*int32)(unsafe.Pointer(libc.X__error(tls))) = serrno
+			return -int32(1)
+		}
+		if _fstatat(tls, dirfd, path, bp, 0) == -int32(1) {
+			/* disappeared from under our feet */
+			libc.Xclose(tls, fd)
+			goto _1
+		}
+		if libc.Xfstat(tls, fd, bp+144) == -int32(1) {
+			/* can't happen [tm] */
+			serrno = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+			libc.Xclose(tls, fd)
+			*(*int32)(unsafe.Pointer(libc.X__error(tls))) = serrno
+			return -int32(1)
+		}
+		if (*(*Tstat)(unsafe.Pointer(bp))).Fst_dev != (*(*Tstat)(unsafe.Pointer(bp + 144))).Fst_dev || (*(*Tstat)(unsafe.Pointer(bp))).Fst_ino != (*(*Tstat)(unsafe.Pointer(bp + 144))).Fst_ino {
+			/* changed under our feet */
+			libc.Xclose(tls, fd)
+			goto _1
+		}
+		if trunc != 0 && libc.Xftruncate(tls, fd, 0) != 0 {
+			/* can't happen [tm] */
+			serrno = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+			libc.Xclose(tls, fd)
+			*(*int32)(unsafe.Pointer(libc.X__error(tls))) = serrno
+			return -int32(1)
+		}
+		/*
+		 * The following change is provided as a specific example to
+		 * avoid.
+		 */
+		return fd
+		goto _1
+	_1:
+	}
+	return r
+}
+
+func Xflopen(tls *libc.TLS, path uintptr, flags int32, va uintptr) (r int32) {
+	var ap Tva_list
+	var ret int32
+	_, _ = ap, ret
+	ap = va
+	ret = _vflopenat(tls, -int32(2), path, flags, ap)
+	_ = ap
+	return ret
+}
+
+func Xflopenat(tls *libc.TLS, dirfd int32, path uintptr, flags int32, va uintptr) (r int32) {
+	var ap Tva_list
+	var ret int32
+	_, _ = ap, ret
+	ap = va
+	ret = _vflopenat(tls, dirfd, path, flags, ap)
+	_ = ap
+	return ret
+}
+
+func Xfreezero(tls *libc.TLS, ptr uintptr, sz Tsize_t) {
+	/* This is legal. */
+	if ptr == libc.UintptrFromInt32(0) {
+		return
+	}
+	Xexplicit_bzero(tls, ptr, sz)
+	libc.Xfree(tls, ptr)
+}
+
+const m_KB = 1024
+const m_MAXB = "GB"
+
+func Xgetbsize(tls *libc.TLS, headerlenp uintptr, blocksizep uintptr) (r uintptr) {
+	bp := tls.Alloc(32)
+	defer tls.Free(32)
+	var blocksize, max, mul, n, v15, v16, v17, v4 int64
+	var form, p, v3 uintptr
+	var _ /* ep at bp+0 */ uintptr
+	_, _, _, _, _, _, _, _, _, _, _ = blocksize, form, max, mul, n, p, v15, v16, v17, v3, v4
+	form = __ccgo_ts + 8
+	v3 = libc.Xgetenv(tls, __ccgo_ts+9)
+	p = v3
+	if !(v3 != libc.UintptrFromInt32(0) && int32(*(*int8)(unsafe.Pointer(p))) != int32('\000')) {
+		goto _1
+	}
+	v4 = libc.Xstrtol(tls, p, bp, int32(10))
+	n = v4
+	if v4 < 0 {
+		goto underflow
+	}
+	if n == 0 {
+		n = int64(1)
+	}
+	if *(*int8)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(bp)))) != 0 && *(*int8)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(bp)) + 1)) != 0 {
+		goto fmterr
+	}
+	switch int32(*(*int8)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(bp))))) {
+	case int32('g'):
+		goto _5
+	case int32('G'):
+		goto _6
+	case int32('k'):
+		goto _7
+	case int32('K'):
+		goto _8
+	case int32('m'):
+		goto _9
+	case int32('M'):
+		goto _10
+	case int32('\000'):
+		goto _11
+	default:
+		goto _12
+	}
+	goto _13
+_6:
+	;
+_5:
+	;
+	form = __ccgo_ts + 19
+	max = libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) / (libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024))
+	mul = libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024)
+	goto _13
+_8:
+	;
+_7:
+	;
+	form = __ccgo_ts + 21
+	max = libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) / libc.Int64FromInt64(1024)
+	mul = int64(1024)
+	goto _13
+_10:
+	;
+_9:
+	;
+	form = __ccgo_ts + 23
+	max = libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) / (libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024))
+	mul = libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024)
+	goto _13
+_11:
+	;
+	max = libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024)
+	mul = int64(1)
+	goto _13
+_12:
+	;
+	goto fmterr
+fmterr:
+	;
+	_warnx(tls, __ccgo_ts+25, libc.VaList(bp+16, p))
+	n = int64(512)
+	max = libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024) * libc.Int64FromInt64(1024)
+	mul = int64(1)
+	goto _13
+_13:
+	;
+	if n > max {
+		_warnx(tls, __ccgo_ts+47, libc.VaList(bp+16, libc.Int64FromInt64(1024)*libc.Int64FromInt64(1024)*libc.Int64FromInt64(1024)/(libc.Int64FromInt64(1024)*libc.Int64FromInt64(1024)*libc.Int64FromInt64(1024))))
+		n = max
+	}
+	v15 = n * mul
+	blocksize = v15
+	if !(v15 < int64(512)) {
+		goto _14
+	}
+	goto underflow
+underflow:
+	;
+	_warnx(tls, __ccgo_ts+73, 0)
+	form = __ccgo_ts + 8
+	v16 = libc.Int64FromInt32(512)
+	n = v16
+	blocksize = v16
+_14:
+	;
+	goto _2
+_1:
+	;
+	v17 = libc.Int64FromInt32(512)
+	n = v17
+	blocksize = v17
+_2:
+	;
+	libc.X__builtin___snprintf_chk(tls, uintptr(unsafe.Pointer(&_header)), uint64(20), 0, ^t__predefined_size_t(0), __ccgo_ts+98, libc.VaList(bp+16, n, form))
+	*(*int32)(unsafe.Pointer(headerlenp)) = libc.Int32FromUint64(libc.Xstrlen(tls, uintptr(unsafe.Pointer(&_header))))
+	*(*int64)(unsafe.Pointer(blocksizep)) = blocksize
+	return uintptr(unsafe.Pointer(&_header))
+}
+
+var _header [20]int8
+
+func Xdehumanize_number(tls *libc.TLS, buf uintptr, num uintptr) (r int32) {
+	bp := tls.Alloc(16)
+	defer tls.Free(16)
+	var rc, sign, v1, v5, v7, v8 int32
+	var rmax Tuint64_t
+	var v3 t__darwin_ct_rune_t
+	var v4 uint64
+	var _ /* rval at bp+0 */ Tuint64_t
+	_, _, _, _, _, _, _, _, _ = rc, rmax, sign, v1, v3, v4, v5, v7, v8
+	sign = +libc.Int32FromInt32(1)
+	/* The current expand_number() implementation uses bit shifts, so
+	 * we cannot pass negative numbers, preserve the sign and apply it
+	 * later. */
+	for {
+		v3 = int32(*(*int8)(unsafe.Pointer(buf)))
+		v4 = uint64(0x00004000)
+		v8 = libc.BoolInt32(v3 & ^libc.Int32FromInt32(0x7F) == 0)
+		goto _9
+	_9:
+		if v8 != 0 {
+			v7 = libc.BoolInt32(!!(uint64(*(*t__uint32_t)(unsafe.Pointer(uintptr(unsafe.Pointer(&libc.X_DefaultRuneLocale)) + 60 + uintptr(v3)*4)))&v4 != 0))
+		} else {
+			v7 = libc.BoolInt32(!!(libc.X__maskrune(tls, v3, v4) != 0))
+		}
+		v5 = v7
+		goto _6
+	_6:
+		v1 = v5
+		goto _2
+	_2:
+		if !(v1 != 0) {
+			break
+		}
+		buf++
+	}
+	if int32(*(*int8)(unsafe.Pointer(buf))) == int32('-') {
+		sign = -int32(1)
+		buf++
+	}
+	rc = Xexpand_number(tls, buf, bp)
+	if rc < 0 {
+		return rc
+	}
+	/* The sign has been stripped, so rval has the absolute value.
+	 * Error out, regardless of the sign, if rval is greater than
+	 * abs(INT64_MIN) (== INT64_MAX + 1), or if the sign is positive
+	 * and the value has overflown by one (INT64_MAX + 1). */
+	rmax = libc.Uint64FromInt64(9223372036854775807) + libc.Uint64FromUint64(1)
+	if *(*Tuint64_t)(unsafe.Pointer(bp)) > rmax || *(*Tuint64_t)(unsafe.Pointer(bp)) == rmax && sign == +libc.Int32FromInt32(1) {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_ERANGE)
+		return -int32(1)
+	}
+	*(*Tint64_t)(unsafe.Pointer(num)) = libc.Int64FromUint64(*(*Tuint64_t)(unsafe.Pointer(bp)) * libc.Uint64FromInt32(sign))
+	return 0
+}
+
+const m_HN_AUTOSCALE1 = 32
+const m_HN_B1 = 4
+const m_HN_DECIMAL1 = 1
+const m_HN_DIVISOR_10001 = 8
+const m_HN_GETSCALE1 = 16
+const m_HN_IEC_PREFIXES1 = 16
+const m_HN_NOSPACE1 = 2
+const m_LC_ALL = 0
+const m_LC_COLLATE = 1
+const m_LC_CTYPE = 2
+const m_LC_MESSAGES = 6
+const m_LC_MONETARY = 3
+const m_LC_NUMERIC = 4
+const m_LC_TIME = 5
+const m__LC_LAST = 7
+const m__LC_NUM_MASK = 6
+const m_static_assert = "_Static_assert"
+
+type Tlconv = struct {
+	Fdecimal_point      uintptr
+	Fthousands_sep      uintptr
+	Fgrouping           uintptr
+	Fint_curr_symbol    uintptr
+	Fcurrency_symbol    uintptr
+	Fmon_decimal_point  uintptr
+	Fmon_thousands_sep  uintptr
+	Fmon_grouping       uintptr
+	Fpositive_sign      uintptr
+	Fnegative_sign      uintptr
+	Fint_frac_digits    int8
+	Ffrac_digits        int8
+	Fp_cs_precedes      int8
+	Fp_sep_by_space     int8
+	Fn_cs_precedes      int8
+	Fn_sep_by_space     int8
+	Fp_sign_posn        int8
+	Fn_sign_posn        int8
+	Fint_p_cs_precedes  int8
+	Fint_n_cs_precedes  int8
+	Fint_p_sep_by_space int8
+	Fint_n_sep_by_space int8
+	Fint_p_sign_posn    int8
+	Fint_n_sign_posn    int8
+}
+
+type Tlocale_t = uintptr
+
+/*
+ * Copyright (c) 1996  Peter Wemm <peter@FreeBSD.org>.
+ * All rights reserved.
+ * Copyright (c) 2002 Networks Associates Technology, Inc.
+ * All rights reserved.
+ *
+ * Portions of this software were developed for the FreeBSD Project by
+ * ThinkSec AS and NAI Labs, the Security Research Division of Network
+ * Associates, Inc.  under DARPA/SPAWAR contract N66001-01-C-8035
+ * ("CBOSS"), as part of the DARPA CHATS research program.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, is permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. The name of the author may not be used to endorse or promote
+ *    products derived from this software without specific prior written
+ *    permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * $FreeBSD: src/lib/libutil/libutil.h,v 1.47 2008/04/23 00:49:12 scf Exp $
+ */
+
+var _maxscale = int32(6)
+
+func Xhumanize_number(tls *libc.TLS, buf uintptr, len1 Tsize_t, quotient Tint64_t, suffix uintptr, scale int32, flags int32) (r1 int32) {
+	bp := tls.Alloc(64)
+	defer tls.Free(64)
+	var baselen Tsize_t
+	var divisor, max Tint64_t
+	var divisordeccut, i, r, remainder, s1, s2, sign, v2 int32
+	var prefixes, sep uintptr
+	_, _, _, _, _, _, _, _, _, _, _, _, _ = baselen, divisor, divisordeccut, i, max, prefixes, r, remainder, s1, s2, sep, sign, v2
+	/* Since so many callers don't check -1, NUL terminate the buffer */
+	if len1 > uint64(0) {
+		*(*int8)(unsafe.Pointer(buf)) = int8('\000')
+	}
+	/* validate args */
+	if buf == libc.UintptrFromInt32(0) || suffix == libc.UintptrFromInt32(0) {
+		return -int32(1)
+	}
+	if scale < 0 {
+		return -int32(1)
+	} else {
+		if scale > _maxscale && scale & ^(libc.Int32FromInt32(m_HN_AUTOSCALE1)|libc.Int32FromInt32(m_HN_GETSCALE1)) != 0 {
+			return -int32(1)
+		}
+	}
+	if flags&int32(m_HN_DIVISOR_10001) != 0 && flags&int32(m_HN_IEC_PREFIXES1) != 0 {
+		return -int32(1)
+	}
+	/* setup parameters */
+	remainder = 0
+	if flags&int32(m_HN_IEC_PREFIXES1) != 0 {
+		baselen = uint64(2)
+		/*
+		 * Use the prefixes for power of two recommended by
+		 * the International Electrotechnical Commission
+		 * (IEC) in IEC 80000-3 (i.e. Ki, Mi, Gi...).
+		 *
+		 * HN_IEC_PREFIXES implies a divisor of 1024 here
+		 * (use of HN_DIVISOR_1000 would have triggered
+		 * an assertion earlier).
+		 */
+		divisor = int64(1024)
+		divisordeccut = int32(973) /* ceil(.95 * 1024) */
+		if flags&int32(m_HN_B1) != 0 {
+			prefixes = __ccgo_ts + 111
+		} else {
+			prefixes = __ccgo_ts + 132
+		}
+	} else {
+		baselen = uint64(1)
+		if flags&int32(m_HN_DIVISOR_10001) != 0 {
+			divisor = int64(1000)
+			divisordeccut = int32(950)
+			if flags&int32(m_HN_B1) != 0 {
+				prefixes = __ccgo_ts + 153
+			} else {
+				prefixes = __ccgo_ts + 173
+			}
+		} else {
+			divisor = int64(1024)
+			divisordeccut = int32(973) /* ceil(.95 * 1024) */
+			if flags&int32(m_HN_B1) != 0 {
+				prefixes = __ccgo_ts + 193
+			} else {
+				prefixes = __ccgo_ts + 213
+			}
+		}
+	}
+	if quotient < 0 {
+		sign = -int32(1)
+		quotient = -quotient
+		baselen += uint64(2) /* sign, digit */
+	} else {
+		sign = int32(1)
+		baselen += uint64(1) /* digit */
+	}
+	if flags&int32(m_HN_NOSPACE1) != 0 {
+		sep = __ccgo_ts + 8
+	} else {
+		sep = __ccgo_ts + 233
+		baselen++
+	}
+	baselen += libc.Xstrlen(tls, suffix)
+	/* Check if enough room for `x y' + suffix + `\0' */
+	if len1 < baselen+uint64(1) {
+		return -int32(1)
+	}
+	if scale&(libc.Int32FromInt32(m_HN_AUTOSCALE1)|libc.Int32FromInt32(m_HN_GETSCALE1)) != 0 {
+		/* See if there is additional columns can be used. */
+		max = int64(1)
+		i = libc.Int32FromUint64(len1 - baselen)
+		for {
+			v2 = i
+			i--
+			if !(v2 > 0) {
+				break
+			}
+			max *= int64(10)
+			goto _1
+		_1:
+		}
+		/*
+		 * Divide the number until it fits the given column.
+		 * If there will be an overflow by the rounding below,
+		 * divide once more.
+		 */
+		i = 0
+		for {
+			if !((quotient >= max || quotient == max-int64(1) && (remainder >= divisordeccut || int64(remainder) >= divisor/int64(2))) && i < _maxscale) {
+				break
+			}
+			remainder = int32(quotient % divisor)
+			quotient /= divisor
+			goto _3
+		_3:
+			;
+			i++
+		}
+		if scale&int32(m_HN_GETSCALE1) != 0 {
+			return i
+		}
+	} else {
+		i = 0
+		for {
+			if !(i < scale && i < _maxscale) {
+				break
+			}
+			remainder = int32(quotient % divisor)
+			quotient /= divisor
+			goto _4
+		_4:
+			;
+			i++
+		}
+	}
+	/* If a value <= 9.9 after rounding and ... */
+	/*
+	 * XXX - should we make sure there is enough space for the decimal
+	 * place and if not, don't do HN_DECIMAL?
+	 */
+	if (quotient == int64(9) && remainder < divisordeccut || quotient < int64(9)) && i > 0 && flags&int32(m_HN_DECIMAL1) != 0 {
+		s1 = int32(int64(int32(quotient)) + (int64(remainder*int32(10))+divisor/int64(2))/divisor/int64(10))
+		s2 = int32((int64(remainder*int32(10)) + divisor/int64(2)) / divisor % int64(10))
+		r = libc.X__builtin___snprintf_chk(tls, buf, len1, 0, ^t__predefined_size_t(0), __ccgo_ts+235, libc.VaList(bp+8, sign*s1, (*Tlconv)(unsafe.Pointer(libc.Xlocaleconv(tls))).Fdecimal_point, s2, sep, prefixes+uintptr(i*int32(3)), suffix))
+	} else {
+		r = libc.X__builtin___snprintf_chk(tls, buf, len1, 0, ^t__predefined_size_t(0), __ccgo_ts+248, libc.VaList(bp+8, int64(sign)*(quotient+(int64(remainder)+divisor/int64(2))/divisor), sep, prefixes+uintptr(i*int32(3)), suffix))
+	}
+	return r
+}
+
+const m_ALIGNBYTES = "__DARWIN_ALIGNBYTES"
+const m_BLKDEV_IOSIZE = 2048
+const m_BSD = 199506
+const m_BSD4_3 = 1
+const m_BSD4_4 = 1
+const m_CBLOCK = 64
+const m_CLOCK_MONOTONIC = "_CLOCK_MONOTONIC"
+const m_CLOCK_MONOTONIC_RAW = "_CLOCK_MONOTONIC_RAW"
+const m_CLOCK_MONOTONIC_RAW_APPROX = "_CLOCK_MONOTONIC_RAW_APPROX"
+const m_CLOCK_PROCESS_CPUTIME_ID = "_CLOCK_PROCESS_CPUTIME_ID"
+const m_CLOCK_REALTIME = "_CLOCK_REALTIME"
+const m_CLOCK_THREAD_CPUTIME_ID = "_CLOCK_THREAD_CPUTIME_ID"
+const m_CLOCK_UPTIME_RAW = "_CLOCK_UPTIME_RAW"
+const m_CLOCK_UPTIME_RAW_APPROX = "_CLOCK_UPTIME_RAW_APPROX"
+const m_CLOFF = "CLOFSET"
+const m_CLSIZE = 1
+const m_CLSIZELOG2 = 0
+const m_CMASK = 022
+const m_DEV_BSHIFT = 9
+const m_DEV_BSIZE = 512
+const m_FSHIFT = 11
+const m_HN_AUTOSCALE2 = 0x20
+const m_HN_B2 = 0x04
+const m_HN_DECIMAL2 = 0x01
+const m_HN_DIVISOR_10002 = 0x08
+const m_HN_GETSCALE2 = 0x10
+const m_HN_IEC_PREFIXES2 = 0x10
+const m_HN_NOSPACE2 = 0x02
+const m_LOCK_EX2 = 0x02
+const m_LOCK_NB2 = 0x04
+const m_M16KCLSHIFT = 14
+const m_MAXCOMLEN = 16
+const m_MAXDOMNAMELEN = 256
+const m_MAXFRAG = 8
+const m_MAXHOSTNAMELEN = 256
+const m_MAXINTERP = 64
+const m_MAXLOGNAME = 255
+const m_MAXPATHLEN = "PATH_MAX"
+const m_MAXPHYSIO = "MAXPHYS"
+const m_MAXPRI = 127
+const m_MAXSYMLINKS = 32
+const m_MAXUPRC = "CHILD_MAX"
+const m_MBIGCLSHIFT = 12
+const m_MCLSHIFT = 11
+const m_MSIZESHIFT = 8
+const m_NBPG = 4096
+const m_NCARGS = "ARG_MAX"
+const m_NGROUPS = "NGROUPS_MAX"
+const m_NOFILE = 256
+const m_NOGROUP = 65535
+const m_NeXTBSD = 1995064
+const m_NeXTBSD4_0 = 0
+const m_O_EXLOCK2 = 0x00000020
+const m_O_RDONLY1 = 0
+const m_O_WRONLY1 = 1
+const m_PCATCH = 0x100
+const m_PDROP = 0x400
+const m_PGSHIFT = 12
+const m_PINOD = 8
+const m_PLOCK = 36
+const m_PPAUSE = 40
+const m_PRIBIO = 16
+const m_PRIMASK = 0x0ff
+const m_PSOCK = 24
+const m_PSPIN = 0x800
+const m_PSWP = 0
+const m_PTTYBLOCK = 0x200
+const m_PUSER = 50
+const m_PVFS = 20
+const m_PVM = 4
+const m_PWAIT = 32
+const m_PZERO = 22
+const m_TIME_UTC = 1
+
+type Tpidfh = struct {
+	Fpf_fd   int32
+	Fpf_path uintptr
+	Fpf_dev  Tdev_t
+	Fpf_ino  Tino_t
+}
+
+type Ttm = struct {
+	Ftm_sec    int32
+	Ftm_min    int32
+	Ftm_hour   int32
+	Ftm_mday   int32
+	Ftm_mon    int32
+	Ftm_year   int32
+	Ftm_wday   int32
+	Ftm_yday   int32
+	Ftm_isdst  int32
+	Ftm_gmtoff int64
+	Ftm_zone   uintptr
+} //TODO "timezone" // _time.h:106:13:
+
+type Tclockid_t = int32
+
+const __CLOCK_REALTIME = 0
+const __CLOCK_MONOTONIC = 6
+const __CLOCK_MONOTONIC_RAW = 4
+const __CLOCK_MONOTONIC_RAW_APPROX = 5
+const __CLOCK_UPTIME_RAW = 8
+const __CLOCK_UPTIME_RAW_APPROX = 9
+const __CLOCK_PROCESS_CPUTIME_ID = 12
+const __CLOCK_THREAD_CPUTIME_ID = 16
+
+func _pidfile_verify(tls *libc.TLS, pfh uintptr) (r int32) {
+	bp := tls.Alloc(144)
+	defer tls.Free(144)
+	var _ /* sb at bp+0 */ Tstat
+	if pfh == libc.UintptrFromInt32(0) || (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd == -int32(1) {
+		return int32(m_EINVAL)
+	}
+	/*
+	 * Check remembered descriptor.
+	 */
+	if libc.Xfstat(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd, bp) == -int32(1) {
+		return *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	}
+	if (*(*Tstat)(unsafe.Pointer(bp))).Fst_dev != (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_dev || (*(*Tstat)(unsafe.Pointer(bp))).Fst_ino != (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_ino {
+		return int32(m_EINVAL)
+	}
+	return 0
+}
+
+func _pidfile_read(tls *libc.TLS, path uintptr, pidptr uintptr) (r int32) {
+	bp := tls.Alloc(32)
+	defer tls.Free(32)
+	var error1, fd, i int32
+	var _ /* buf at bp+0 */ [16]int8
+	var _ /* endptr at bp+16 */ uintptr
+	_, _, _ = error1, fd, i
+	fd = libc.Xopen(tls, path, m_O_RDONLY1, 0)
+	if fd == -int32(1) {
+		return *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	}
+	i = int32(libc.Xread(tls, fd, bp, libc.Uint64FromInt64(16)-libc.Uint64FromInt32(1)))
+	error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls))) /* Remember errno in case close() wants to change it. */
+	libc.Xclose(tls, fd)
+	if i == -int32(1) {
+		return error1
+	} else {
+		if i == 0 {
+			return int32(m_EAGAIN)
+		}
+	}
+	(*(*[16]int8)(unsafe.Pointer(bp)))[i] = int8('\000')
+	*(*Tpid_t)(unsafe.Pointer(pidptr)) = int32(libc.Xstrtol(tls, bp, bp+16, int32(10)))
+	if *(*uintptr)(unsafe.Pointer(bp + 16)) != bp+uintptr(i) {
+		return int32(m_EINVAL)
+	}
+	return 0
+}
+
+func Xpidfile_open(tls *libc.TLS, path uintptr, mode Tmode_t, pidptr uintptr) (r uintptr) {
+	bp := tls.Alloc(176)
+	defer tls.Free(176)
+	var count, error1, fd, len1, v2 int32
+	var pfh uintptr
+	var v3 bool
+	var _ /* rqtp at bp+144 */ Ttimespec
+	var _ /* sb at bp+0 */ Tstat
+	_, _, _, _, _, _, _ = count, error1, fd, len1, pfh, v2, v3
+	pfh = libc.Xmalloc(tls, uint64(32))
+	if pfh == libc.UintptrFromInt32(0) {
+		return libc.UintptrFromInt32(0)
+	}
+	if path == libc.UintptrFromInt32(0) {
+		len1 = _asprintf(tls, pfh+8, __ccgo_ts+259, libc.VaList(bp+168, libc.Xgetprogname(tls)))
+		if len1 < 0 {
+			libc.Xfree(tls, pfh)
+			return libc.UintptrFromInt32(0)
+		}
+	} else {
+		(*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path = libc.Xstrdup(tls, path)
+	}
+	/*
+	 * Open the PID file and obtain exclusive lock.
+	 * We truncate PID file here only to remove old PID immediately,
+	 * PID file will be truncated again in pidfile_write(), so
+	 * pidfile_write() can be called multiple times.
+	 */
+	fd = Xflopen(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path, libc.Int32FromInt32(m_O_WRONLY1)|libc.Int32FromInt32(m_O_CREAT1)|libc.Int32FromInt32(m_O_TRUNC1)|libc.Int32FromInt32(m_O_NONBLOCK1), libc.VaList(bp+168, libc.Int32FromUint16(mode)))
+	if fd == -int32(1) {
+		if *(*int32)(unsafe.Pointer(libc.X__error(tls))) == int32(m_EAGAIN) {
+			if pidptr == libc.UintptrFromInt32(0) {
+				*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_EEXIST)
+			} else {
+				count = int32(20)
+				(*(*Ttimespec)(unsafe.Pointer(bp + 144))).Ftv_sec = 0
+				(*(*Ttimespec)(unsafe.Pointer(bp + 144))).Ftv_nsec = int64(5000000)
+				for {
+					*(*int32)(unsafe.Pointer(libc.X__error(tls))) = _pidfile_read(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path, pidptr)
+					if v3 = *(*int32)(unsafe.Pointer(libc.X__error(tls))) != int32(m_EAGAIN); !v3 {
+						count--
+						v2 = count
+					}
+					if v3 || v2 == 0 {
+						break
+					}
+					libc.Xnanosleep(tls, bp+144, uintptr(0))
+					goto _1
+				_1:
+				}
+				if *(*int32)(unsafe.Pointer(libc.X__error(tls))) == int32(m_EAGAIN) {
+					*(*Tpid_t)(unsafe.Pointer(pidptr)) = -int32(1)
+				}
+				if *(*int32)(unsafe.Pointer(libc.X__error(tls))) == 0 || *(*int32)(unsafe.Pointer(libc.X__error(tls))) == int32(m_EAGAIN) {
+					*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_EEXIST)
+				}
+			}
+		}
+		error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		libc.Xfree(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path)
+		libc.Xfree(tls, pfh)
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = error1
+		return libc.UintptrFromInt32(0)
+	}
+	/*
+	 * Remember file information, so in pidfile_write() we are sure we write
+	 * to the proper descriptor.
+	 */
+	if libc.Xfstat(tls, fd, bp) == -int32(1) {
+		error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		libc.Xunlink(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path)
+		libc.Xfree(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path)
+		libc.Xclose(tls, fd)
+		libc.Xfree(tls, pfh)
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = error1
+		return libc.UintptrFromInt32(0)
+	}
+	(*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd = fd
+	(*Tpidfh)(unsafe.Pointer(pfh)).Fpf_dev = (*(*Tstat)(unsafe.Pointer(bp))).Fst_dev
+	(*Tpidfh)(unsafe.Pointer(pfh)).Fpf_ino = (*(*Tstat)(unsafe.Pointer(bp))).Fst_ino
+	return pfh
+}
+
+func Xpidfile_write(tls *libc.TLS, pfh uintptr) (r int32) {
+	bp := tls.Alloc(32)
+	defer tls.Free(32)
+	var error1, fd int32
+	var _ /* pidstr at bp+0 */ [16]int8
+	_, _ = error1, fd
+	/*
+	 * Check remembered descriptor, so we don't overwrite some other
+	 * file if pidfile was closed and descriptor reused.
+	 */
+	*(*int32)(unsafe.Pointer(libc.X__error(tls))) = _pidfile_verify(tls, pfh)
+	if *(*int32)(unsafe.Pointer(libc.X__error(tls))) != 0 {
+		/*
+		 * Don't close descriptor, because we are not sure if it's ours.
+		 */
+		return -int32(1)
+	}
+	fd = (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd
+	/*
+	 * Truncate PID file, so multiple calls of pidfile_write() are allowed.
+	 */
+	if libc.Xftruncate(tls, fd, 0) == -int32(1) {
+		error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		__pidfile_remove(tls, pfh, 0)
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = error1
+		return -int32(1)
+	}
+	libc.X__builtin___snprintf_chk(tls, bp, uint64(16), 0, ^t__predefined_size_t(0), __ccgo_ts+275, libc.VaList(bp+24, libc.Xgetpid(tls)))
+	if libc.Xpwrite(tls, fd, bp, libc.Xstrlen(tls, bp), 0) != libc.Int64FromUint64(libc.Xstrlen(tls, bp)) {
+		error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		__pidfile_remove(tls, pfh, 0)
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = error1
+		return -int32(1)
+	}
+	return 0
+}
+
+func Xpidfile_close(tls *libc.TLS, pfh uintptr) (r int32) {
+	var error1 int32
+	_ = error1
+	error1 = _pidfile_verify(tls, pfh)
+	if error1 != 0 {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = error1
+		return -int32(1)
+	}
+	if libc.Xclose(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd) == -int32(1) {
+		error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	}
+	libc.Xfree(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path)
+	libc.Xfree(tls, pfh)
+	if error1 != 0 {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = error1
+		return -int32(1)
+	}
+	return 0
+}
+
+func __pidfile_remove(tls *libc.TLS, pfh uintptr, freeit int32) (r int32) {
+	var error1 int32
+	_ = error1
+	error1 = _pidfile_verify(tls, pfh)
+	if error1 != 0 {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = error1
+		return -int32(1)
+	}
+	if libc.Xunlink(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path) == -int32(1) {
+		error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	}
+	if libc.Xclose(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd) == -int32(1) {
+		if error1 == 0 {
+			error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		}
+	}
+	if freeit != 0 {
+		libc.Xfree(tls, (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_path)
+		libc.Xfree(tls, pfh)
+	} else {
+		(*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd = -int32(1)
+	}
+	if error1 != 0 {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = error1
+		return -int32(1)
+	}
+	return 0
+}
+
+func Xpidfile_remove(tls *libc.TLS, pfh uintptr) (r int32) {
+	return __pidfile_remove(tls, pfh, int32(1))
+}
+
+func Xpidfile_fileno(tls *libc.TLS, pfh uintptr) (r int32) {
+	if pfh == libc.UintptrFromInt32(0) || (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd == -int32(1) {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_EINVAL)
+		return -int32(1)
+	}
+	return (*Tpidfh)(unsafe.Pointer(pfh)).Fpf_fd
+}
+
+const m_SPT_MAXTITLE = 255
+const m___bool_true_false_are_defined = 1
+const m_bool = "_Bool"
+const m_false = 0
+const m_true = 1
+
+type Tptrdiff_t = int64
+
+type Tmax_align_t = float64
+
+var _SPT struct {
+	Farg0   uintptr
+	Fbase   uintptr
+	Fend    uintptr
+	Fnul    uintptr
+	Fwarned uint8
+	Freset  uint8
+	Ferror1 int32
+}
+
+func _spt_min(tls *libc.TLS, a Tsize_t, b Tsize_t) (r Tsize_t) {
+	var v1 uint64
+	_ = v1
+	if a < b {
+		v1 = a
+	} else {
+		v1 = b
+	}
+	return v1
+}
+
+// C documentation
+//
+//	/*
+//	 * For discussion on the portability of the various methods, see
+//	 * https://lists.freebsd.org/pipermail/freebsd-stable/2008-June/043136.html
+//	 */
+func _spt_clearenv(tls *libc.TLS) (r int32) {
+	var tmp uintptr
+	_ = tmp
+	tmp = libc.Xmalloc(tls, uint64(8))
+	if tmp == libc.UintptrFromInt32(0) {
+		return *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	}
+	*(*uintptr)(unsafe.Pointer(tmp)) = libc.UintptrFromInt32(0)
+	libc.Xenviron = tmp
+	return 0
+}
+
+func _spt_copyenv(tls *libc.TLS, envc int32, envp uintptr) (r int32) {
+	var envcopy, eq uintptr
+	var envsize, error1, i int32
+	_, _, _, _, _ = envcopy, envsize, eq, error1, i
+	if libc.Xenviron != envp {
+		return 0
+	}
+	/* Make a copy of the old environ array of pointers, in case
+	 * clearenv() or setenv() is implemented to free the internal
+	 * environ array, because we will need to access the old environ
+	 * contents to make the new copy. */
+	envsize = libc.Int32FromUint64(libc.Uint64FromInt32(envc+libc.Int32FromInt32(1)) * uint64(8))
+	envcopy = libc.Xmalloc(tls, libc.Uint64FromInt32(envsize))
+	if envcopy == libc.UintptrFromInt32(0) {
+		return *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	}
+	libc.X__builtin___memcpy_chk(tls, envcopy, envp, libc.Uint64FromInt32(envsize), ^t__predefined_size_t(0))
+	error1 = _spt_clearenv(tls)
+	if error1 != 0 {
+		libc.Xenviron = envp
+		libc.Xfree(tls, envcopy)
+		return error1
+	}
+	i = 0
+	for {
+		if !(*(*uintptr)(unsafe.Pointer(envcopy + uintptr(i)*8)) != 0) {
+			break
+		}
+		eq = libc.Xstrchr(tls, *(*uintptr)(unsafe.Pointer(envcopy + uintptr(i)*8)), int32('='))
+		if eq == libc.UintptrFromInt32(0) {
+			goto _1
+		}
+		*(*int8)(unsafe.Pointer(eq)) = int8('\000')
+		if libc.Xsetenv(tls, *(*uintptr)(unsafe.Pointer(envcopy + uintptr(i)*8)), eq+uintptr(1), int32(1)) < 0 {
+			error1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		}
+		*(*int8)(unsafe.Pointer(eq)) = int8('=')
+		if error1 != 0 {
+			libc.Xenviron = envp
+			libc.Xfree(tls, envcopy)
+			return error1
+		}
+		goto _1
+	_1:
+		;
+		i++
+	}
+	/* Dispose of the shallow copy, now that we've finished transfering
+	 * the old environment. */
+	libc.Xfree(tls, envcopy)
+	return 0
+}
+
+func _spt_copyargs(tls *libc.TLS, argc int32, argv uintptr) (r int32) {
+	var i int32
+	var tmp uintptr
+	_, _ = i, tmp
+	i = int32(1)
+	for {
+		if !(i < argc || i >= argc && *(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)) != 0) {
+			break
+		}
+		if *(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)) == libc.UintptrFromInt32(0) {
+			goto _1
+		}
+		tmp = libc.Xstrdup(tls, *(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)))
+		if tmp == libc.UintptrFromInt32(0) {
+			return *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		}
+		*(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)) = tmp
+		goto _1
+	_1:
+		;
+		i++
+	}
+	return 0
+}
+
+func Xsetproctitle_init(tls *libc.TLS, argc int32, argv uintptr, envp uintptr) {
+	var base, end, nul, tmp uintptr
+	var envc, error1, i int32
+	_, _, _, _, _, _, _ = base, end, envc, error1, i, nul, tmp
+	/* Try to make sure we got called with main() arguments. */
+	if argc < 0 {
+		return
+	}
+	base = *(*uintptr)(unsafe.Pointer(argv))
+	if base == libc.UintptrFromInt32(0) {
+		return
+	}
+	nul = base + uintptr(libc.Xstrlen(tls, base))
+	end = nul + uintptr(1)
+	i = 0
+	for {
+		if !(i < argc || i >= argc && *(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)) != 0) {
+			break
+		}
+		if *(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)) == libc.UintptrFromInt32(0) || *(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)) != end {
+			goto _1
+		}
+		end = *(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)) + uintptr(libc.Xstrlen(tls, *(*uintptr)(unsafe.Pointer(argv + uintptr(i)*8)))) + uintptr(1)
+		goto _1
+	_1:
+		;
+		i++
+	}
+	i = 0
+	for {
+		if !(*(*uintptr)(unsafe.Pointer(envp + uintptr(i)*8)) != 0) {
+			break
+		}
+		if *(*uintptr)(unsafe.Pointer(envp + uintptr(i)*8)) != end {
+			goto _2
+		}
+		end = *(*uintptr)(unsafe.Pointer(envp + uintptr(i)*8)) + uintptr(libc.Xstrlen(tls, *(*uintptr)(unsafe.Pointer(envp + uintptr(i)*8)))) + uintptr(1)
+		goto _2
+	_2:
+		;
+		i++
+	}
+	envc = i
+	_SPT.Farg0 = libc.Xstrdup(tls, *(*uintptr)(unsafe.Pointer(argv)))
+	if _SPT.Farg0 == libc.UintptrFromInt32(0) {
+		_SPT.Ferror1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		return
+	}
+	tmp = libc.Xstrdup(tls, libc.Xgetprogname(tls))
+	if tmp == libc.UintptrFromInt32(0) {
+		_SPT.Ferror1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		return
+	}
+	_setprogname(tls, tmp)
+	error1 = _spt_copyenv(tls, envc, envp)
+	if error1 != 0 {
+		_SPT.Ferror1 = error1
+		return
+	}
+	error1 = _spt_copyargs(tls, argc, argv)
+	if error1 != 0 {
+		_SPT.Ferror1 = error1
+		return
+	}
+	_SPT.Fnul = nul
+	_SPT.Fbase = base
+	_SPT.Fend = end
+}
+
+func Xsetproctitle_impl(tls *libc.TLS, fmt uintptr, va uintptr) {
+	bp := tls.Alloc(272)
+	defer tls.Free(272)
+	var ap Tva_list
+	var len1 int32
+	var nul, v1 uintptr
+	var _ /* buf at bp+0 */ [256]int8
+	_, _, _, _ = ap, len1, nul, v1
+	if _SPT.Fbase == libc.UintptrFromInt32(0) {
+		if !(_SPT.Fwarned != 0) {
+			_warnx(tls, __ccgo_ts+278, 0)
+			_SPT.Fwarned = uint8(m_true)
+		}
+		return
+	}
+	if fmt != 0 {
+		if int32(*(*int8)(unsafe.Pointer(fmt))) == int32('-') {
+			/* Skip program name prefix. */
+			fmt++
+			len1 = 0
+		} else {
+			/* Print program name heading for grep. */
+			libc.X__builtin___snprintf_chk(tls, bp, uint64(256), 0, ^t__predefined_size_t(0), __ccgo_ts+376, libc.VaList(bp+264, libc.Xgetprogname(tls)))
+			len1 = libc.Int32FromUint64(libc.Xstrlen(tls, bp))
+		}
+		ap = va
+		len1 += libc.X__builtin___vsnprintf_chk(tls, bp+uintptr(len1), uint64(256)-libc.Uint64FromInt32(len1), 0, ^t__predefined_size_t(0), fmt, ap)
+		_ = ap
+	} else {
+		len1 = libc.X__builtin___snprintf_chk(tls, bp, uint64(256), 0, ^t__predefined_size_t(0), __ccgo_ts+381, libc.VaList(bp+264, _SPT.Farg0))
+	}
+	if len1 <= 0 {
+		_SPT.Ferror1 = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+		return
+	}
+	if !(_SPT.Freset != 0) {
+		libc.X__builtin___memset_chk(tls, _SPT.Fbase, 0, libc.Uint64FromInt64(int64(_SPT.Fend)-int64(_SPT.Fbase)), ^t__predefined_size_t(0))
+		_SPT.Freset = uint8(m_true)
+	} else {
+		libc.X__builtin___memset_chk(tls, _SPT.Fbase, 0, _spt_min(tls, uint64(256), libc.Uint64FromInt64(int64(_SPT.Fend)-int64(_SPT.Fbase))), ^t__predefined_size_t(0))
+	}
+	len1 = libc.Int32FromUint64(_spt_min(tls, libc.Uint64FromInt32(len1), _spt_min(tls, uint64(256), libc.Uint64FromInt64(int64(_SPT.Fend)-int64(_SPT.Fbase)))-uint64(1)))
+	libc.X__builtin___memcpy_chk(tls, _SPT.Fbase, bp, libc.Uint64FromInt32(len1), ^t__predefined_size_t(0))
+	nul = _SPT.Fbase + uintptr(len1)
+	if nul < _SPT.Fnul {
+		*(*int8)(unsafe.Pointer(_SPT.Fnul)) = int8('.')
+	} else {
+		if nul == _SPT.Fnul && nul+uintptr(1) < _SPT.Fend {
+			*(*int8)(unsafe.Pointer(_SPT.Fnul)) = int8(' ')
+			nul++
+			v1 = nul
+			*(*int8)(unsafe.Pointer(v1)) = int8('\000')
+		}
+	}
+}
+
+const m_GID_SZ = 251
+const m_GNMLEN = 32
+const m_GNM_SZ = 251
+const m_INVALID = 2
+const m_UID_SZ = 317
+const m_UNMLEN = 32
+const m_UNM_SZ = 317
+const m_VALID = 1
+const m__MASTERPASSWD = "master.passwd"
+const m__MP_DB = "pwd.db"
+const m__PASSWD = "passwd"
+const m__PASSWORD_EFMT1 = '_'
+const m__PASSWORD_LEN = 128
+const m__PASSWORD_NOCHG = 0x04
+const m__PASSWORD_NOEXP = 0x08
+const m__PASSWORD_NOGID = 0x02
+const m__PASSWORD_NOUID = 0x01
+const m__PASSWORD_WARNDAYS = 14
+const m__PATH_GROUP = "/etc/group"
+const m__PATH_MASTERPASSWD = "/etc/master.passwd"
+const m__PATH_MASTERPASSWD_LOCK = "/etc/ptmp"
+const m__PATH_MP_DB = "/etc/pwd.db"
+const m__PATH_PASSWD = "/etc/passwd"
+const m__PATH_PWD = "/etc"
+const m__PATH_PWD_MKDB = "/usr/sbin/pwd_mkdb"
+const m__PATH_SMP_DB = "/etc/spwd.db"
+const m__PW_BUF_LEN = 1024
+const m__PW_KEYBYNAME = '1'
+const m__PW_KEYBYNUM = '2'
+const m__PW_KEYBYUID = '3'
+const m__SMP_DB = "spwd.db"
+
+type Tgroup = struct {
+	Fgr_name   uintptr
+	Fgr_passwd uintptr
+	Fgr_gid    Tgid_t
+	Fgr_mem    uintptr
+}
+
+type Tuuid_string_t = [37]int8
+
+var _UUID_NULL = Tuuid_t{}
+
+type Tpasswd = struct {
+	Fpw_name   uintptr
+	Fpw_passwd uintptr
+	Fpw_uid    Tuid_t
+	Fpw_gid    Tgid_t
+	Fpw_change t__darwin_time_t
+	Fpw_class  uintptr
+	Fpw_gecos  uintptr
+	Fpw_dir    uintptr
+	Fpw_shell  uintptr
+	Fpw_expire t__darwin_time_t
+}
+
+/*
+ * Constants and data structures used to implement group and password file
+ * caches.  Name lengths have been chosen to be as large as those supported
+ * by the passwd and group files as well as the standard archive formats.
+ * CACHE SIZES MUST BE PRIME
+ */
+
+/*
+ * Node structures used in the user, group, uid, and gid caches.
+ */
+
+type TUIDC = struct {
+	Fvalid int32
+	Fname  [32]int8
+	Fuid   Tuid_t
+}
+
+/*
+ * Constants and data structures used to implement group and password file
+ * caches.  Name lengths have been chosen to be as large as those supported
+ * by the passwd and group files as well as the standard archive formats.
+ * CACHE SIZES MUST BE PRIME
+ */
+
+/*
+ * Node structures used in the user, group, uid, and gid caches.
+ */
+
+type Tuidc = TUIDC
+
+type TGIDC = struct {
+	Fvalid int32
+	Fname  [32]int8
+	Fgid   Tgid_t
+}
+
+type Tgidc = TGIDC
+
+/*
+ * Routines that control user, group, uid and gid caches.
+ * Traditional passwd/group cache routines perform quite poorly with
+ * archives. The chances of hitting a valid lookup with an archive is quite a
+ * bit worse than with files already resident on the file system. These misses
+ * create a MAJOR performance cost. To adress this problem, these routines
+ * cache both hits and misses.
+ */
+
+var _usrtb uintptr /* user name to uid cache */
+var _grptb uintptr /* group name to gid cache */
+
+func _st_hash(tls *libc.TLS, name uintptr, len1 Tsize_t, tabsz int32) (r Tu_int) {
+	var key Tu_int
+	var v1 Tsize_t
+	var v2 uintptr
+	_, _, _ = key, v1, v2
+	key = uint32(0)
+	for {
+		v1 = len1
+		len1--
+		if !(v1 != 0) {
+			break
+		}
+		v2 = name
+		name++
+		key += libc.Uint32FromInt8(*(*int8)(unsafe.Pointer(v2)))
+		key = key<<libc.Int32FromInt32(8) | key>>libc.Int32FromInt32(24)
+	}
+	return key % libc.Uint32FromInt32(tabsz)
+}
+
+// C documentation
+//
+//	/*
+//	 * usrtb_start
+//	 *	creates an an empty usrtb
+//	 * Return:
+//	 *	0 if ok, -1 otherwise
+//	 */
+func _usrtb_start(tls *libc.TLS) (r int32) {
+	var v1 uintptr
+	_ = v1
+	if _usrtb != libc.UintptrFromInt32(0) {
+		return 0
+	}
+	if _fail != 0 {
+		return -int32(1)
+	}
+	v1 = libc.Xcalloc(tls, uint64(m_UNM_SZ), uint64(8))
+	_usrtb = v1
+	if v1 == libc.UintptrFromInt32(0) {
+		_fail++
+		return -int32(1)
+	}
+	return 0
+}
+
+var _fail int32
+
+// C documentation
+//
+//	/*
+//	 * grptb_start
+//	 *	creates an an empty grptb
+//	 * Return:
+//	 *	0 if ok, -1 otherwise
+//	 */
+func _grptb_start(tls *libc.TLS) (r int32) {
+	var v1 uintptr
+	_ = v1
+	if _grptb != libc.UintptrFromInt32(0) {
+		return 0
+	}
+	if _fail1 != 0 {
+		return -int32(1)
+	}
+	v1 = libc.Xcalloc(tls, uint64(m_GNM_SZ), uint64(8))
+	_grptb = v1
+	if v1 == libc.UintptrFromInt32(0) {
+		_fail1++
+		return -int32(1)
+	}
+	return 0
+}
+
+var _fail1 int32
+
+// C documentation
+//
+//	/*
+//	 * uid_from_user()
+//	 *	caches the uid for a given user name. We use a simple hash table.
+//	 * Return:
+//	 *	0 if the user name is found (filling in uid), -1 otherwise
+//	 */
+func Xuid_from_user(tls *libc.TLS, name uintptr, uid uintptr) (r int32) {
+	bp := tls.Alloc(1104)
+	defer tls.Free(1104)
+	var namelen, v1 Tsize_t
+	var pptr, ptr, v3 uintptr
+	var v2 bool
+	var v4 Tuid_t
+	var _ /* pw at bp+72 */ uintptr
+	var _ /* pwbuf at bp+80 */ [1024]int8
+	var _ /* pwstore at bp+0 */ Tpasswd
+	_, _, _, _, _, _, _ = namelen, pptr, ptr, v1, v2, v3, v4
+	*(*uintptr)(unsafe.Pointer(bp + 72)) = libc.UintptrFromInt32(0)
+	ptr = libc.UintptrFromInt32(0)
+	/*
+	 * return -1 for mangled names
+	 */
+	if v2 = name == libc.UintptrFromInt32(0); !v2 {
+		v1 = libc.Xstrlen(tls, name)
+		namelen = v1
+	}
+	if v2 || v1 == uint64(0) {
+		return -int32(1)
+	}
+	if _usrtb != libc.UintptrFromInt32(0) || _usrtb_start(tls) == 0 {
+		/*
+		 * look up in hash table, if found and valid return the uid,
+		 * if found and invalid, return a -1
+		 */
+		pptr = _usrtb + uintptr(_st_hash(tls, name, namelen, int32(m_UNM_SZ)))*8
+		ptr = *(*uintptr)(unsafe.Pointer(pptr))
+		if ptr != libc.UintptrFromInt32(0) && (*TUIDC)(unsafe.Pointer(ptr)).Fvalid > 0 && libc.Xstrcmp(tls, name, ptr+4) == 0 {
+			if (*TUIDC)(unsafe.Pointer(ptr)).Fvalid == int32(m_INVALID) {
+				return -int32(1)
+			}
+			*(*Tuid_t)(unsafe.Pointer(uid)) = (*TUIDC)(unsafe.Pointer(ptr)).Fuid
+			return 0
+		}
+		if ptr == libc.UintptrFromInt32(0) {
+			v3 = libc.Xmalloc(tls, uint64(40))
+			ptr = v3
+			*(*uintptr)(unsafe.Pointer(pptr)) = v3
+		}
+	}
+	/*
+	 * no match, look it up, if no match store it as an invalid entry,
+	 * or store the matching uid
+	 */
+	libc.Xgetpwnam_r(tls, name, bp, bp+80, uint64(1024), bp+72)
+	if ptr == libc.UintptrFromInt32(0) {
+		if *(*uintptr)(unsafe.Pointer(bp + 72)) == libc.UintptrFromInt32(0) {
+			return -int32(1)
+		}
+		*(*Tuid_t)(unsafe.Pointer(uid)) = (*Tpasswd)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(bp + 72)))).Fpw_uid
+		return 0
+	}
+	libc.Xstrlcpy(tls, ptr+4, name, uint64(32))
+	if *(*uintptr)(unsafe.Pointer(bp + 72)) == libc.UintptrFromInt32(0) {
+		(*TUIDC)(unsafe.Pointer(ptr)).Fvalid = int32(m_INVALID)
+		return -int32(1)
+	}
+	(*TUIDC)(unsafe.Pointer(ptr)).Fvalid = int32(m_VALID)
+	v4 = (*Tpasswd)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(bp + 72)))).Fpw_uid
+	(*TUIDC)(unsafe.Pointer(ptr)).Fuid = v4
+	*(*Tuid_t)(unsafe.Pointer(uid)) = v4
+	return 0
+}
+
+// C documentation
+//
+//	/*
+//	 * gid_from_group()
+//	 *	caches the gid for a given group name. We use a simple hash table.
+//	 * Return:
+//	 *	0 if the group name is found (filling in gid), -1 otherwise
+//	 */
+func Xgid_from_group(tls *libc.TLS, name uintptr, gid uintptr) (r int32) {
+	bp := tls.Alloc(2672)
+	defer tls.Free(2672)
+	var namelen, v1 Tsize_t
+	var pptr, ptr, v3 uintptr
+	var v2 bool
+	var v4 Tgid_t
+	var _ /* gr at bp+32 */ uintptr
+	var _ /* grbuf at bp+40 */ [2624]int8
+	var _ /* grstore at bp+0 */ Tgroup
+	_, _, _, _, _, _, _ = namelen, pptr, ptr, v1, v2, v3, v4
+	*(*uintptr)(unsafe.Pointer(bp + 32)) = libc.UintptrFromInt32(0)
+	ptr = libc.UintptrFromInt32(0)
+	/*
+	 * return -1 for mangled names
+	 */
+	if v2 = name == libc.UintptrFromInt32(0); !v2 {
+		v1 = libc.Xstrlen(tls, name)
+		namelen = v1
+	}
+	if v2 || v1 == uint64(0) {
+		return -int32(1)
+	}
+	if _grptb != libc.UintptrFromInt32(0) || _grptb_start(tls) == 0 {
+		/*
+		 * look up in hash table, if found and valid return the uid,
+		 * if found and invalid, return a -1
+		 */
+		pptr = _grptb + uintptr(_st_hash(tls, name, namelen, int32(m_GID_SZ)))*8
+		ptr = *(*uintptr)(unsafe.Pointer(pptr))
+		if ptr != libc.UintptrFromInt32(0) && (*TGIDC)(unsafe.Pointer(ptr)).Fvalid > 0 && libc.Xstrcmp(tls, name, ptr+4) == 0 {
+			if (*TGIDC)(unsafe.Pointer(ptr)).Fvalid == int32(m_INVALID) {
+				return -int32(1)
+			}
+			*(*Tgid_t)(unsafe.Pointer(gid)) = (*TGIDC)(unsafe.Pointer(ptr)).Fgid
+			return 0
+		}
+		if ptr == libc.UintptrFromInt32(0) {
+			v3 = libc.Xmalloc(tls, uint64(40))
+			ptr = v3
+			*(*uintptr)(unsafe.Pointer(pptr)) = v3
+		}
+	}
+	/*
+	 * no match, look it up, if no match store it as an invalid entry,
+	 * or store the matching gid
+	 */
+	libc.Xgetgrnam_r(tls, name, bp, bp+40, uint64(2624), bp+32)
+	if ptr == libc.UintptrFromInt32(0) {
+		if *(*uintptr)(unsafe.Pointer(bp + 32)) == libc.UintptrFromInt32(0) {
+			return -int32(1)
+		}
+		*(*Tgid_t)(unsafe.Pointer(gid)) = (*Tgroup)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(bp + 32)))).Fgr_gid
+		return 0
+	}
+	libc.Xstrlcpy(tls, ptr+4, name, uint64(32))
+	if *(*uintptr)(unsafe.Pointer(bp + 32)) == libc.UintptrFromInt32(0) {
+		(*TGIDC)(unsafe.Pointer(ptr)).Fvalid = int32(m_INVALID)
+		return -int32(1)
+	}
+	(*TGIDC)(unsafe.Pointer(ptr)).Fvalid = int32(m_VALID)
+	v4 = (*Tgroup)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(bp + 32)))).Fgr_gid
+	(*TGIDC)(unsafe.Pointer(ptr)).Fgid = v4
+	*(*Tgid_t)(unsafe.Pointer(gid)) = v4
+	return 0
+}
+
+/*
+ * This is sqrt(SIZE_MAX+1), as s1*s2 <= SIZE_MAX
+ * if both s1 < MUL_NO_OVERFLOW and s2 < MUL_NO_OVERFLOW
+ */
+
+func Xreallocarray(tls *libc.TLS, optr uintptr, nmemb Tsize_t, size Tsize_t) (r uintptr) {
+	if (nmemb >= libc.Uint64FromInt32(1)<<(libc.Uint64FromInt64(8)*libc.Uint64FromInt32(4)) || size >= libc.Uint64FromInt32(1)<<(libc.Uint64FromInt64(8)*libc.Uint64FromInt32(4))) && nmemb > uint64(0) && uint64(18446744073709551615)/nmemb < size {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_ENOMEM)
+		return libc.UintptrFromInt32(0)
+	}
+	return libc.Xrealloc(tls, optr, size*nmemb)
+}
+
+/*
+ * This is sqrt(SIZE_MAX+1), as s1*s2 <= SIZE_MAX
+ * if both s1 < MUL_NO_OVERFLOW and s2 < MUL_NO_OVERFLOW
+ */
+
+func Xrecallocarray(tls *libc.TLS, ptr uintptr, oldnmemb Tsize_t, newnmemb Tsize_t, size Tsize_t) (r uintptr) {
+	var d, newsize, oldsize Tsize_t
+	var newptr uintptr
+	_, _, _, _ = d, newptr, newsize, oldsize
+	if ptr == libc.UintptrFromInt32(0) {
+		return libc.Xcalloc(tls, newnmemb, size)
+	}
+	if (newnmemb >= libc.Uint64FromInt32(1)<<(libc.Uint64FromInt64(8)*libc.Uint64FromInt32(4)) || size >= libc.Uint64FromInt32(1)<<(libc.Uint64FromInt64(8)*libc.Uint64FromInt32(4))) && newnmemb > uint64(0) && uint64(18446744073709551615)/newnmemb < size {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_ENOMEM)
+		return libc.UintptrFromInt32(0)
+	}
+	newsize = newnmemb * size
+	if (oldnmemb >= libc.Uint64FromInt32(1)<<(libc.Uint64FromInt64(8)*libc.Uint64FromInt32(4)) || size >= libc.Uint64FromInt32(1)<<(libc.Uint64FromInt64(8)*libc.Uint64FromInt32(4))) && oldnmemb > uint64(0) && uint64(18446744073709551615)/oldnmemb < size {
+		*(*int32)(unsafe.Pointer(libc.X__error(tls))) = int32(m_EINVAL)
+		return libc.UintptrFromInt32(0)
+	}
+	oldsize = oldnmemb * size
+	/*
+	 * Don't bother too much if we're shrinking just a bit,
+	 * we do not shrink for series of small steps, oh well.
+	 */
+	if newsize <= oldsize {
+		d = oldsize - newsize
+		if d < oldsize/uint64(2) && d < libc.Uint64FromInt32(_getpagesize(tls)) {
+			libc.X__builtin___memset_chk(tls, ptr+uintptr(newsize), 0, d, ^t__predefined_size_t(0))
+			return ptr
+		}
+	}
+	newptr = libc.Xmalloc(tls, newsize)
+	if newptr == libc.UintptrFromInt32(0) {
+		return libc.UintptrFromInt32(0)
+	}
+	if newsize > oldsize {
+		libc.X__builtin___memcpy_chk(tls, newptr, ptr, oldsize, ^t__predefined_size_t(0))
+		libc.X__builtin___memset_chk(tls, newptr+uintptr(oldsize), 0, newsize-oldsize, ^t__predefined_size_t(0))
+	} else {
+		libc.X__builtin___memcpy_chk(tls, newptr, ptr, newsize, ^t__predefined_size_t(0))
+	}
+	Xexplicit_bzero(tls, ptr, oldsize)
+	libc.Xfree(tls, ptr)
+	return newptr
+}
+
+func Xstrtoi(tls *libc.TLS, nptr uintptr, endptr uintptr, base int32, lo Tintmax_t, hi Tintmax_t, rstatus uintptr) (r Tintmax_t) {
+	bp := tls.Alloc(16)
+	defer tls.Free(16)
+	var im Tintmax_t
+	var serrno int32
+	var _ /* ep at bp+0 */ uintptr
+	var _ /* rep at bp+8 */ int32
+	_, _ = im, serrno
+	/* endptr may be NULL */
+	if endptr == libc.UintptrFromInt32(0) {
+		endptr = bp
+	}
+	if rstatus == libc.UintptrFromInt32(0) {
+		rstatus = bp + 8
+	}
+	serrno = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	*(*int32)(unsafe.Pointer(libc.X__error(tls))) = 0
+	im = libc.Xstrtoimax(tls, nptr, endptr, base)
+	*(*int32)(unsafe.Pointer(rstatus)) = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	*(*int32)(unsafe.Pointer(libc.X__error(tls))) = serrno
+	/* No digits were found */
+	if *(*int32)(unsafe.Pointer(rstatus)) == 0 && nptr == *(*uintptr)(unsafe.Pointer(endptr)) {
+		*(*int32)(unsafe.Pointer(rstatus)) = int32(m_ECANCELED)
+	}
+	if im < lo {
+		if *(*int32)(unsafe.Pointer(rstatus)) == 0 {
+			*(*int32)(unsafe.Pointer(rstatus)) = int32(m_ERANGE)
+		}
+		return lo
+	}
+	if im > hi {
+		if *(*int32)(unsafe.Pointer(rstatus)) == 0 {
+			*(*int32)(unsafe.Pointer(rstatus)) = int32(m_ERANGE)
+		}
+		return hi
+	}
+	/* There are further characters after number */
+	if *(*int32)(unsafe.Pointer(rstatus)) == 0 && int32(*(*int8)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(endptr))))) != int32('\000') {
+		*(*int32)(unsafe.Pointer(rstatus)) = int32(m_ENOTSUP)
+	}
+	return im
+}
+
+func Xstrtou(tls *libc.TLS, nptr uintptr, endptr uintptr, base int32, lo Tuintmax_t, hi Tuintmax_t, rstatus uintptr) (r Tuintmax_t) {
+	bp := tls.Alloc(16)
+	defer tls.Free(16)
+	var im Tuintmax_t
+	var serrno int32
+	var _ /* ep at bp+0 */ uintptr
+	var _ /* rep at bp+8 */ int32
+	_, _ = im, serrno
+	/* endptr may be NULL */
+	if endptr == libc.UintptrFromInt32(0) {
+		endptr = bp
+	}
+	if rstatus == libc.UintptrFromInt32(0) {
+		rstatus = bp + 8
+	}
+	serrno = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	*(*int32)(unsafe.Pointer(libc.X__error(tls))) = 0
+	im = libc.Xstrtoumax(tls, nptr, endptr, base)
+	*(*int32)(unsafe.Pointer(rstatus)) = *(*int32)(unsafe.Pointer(libc.X__error(tls)))
+	*(*int32)(unsafe.Pointer(libc.X__error(tls))) = serrno
+	/* No digits were found */
+	if *(*int32)(unsafe.Pointer(rstatus)) == 0 && nptr == *(*uintptr)(unsafe.Pointer(endptr)) {
+		*(*int32)(unsafe.Pointer(rstatus)) = int32(m_ECANCELED)
+	}
+	if im < lo {
+		if *(*int32)(unsafe.Pointer(rstatus)) == 0 {
+			*(*int32)(unsafe.Pointer(rstatus)) = int32(m_ERANGE)
+		}
+		return lo
+	}
+	if im > hi {
+		if *(*int32)(unsafe.Pointer(rstatus)) == 0 {
+			*(*int32)(unsafe.Pointer(rstatus)) = int32(m_ERANGE)
+		}
+		return hi
+	}
+	/* There are further characters after number */
+	if *(*int32)(unsafe.Pointer(rstatus)) == 0 && int32(*(*int8)(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(endptr))))) != int32('\000') {
+		*(*int32)(unsafe.Pointer(rstatus)) = int32(m_ENOTSUP)
+	}
+	return im
+}
+
+var __ccgo_ts = (*reflect.StringHeader)(unsafe.Pointer(&__ccgo_ts1)).Data
+
+var __ccgo_ts1 = "/dev/fd\x00\x00BLOCKSIZE\x00G\x00K\x00M\x00%s: unknown blocksize\x00maximum blocksize is %ldG\x00minimum blocksize is 512\x00%ld%s-blocks\x00B\x00\x00Ki\x00Mi\x00Gi\x00Ti\x00Pi\x00Ei\x00\x00\x00\x00Ki\x00Mi\x00Gi\x00Ti\x00Pi\x00Ei\x00B\x00\x00k\x00\x00M\x00\x00G\x00\x00T\x00\x00P\x00\x00E\x00\x00\x00\x00k\x00\x00M\x00\x00G\x00\x00T\x00\x00P\x00\x00E\x00B\x00\x00K\x00\x00M\x00\x00G\x00\x00T\x00\x00P\x00\x00E\x00\x00\x00\x00K\x00\x00M\x00\x00G\x00\x00T\x00\x00P\x00\x00E\x00 \x00%d%s%d%s%s%s\x00%lld%s%s%s\x00/var/run/%s.pid\x00%u\x00setproctitle not initialized, please either call setproctitle_init() or link against libbsd-ctor.\x00%s: \x00%s\x00"

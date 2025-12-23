@@ -1,0 +1,17 @@
+{
+	"autogen": "darwin/(amd64|arm64)|linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)",
+	"autotag": "darwin/(amd64|arm64)|linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64",
+	"autoupdate": "darwin/(amd64|arm64)|linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64",
+	"download": [
+		{"re": "linux/(ppc64le|s390x)", "files": [
+			"https://download.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.gz"
+		]},
+		{"re": "linux/(amd64|arm64|loong64|386|arm)", "files": [
+			"https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz"
+		]},
+		{"re": "darwin/(amd64|arm64)|linux/riscv64", "files": [
+			"https://download.savannah.gnu.org/releases/freetype/freetype-2.13.2.tar.gz"
+		]}
+	],
+	"test": "darwin/(amd64|arm64)|linux/(amd64|arm64|loong64|ppc64le|s390x|386|arm|riscv64)|freebsd/amd64"
+}
