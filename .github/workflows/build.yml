@@ -59,21 +59,12 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git status --porcelain=v1 || true
 
-      - name: Build tk9.0 purego libs (Debian 10)
-        run: |
-          set -eux
-          sed -i '/^replace modernc.org\/tk9\.0 /d' go.mod
-          go mod download modernc.org/tk9.0
-          TK_DIR="$(go env GOPATH)/pkg/mod/$(go list -m -f '{{.Path}}@{{.Version}}' modernc.org/tk9.0)"
-          chmod -R u+w "$TK_DIR"
-          make -C "$TK_DIR" lib_linux_purego
-
       - name: Build for amd64
         env:
           CGO_ENABLED: "0"
           GOOS: linux
           GOARCH: amd64
-          GOFLAGS: "-mod=mod"
+          GOFLAGS: "-mod=vendor"
         run: |
           set -eux
           go version
@@ -86,7 +77,7 @@ jobs:
           CGO_ENABLED: "0"
           GOOS: linux
           GOARCH: arm64
-          GOFLAGS: "-mod=mod"
+          GOFLAGS: "-mod=vendor"
         run: |
           set -eux
           BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
