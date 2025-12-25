@@ -4,7 +4,10 @@ go 1.24.0
 
 toolchain go1.24.11
 
-require github.com/HanHan666666/go-pkg-installer v0.0.0-20251221125939-d8c6214c2431
+require (
+	github.com/HanHan666666/go-pkg-installer v0.0.0-20251221125939-d8c6214c2431
+	modernc.org/tk9.0 v1.73.0
+)
 
 // replace github.com/HanHan666666/go-pkg-installer => /home/han/go-pkg-installer
 
@@ -52,7 +55,6 @@ require (
 	modernc.org/sortutil v1.2.1 // indirect
 	modernc.org/strutil v1.2.1 // indirect
 	modernc.org/tcl9.0 v0.16.23 // indirect
-	modernc.org/tk9.0 v1.73.0 // indirect
 	modernc.org/token v1.1.0 // indirect
 )
 

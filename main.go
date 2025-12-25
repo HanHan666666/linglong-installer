@@ -257,6 +257,7 @@ func loadAndValidateConfig(content []byte) (*core.Config, error) {
 func runGUI(ctx *core.InstallContext, workflow *core.Workflow, eventBus *core.EventBus) {
 	// Create installer window
 	win := ui.NewInstallerWindow(ctx, workflow, eventBus)
+	win.RegisterScreenRenderer("linglongVersion", NewLinglongVersionScreen)
 
 	// Set callbacks
 	win.OnComplete(func() {

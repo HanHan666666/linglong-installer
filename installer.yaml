@@ -45,6 +45,16 @@ flows:
             expected: true
             message: "当前发行版不在支持列表，无法继续。"
 
+      - id: linglong_version
+        title: "检查玲珑版本"
+        screen:
+          type: go:linglongVersion
+          title: "检查玲珑版本"
+          description: "检测结果如下："
+          content: |
+            当前检测到的玲珑版本：${linglong.version}
+            最低要求版本：${linglong.min_version}
+
       - id: confirm
         title: "确认安装"
         screen:
@@ -82,7 +92,7 @@ flows:
         tasks:
           - type: shell
             command: "bash"
-            args: ["${distro.script}"]
+            args: ["${distro.script}","回到终端输入密码以继续安装"]
 
           - type: shell
             command: "bash"
