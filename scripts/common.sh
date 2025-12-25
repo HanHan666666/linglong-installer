@@ -24,12 +24,27 @@ require_root() {
     fi
     script_path="$(cd "$(dirname "${script_path}")" && pwd)/$(basename "${script_path}")"
 
-    if command -v pkexec >/dev/null 2>&1; then
-        exec pkexec env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
+    local has_session=""
+    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ] || [ -n "${DBUS_SESSION_BUS_ADDRESS:-}" ] || [ -n "${XDG_SESSION_TYPE:-}" ] || [ -n "${XDG_SESSION_ID:-}" ]; then
+        has_session="1"
+    fi
+
+    if [ "${LLI_PREFER_PKEXEC:-}" = "1" ] && command -v pkexec >/dev/null 2>&1; then
+        if [ -n "${has_session}" ]; then
+            exec pkexec env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
+        fi
+        warn "pkexec is preferred but no desktop session detected; falling back to sudo"
     fi
 
     if command -v sudo >/dev/null 2>&1; then
         exec sudo -E env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
+    fi
+
+    if command -v pkexec >/dev/null 2>&1; then
+        if [ -n "${has_session}" ]; then
+            exec pkexec env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
+        fi
+        warn "pkexec is available but no desktop session detected"
     fi
 
     error "Root privileges are required, but pkexec/sudo is not available"
