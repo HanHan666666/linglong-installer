@@ -18,6 +18,6 @@ fi
 add_dnf_repo "https://ci.deepin.com/repo/obs/linglong:/CI:/release/openEuler_23.09/linglong%3ACI%3Arelease.repo"
 set_dnf_gpgcheck_off
 
-dnf install -y linglong-bin linyaps-web-store-installer
+dnf install -y linglong-bin linyaps-web-store-installer policykit-1
 
 check_linglong_installed

@@ -16,6 +16,6 @@ if ! linglong_needs_install; then
 fi
 
 add_dnf_repo "https://ci.deepin.com/repo/obs/linglong:/CI:/release/Fedora_42/linglong%3ACI%3Arelease.repo"
-dnf install -y linglong-bin linyaps-web-store-installer
+dnf install -y linglong-bin linyaps-web-store-installer policykit-1
 
 check_linglong_installed

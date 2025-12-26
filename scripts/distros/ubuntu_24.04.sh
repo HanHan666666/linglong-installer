@@ -16,6 +16,6 @@ if ! linglong_needs_install; then
 fi
 
 add_apt_repo "xUbuntu_24.04"
-apt install -y linglong-bin linglong-installer
+apt install -y linglong-bin linglong-installer policykit-1
 
 check_linglong_installed
