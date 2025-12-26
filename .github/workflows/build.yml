@@ -38,6 +38,7 @@ jobs:
           apt-get update
           apt-get install -y \
             git ca-certificates curl wget patch zip unzip \
+            upx-ucl \
             build-essential \
             libx11-dev libxext-dev libxrender-dev libxft-dev \
             libfontconfig1-dev libfreetype6-dev
@@ -70,7 +71,8 @@ jobs:
           go version
           go env
           BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          go build -o linglong-store-installer-amd64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
+          go build -o linglong-store-installer-amd64 -trimpath -buildvcs=false \
+            -ldflags="-s -w -X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
 
       - name: Build for arm64
         env:
@@ -81,7 +83,14 @@ jobs:
         run: |
           set -eux
           BUILD_TIME="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          go build -o linglong-store-installer-arm64 -ldflags="-X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
+          go build -o linglong-store-installer-arm64 -trimpath -buildvcs=false \
+            -ldflags="-s -w -X main.version=${{ inputs.release_tag }} -X main.buildTime=${BUILD_TIME}" .
+
+      - name: Compress binaries with UPX
+        run: |
+          set -eux
+          upx --best --lzma linglong-store-installer-amd64
+          upx --best --lzma linglong-store-installer-arm64
 
       - name: Upload amd64 artifacts
         uses: actions/upload-artifact@v4
