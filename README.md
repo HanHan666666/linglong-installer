@@ -1,56 +1,43 @@
-# Linglong Installer Distro Scripts
+# Linglong Installer
 
-This installer now supports distro-specific install scripts that are selected
-at runtime based on `/etc/os-release` (ID and VERSION_ID). Each supported
-release has its own `ID_VERSION.sh` script so adding a new distro is just
-adding one file.
+Linglong Installer 是基于 `go-pkg-installer` 框架构建的玲珑商店社区版安装器。
+它通过读取 `installer.yaml` 来驱动安装流程，自动识别发行版、检查玲珑版本，
+并执行对应发行版的安装脚本与后续配置。
+## 截图
+![alt text](assets/image.png)
+## 项目特点
 
-## How it works
+- 配置驱动：安装流程、界面与任务通过 `installer.yaml` 描述。
+- 发行版适配：根据 `/etc/os-release` 选择 `scripts/distros` 中的脚本。
+- 双模式运行：支持 GUI 与 Headless/CLI 模式。
+- 资源内嵌：默认内嵌 `installer.yaml`、logo 与脚本，便于打包发布。
 
-- `core.DetectEnv` reads `/etc/os-release` and fills `env.distro` and
-  `env.distroVersion`.
-- The custom task `distroScript` selects the script, parses `# META:` lines,
-  and writes values into the install context.
-- The confirm screen renders those values for the user, then the progress
-  step runs the selected script with root privileges.
+## 目录结构
 
-## Scripts layout
+- `installer.yaml`: 安装器核心配置，定义流程与页面。
+- `main.go`: 启动入口，加载配置、构建流程、选择 GUI/CLI 模式。
+- `task_distro_script.go`: 自定义任务，解析发行版脚本与 META 信息。
+- `screen_linglong_version.go`: 玲珑版本检查页面。
+- `scripts/common.sh`: 发行版脚本共享逻辑。
+- `scripts/distros/*.sh`: 各发行版安装脚本（ID_VERSION 命名）。
+- `scripts/user/*.sh`: 安装商店与 DBus 配置脚本。
+- `assets/logo.png`: 安装器 logo。
 
-- `scripts/common.sh`: shared helpers (root check, repo helpers, logging).
-- `scripts/distros/*.sh`: per-distro scripts named `ID_VERSION.sh`.
-- `install-linyaps.sh`: standalone dispatcher for manual use (optional).
+## installer.yaml 执行流程
 
-Resolution order for scripts:
+`installer.yaml` 的 `flows.install` 定义了完整安装流程，入口为 `welcome`：
 
-1. `scripts/distros/<ID>_<VERSION>.sh` under current working directory
-2. `scripts/distros/<ID>_<VERSION>.sh` next to the executable
-3. Embedded scripts (compiled into the binary)
+1. `welcome`：欢迎页，说明安装器适用范围与下载方式。
+2. `detect`：系统检测页，展示发行版信息，守卫条件要求 `distro.supported=true`。
+3. `linglong_version`：检测玲珑版本，读取 `linglong.min_version` 并提示升级。
+4. `confirm`：确认页，展示发行版信息、脚本 META 提示、即将执行的命令等。
+5. `install`：执行安装任务：
+   - `${distro.script}` 发行版安装脚本
+   - `${linyaps.store.setup_script}` 安装玲珑商店
+   - `${linyaps.dbus.setup_script}` 配置用户级 DBus 服务
+6. `finish`：完成页。
 
-## META header format
-
-Each distro script should start with header lines like this:
-
-```
-#!/usr/bin/env bash
-# META: repo_name=Linglong CI Release (Debian 13)
-# META: repo_url=https://ci.deepin.com/repo/obs/linglong:/CI:/release/Debian_13/
-# META: command=apt update
-# META: command=apt install -y linglong-bin linglong-installer
-# META: next_steps=Add Linglong repo and install required packages.
-```
-
-Supported META keys:
-
-- `repo_name`: name shown in the confirmation screen
-- `repo_url`: repo URL shown in the confirmation screen
-- `command`: repeatable; each entry is listed in the confirmation screen
-- `next_steps`: a short sentence shown in the confirmation screen
-- `distro_name` (optional): overrides the detected display name
-
-The META data is used only for display; the actual commands are executed by
-script logic, not by these strings.
-
-## Context keys written by distroScript
+关键上下文变量由 `distroScript` 任务写入，并在页面中通过 `${...}` 渲染：
 
 - `distro.id` / `distro.version` / `distro.name`
 - `distro.supported` / `distro.error`
@@ -58,21 +45,53 @@ script logic, not by these strings.
 - `distro.repo_name` / `distro.repo_url`
 - `distro.next_steps` / `distro.commands`
 
-These are referenced by the confirmation screen in `installer.yaml`.
+## 发行版脚本与 META 说明
 
-## Add a new distro
+每个发行版脚本以 `ID_VERSION.sh` 命名，例如 `debian_13.sh`。
+脚本头部可包含 `# META:` 行，供确认页展示：
 
-1. Create a new script in `scripts/distros/` named `ID_VERSION.sh`.
-2. Include `# META:` headers with repo and command info.
-3. Implement the install logic using helpers from `scripts/common.sh`.
-4. Test by running the installer and verifying the confirmation screen.
+```
+# META: repo_name=Linglong CI Release (Debian 13)
+# META: repo_url=https://example.com/repo/
+# META: command=apt update
+# META: command=apt install -y linglong-bin
+# META: next_steps=Add Linglong repo and install required packages.
+```
 
-Example filename for `/etc/os-release` with `ID=debian` and `VERSION_ID=13`:
+META 仅用于展示，实际执行逻辑由脚本内容决定。
 
-- `scripts/distros/debian_13.sh`
+## 运行方式
 
-## Run the installer
+使用内嵌配置运行：
+
+```
+go run ./
+```
+
+指定外部配置运行：
 
 ```
 go run ./ --config installer.yaml
 ```
+
+Headless 模式：
+
+```
+go run ./ --headless
+```
+
+## 版本检查页面
+
+`screen_linglong_version.go` 通过 `ll-cli --version` 解析玲珑版本，
+若低于 `linglong.min_version`，会提示是否立即更新。
+
+## 资源内嵌
+
+`embed.go` 内嵌了：
+
+- `installer.yaml`
+- `assets/logo.png`
+- `scripts/common.sh`、`scripts/distros/*.sh`、`scripts/user/*.sh`
+
+当本地找不到脚本时，会自动从内嵌资源释放到临时目录执行。
+
