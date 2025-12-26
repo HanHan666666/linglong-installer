@@ -7,5 +7,15 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-. "${SCRIPT_DIR}/deepin_23.sh"
+. "${SCRIPT_DIR}/../common.sh"
 
+require_root
+
+if ! linglong_needs_install; then
+    exit 0
+fi
+
+add_apt_repo "Deepin_23"
+apt install -y linglong-bin linglong-installer policykit-1
+
+check_linglong_installed
