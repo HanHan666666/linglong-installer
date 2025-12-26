@@ -2,6 +2,7 @@
 set -e
 
 SCRIPT_ARGS=("$@")
+MIN_LINGLONG_VERSION="${LLI_MIN_LINGLONG_VERSION:-1.9.0}"
 
 info() { echo "[INFO] $*"; }
 warn() { echo "[WARN] $*"; }
@@ -51,15 +52,89 @@ require_root() {
     exit 1
 }
 
+get_linglong_version() {
+    local raw=""
+    if command -v ll-cli >/dev/null 2>&1; then
+        raw=$(ll-cli --version 2>/dev/null | head -n1 || true)
+        if [[ "${raw}" =~ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            echo "${BASH_REMATCH[1]}"
+            return 0
+        fi
+    fi
+    if command -v dpkg-query >/dev/null 2>&1; then
+        raw=$(dpkg-query -W -f='${Version}' linglong-bin 2>/dev/null || true)
+        if [[ "${raw}" =~ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            echo "${BASH_REMATCH[1]}"
+            return 0
+        fi
+    fi
+    if command -v rpm >/dev/null 2>&1; then
+        raw=$(rpm -q --qf '%{VERSION}' linglong-bin 2>/dev/null || true)
+        if [[ "${raw}" =~ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            echo "${BASH_REMATCH[1]}"
+            return 0
+        fi
+    fi
+    if command -v pacman >/dev/null 2>&1; then
+        raw=$(pacman -Qi linyaps 2>/dev/null | awk -F ': ' '/^Version/ {print $2; exit}' || true)
+        if [[ "${raw}" =~ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            echo "${BASH_REMATCH[1]}"
+            return 0
+        fi
+        raw=$(pacman -Qi linglong-bin 2>/dev/null | awk -F ': ' '/^Version/ {print $2; exit}' || true)
+        if [[ "${raw}" =~ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            echo "${BASH_REMATCH[1]}"
+            return 0
+        fi
+    fi
+    return 1
+}
+
+version_lt() {
+    local a="$1"
+    local b="$2"
+    if command -v dpkg >/dev/null 2>&1; then
+        dpkg --compare-versions "${a}" lt "${b}"
+        return $?
+    fi
+    local first
+    first=$(printf '%s\n' "${a}" "${b}" | sort -V | head -n1)
+    [ "${first}" = "${a}" ] && [ "${a}" != "${b}" ]
+}
+
 check_linglong_installed() {
     if command -v ll-cli >/dev/null 2>&1; then
         local version
-        version=$(ll-cli --version 2>/dev/null | head -n1 || echo "unknown")
+        version=$(get_linglong_version || true)
+        if [ -z "${version}" ]; then
+            version="unknown"
+        fi
         info "Linglong runtime detected: ${version}"
         return 0
     fi
 
     warn "Linglong runtime not installed"
+    return 1
+}
+
+linglong_needs_install() {
+    if ! command -v ll-cli >/dev/null 2>&1; then
+        return 0
+    fi
+
+    local current_version=""
+    current_version=$(get_linglong_version || true)
+    if [ -z "${current_version}" ]; then
+        warn "Linglong version unknown; proceeding with upgrade"
+        return 0
+    fi
+
+    if version_lt "${current_version}" "${MIN_LINGLONG_VERSION}"; then
+        info "Linglong version ${current_version} is below ${MIN_LINGLONG_VERSION}, upgrading"
+        return 0
+    fi
+
+    info "Linglong runtime already installed (version ${current_version}), no upgrade needed"
     return 1
 }
 

@@ -11,8 +11,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 require_root
 
-if check_linglong_installed; then
-    info "Linglong runtime already installed"
+if ! linglong_needs_install; then
     exit 0
 fi
 
