@@ -8,6 +8,32 @@ info() { echo "[INFO] $*"; }
 warn() { echo "[WARN] $*"; }
 error() { echo "[ERROR] $*" >&2; }
 
+has_desktop_session() {
+    [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ] || [ -n "${DBUS_SESSION_BUS_ADDRESS:-}" ] || \
+    [ -n "${XDG_SESSION_TYPE:-}" ] || [ -n "${XDG_SESSION_ID:-}" ]
+}
+
+should_use_sudo_for_ll_cli() {
+    if [ "${LLI_FORCE_SUDO:-}" = "1" ]; then
+        return 0
+    fi
+    if [ -n "${LIMA_INSTANCE:-}" ] || [ -n "${LIMA_CIDATA:-}" ]; then
+        return 0
+    fi
+    if ! has_desktop_session; then
+        return 0
+    fi
+    return 1
+}
+
+run_ll_cli() {
+    if should_use_sudo_for_ll_cli && command -v sudo >/dev/null 2>&1; then
+        sudo -E ll-cli "$@"
+        return $?
+    fi
+    ll-cli "$@"
+}
+
 require_root() {
     if [ "$(id -u)" -eq 0 ]; then
         return 0
@@ -25,13 +51,8 @@ require_root() {
     fi
     script_path="$(cd "$(dirname "${script_path}")" && pwd)/$(basename "${script_path}")"
 
-    local has_session=""
-    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ] || [ -n "${DBUS_SESSION_BUS_ADDRESS:-}" ] || [ -n "${XDG_SESSION_TYPE:-}" ] || [ -n "${XDG_SESSION_ID:-}" ]; then
-        has_session="1"
-    fi
-
     if [ "${LLI_PREFER_PKEXEC:-}" = "1" ] && command -v pkexec >/dev/null 2>&1; then
-        if [ -n "${has_session}" ]; then
+        if has_desktop_session; then
             exec pkexec env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
         fi
         warn "pkexec is preferred but no desktop session detected; falling back to sudo"
@@ -42,7 +63,7 @@ require_root() {
     fi
 
     if command -v pkexec >/dev/null 2>&1; then
-        if [ -n "${has_session}" ]; then
+        if has_desktop_session; then
             exec pkexec env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
         fi
         warn "pkexec is available but no desktop session detected"
