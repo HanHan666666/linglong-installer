@@ -468,6 +468,7 @@ func ensureEmbeddedScript(ctx *core.InstallContext, relPath string, ctxKey strin
 		return
 	}
 
+	needsCommon := strings.HasPrefix(relPath, "scripts/user/")
 	if resolved, ok := resolveScriptPath(relPath); ok {
 		ctx.Set(ctxKey, resolved)
 		return
@@ -496,6 +497,29 @@ func ensureEmbeddedScript(ctx *core.InstallContext, relPath string, ctxKey strin
 			log.Printf("Failed to create temp dir for %s: %v", relPath, err)
 		}
 		return
+	}
+
+	if needsCommon {
+		commonData, err := embeddedScripts.ReadFile("scripts/common.sh")
+		if err != nil {
+			if verbose {
+				log.Printf("Embedded script not found (scripts/common.sh): %v", err)
+			}
+			return
+		}
+		commonPath := filepath.Join(tmpDir, "scripts", "common.sh")
+		if err := os.MkdirAll(filepath.Dir(commonPath), 0o755); err != nil {
+			if verbose {
+				log.Printf("Failed to create temp dir for scripts/common.sh: %v", err)
+			}
+			return
+		}
+		if err := os.WriteFile(commonPath, commonData, 0o644); err != nil {
+			if verbose {
+				log.Printf("Failed to write embedded script scripts/common.sh: %v", err)
+			}
+			return
+		}
 	}
 
 	if err := os.WriteFile(destPath, data, 0o755); err != nil {
