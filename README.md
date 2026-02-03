@@ -49,6 +49,7 @@ Linglong Installer 是基于 `go-pkg-installer` 框架构建的玲珑商店社�
 ## 发行版脚本与 META 说明
 
 每个发行版脚本以 `ID_VERSION.sh` 命名，例如 `debian_13.sh`。
+当找不到精确版本脚本时，会尝试 `ID_generic.sh` 作为兜底。
 脚本头部可包含 `# META:` 行，供确认页展示：
 
 ```

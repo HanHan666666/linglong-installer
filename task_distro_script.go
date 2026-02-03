@@ -96,11 +96,20 @@ func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus)
 	var upstreamUsed bool
 	var upstreamID string
 	var upstreamVersion string
+	lowerID := strings.ToLower(id)
 	for _, name := range candidates {
 		scriptPath, meta, err = resolveScript(name, t.ScriptsDir)
 		if err == nil {
 			ctx.AddLog(core.LogInfo, fmt.Sprintf("Resolved distro script: %s", scriptPath))
 			break
+		}
+	}
+	if err != nil {
+		if name, ok := resolveGenericScriptName(lowerID); ok {
+			scriptPath, meta, err = resolveScript(name, t.ScriptsDir)
+			if err == nil {
+				ctx.AddLog(core.LogInfo, fmt.Sprintf("Resolved generic distro script: %s", scriptPath))
+			}
 		}
 	}
 	if err != nil {
@@ -158,6 +167,14 @@ func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus)
 	ctx.Set("distro.commands", commands)
 
 	return nil
+}
+
+func resolveGenericScriptName(id string) (string, bool) {
+	id = strings.ToLower(strings.TrimSpace(id))
+	if id == "" {
+		return "", false
+	}
+	return fmt.Sprintf("%s_generic.sh", id), true
 }
 
 func resolveUpstreamScript(id, version string) (string, string, string, bool) {

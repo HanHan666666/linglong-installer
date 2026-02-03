@@ -26,6 +26,9 @@ Resolution order for scripts:
 2. `scripts/distros/<ID>_<VERSION>.sh` next to the executable
 3. Embedded scripts (compiled into the binary)
 
+If no exact match is found, a generic script named
+`scripts/distros/<ID>_generic.sh` will be used when present.
+
 ## META header format
 
 Each distro script should start with header lines like this:
