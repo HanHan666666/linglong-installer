@@ -93,11 +93,25 @@ func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus)
 	var meta scriptMeta
 	var scriptPath string
 	var err error
+	var upstreamUsed bool
+	var upstreamID string
+	var upstreamVersion string
 	for _, name := range candidates {
 		scriptPath, meta, err = resolveScript(name, t.ScriptsDir)
 		if err == nil {
 			ctx.AddLog(core.LogInfo, fmt.Sprintf("Resolved distro script: %s", scriptPath))
 			break
+		}
+	}
+	if err != nil {
+		if name, upstreamIDValue, upstreamVersionValue, ok := resolveUpstreamScript(id, version); ok {
+			scriptPath, meta, err = resolveScript(name, t.ScriptsDir)
+			if err == nil {
+				upstreamUsed = true
+				upstreamID = upstreamIDValue
+				upstreamVersion = upstreamVersionValue
+				ctx.AddLog(core.LogInfo, fmt.Sprintf("Using upstream distro script %s for %s %s", name, id, version))
+			}
 		}
 	}
 	if err != nil {
@@ -128,6 +142,9 @@ func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus)
 	if meta.NextSteps == "" {
 		meta.NextSteps = "Check Linglong runtime and install if needed."
 	}
+	if upstreamUsed {
+		meta.NextSteps = fmt.Sprintf("Using %s %s upstream repo. %s", upstreamID, upstreamVersion, meta.NextSteps)
+	}
 	ctx.Set("distro.next_steps", meta.NextSteps)
 
 	commands := "(none)"
@@ -141,6 +158,164 @@ func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus)
 	ctx.Set("distro.commands", commands)
 
 	return nil
+}
+
+func resolveUpstreamScript(id, version string) (string, string, string, bool) {
+	id = strings.ToLower(strings.TrimSpace(id))
+	version = strings.TrimSpace(version)
+	fields := readOSReleaseFields()
+
+	switch id {
+	case "linuxmint":
+		if ubuntuVersion, ok := mintVersionToUbuntu(version); ok {
+			return fmt.Sprintf("ubuntu_%s.sh", ubuntuVersion), "ubuntu", ubuntuVersion, true
+		}
+		if ubuntuCodename := firstNonEmpty(fields["UBUNTU_CODENAME"], fields["VERSION_CODENAME"]); ubuntuCodename != "" {
+			if ubuntuVersion, ok := ubuntuCodenameToVersion(ubuntuCodename); ok {
+				return fmt.Sprintf("ubuntu_%s.sh", ubuntuVersion), "ubuntu", ubuntuVersion, true
+			}
+		}
+	case "mx", "mxlinux":
+		if debianCodename := firstNonEmpty(fields["DEBIAN_CODENAME"], fields["VERSION_CODENAME"]); debianCodename != "" {
+			if debianVersion, ok := debianCodenameToVersion(debianCodename); ok {
+				return fmt.Sprintf("debian_%s.sh", debianVersion), "debian", debianVersion, true
+			}
+		}
+		if debianVersion, ok := mxVersionToDebian(version); ok {
+			return fmt.Sprintf("debian_%s.sh", debianVersion), "debian", debianVersion, true
+		}
+	}
+
+	return "", "", "", false
+}
+
+func mintVersionToUbuntu(version string) (string, bool) {
+	major := version
+	if parts := strings.SplitN(version, ".", 2); len(parts) > 0 && parts[0] != "" {
+		major = parts[0]
+	}
+	switch major {
+	case "22":
+		return "24.04", true
+	case "21":
+		return "22.04", true
+	case "20":
+		return "20.04", true
+	case "19":
+		return "18.04", true
+	}
+	return "", false
+}
+
+func mxVersionToDebian(version string) (string, bool) {
+	major := version
+	if parts := strings.SplitN(version, ".", 2); len(parts) > 0 && parts[0] != "" {
+		major = parts[0]
+	}
+	switch major {
+	case "23":
+		return "12", true
+	case "22":
+		return "11", true
+	case "21":
+		return "11", true
+	case "19":
+		return "10", true
+	}
+	return "", false
+}
+
+func ubuntuCodenameToVersion(codename string) (string, bool) {
+	switch strings.ToLower(strings.TrimSpace(codename)) {
+	case "noble":
+		return "24.04", true
+	case "mantic":
+		return "23.10", true
+	case "lunar":
+		return "23.04", true
+	case "kinetic":
+		return "22.10", true
+	case "jammy":
+		return "22.04", true
+	case "impish":
+		return "21.10", true
+	case "hirsute":
+		return "21.04", true
+	case "groovy":
+		return "20.10", true
+	case "focal":
+		return "20.04", true
+	case "eoan":
+		return "19.10", true
+	case "disco":
+		return "19.04", true
+	case "cosmic":
+		return "18.10", true
+	case "bionic":
+		return "18.04", true
+	case "artful":
+		return "17.10", true
+	case "zesty":
+		return "17.04", true
+	case "yakkety":
+		return "16.10", true
+	case "xenial":
+		return "16.04", true
+	}
+	return "", false
+}
+
+func debianCodenameToVersion(codename string) (string, bool) {
+	switch strings.ToLower(strings.TrimSpace(codename)) {
+	case "trixie":
+		return "13", true
+	case "bookworm":
+		return "12", true
+	case "bullseye":
+		return "11", true
+	case "buster":
+		return "10", true
+	case "sid":
+		return "sid", true
+	case "testing":
+		return "testing", true
+	}
+	return "", false
+}
+
+func readOSReleaseFields() map[string]string {
+	result := map[string]string{}
+	file, err := os.Open("/etc/os-release")
+	if err != nil {
+		return result
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) != 2 {
+			continue
+		}
+		key := strings.TrimSpace(parts[0])
+		value := strings.TrimSpace(parts[1])
+		result[key] = strings.Trim(value, "\"")
+	}
+
+	return result
+}
+
+func firstNonEmpty(values ...string) string {
+	for _, value := range values {
+		if strings.TrimSpace(value) != "" {
+			return value
+		}
+	}
+	return ""
 }
 
 func resolveScript(scriptName, scriptsDir string) (string, scriptMeta, error) {

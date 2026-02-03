@@ -71,6 +71,15 @@ Example filename for `/etc/os-release` with `ID=debian` and `VERSION_ID=13`:
 
 - `scripts/distros/debian_13.sh`
 
+## Upstream mapping for derivatives
+
+Some derivative distros reuse upstream install scripts:
+
+- Linux Mint uses the corresponding Ubuntu LTS script (e.g., Mint 22 -> Ubuntu 24.04).
+- MX Linux uses the corresponding Debian script (e.g., MX 23 -> Debian 12).
+
+The mapper uses `VERSION_ID` and upstream codenames (if present in `/etc/os-release`).
+
 ## Run the installer
 
 ```

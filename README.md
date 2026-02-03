@@ -9,6 +9,7 @@ Linglong Installer 是基于 `go-pkg-installer` 框架构建的玲珑商店社�
 
 - 配置驱动：安装流程、界面与任务通过 `installer.yaml` 描述。
 - 发行版适配：根据 `/etc/os-release` 选择 `scripts/distros` 中的脚本。
+- 衍生发行版：Linux Mint / MX Linux 会自动映射到对应 Ubuntu / Debian 上游脚本。
 - 双模式运行：支持 GUI 与 Headless/CLI 模式。
 - 资源内嵌：默认内嵌 `installer.yaml`、logo 与脚本，便于打包发布。
 
@@ -94,4 +95,3 @@ go run ./ --headless
 - `scripts/common.sh`、`scripts/distros/*.sh`、`scripts/user/*.sh`
 
 当本地找不到脚本时，会自动从内嵌资源释放到临时目录执行。
-
