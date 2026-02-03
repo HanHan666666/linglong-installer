@@ -1,0 +1,2 @@
+MX Linux/LinuxMINT 等使用对应Ubuntu/Debian的方案
+映射方案见task_distro_script.go
