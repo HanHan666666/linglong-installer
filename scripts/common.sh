@@ -175,6 +175,39 @@ add_apt_repo() {
     apt update
 }
 
+add_obs_apt_repo() {
+    local repo_path="$1"
+    local keyring_name="$2"
+    local list_name="$3"
+    local base_url="https://obs-ci.odata.cc/obs-mirror"
+    local keyring_dir="/usr/share/keyrings"
+    local keyring_path="${keyring_dir}/${keyring_name}"
+    local list_path="/etc/apt/sources.list.d/${list_name}"
+    local repo_url="${base_url}/${repo_path}/"
+    local arch
+
+    arch=$(dpkg --print-architecture)
+
+    install -d -m 0755 "${keyring_dir}"
+
+    if [ -f "${keyring_path}" ]; then
+        info "APT repo key already exists, skipping"
+    else
+        info "Fetching APT repo key: ${repo_url}Release.key"
+        curl -fsSL "${repo_url}Release.key" | gpg --dearmor | tee "${keyring_path}" >/dev/null
+    fi
+
+    if [ -f "${list_path}" ]; then
+        info "Linglong APT repo already exists, skipping"
+    else
+        info "Adding APT repo: ${repo_url}"
+        echo "deb [arch=${arch} signed-by=${keyring_path}] ${repo_url} ./" > "${list_path}"
+    fi
+
+    info "Refreshing APT metadata..."
+    apt update
+}
+
 add_dnf_repo() {
     local repo_url="$1"
 
