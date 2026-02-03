@@ -123,6 +123,14 @@ func applyFont(name, family string, size int, weight string) {
 
 func pickFontFamily() string {
 	preferred := []string{
+		"Noto Sans CJK SC",
+		"Noto Sans CJK TC",
+		"Source Han Sans SC",
+		"Source Han Sans CN",
+		"WenQuanYi Micro Hei",
+		"WenQuanYi Zen Hei",
+		"Microsoft YaHei",
+		"PingFang SC",
 		"Noto Sans",
 		"Inter",
 		"Segoe UI",
