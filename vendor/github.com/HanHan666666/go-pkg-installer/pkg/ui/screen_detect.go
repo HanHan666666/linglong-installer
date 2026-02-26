@@ -62,6 +62,10 @@ func (s *DetectScreen) Render(parent *TFrameWidget, ctx *core.InstallContext, bu
 	s.contentLabel = parent.TLabel(Txt(""), Wraplength("600"), Justify("left"), Anchor("w"))
 	Pack(s.contentLabel, Pady("8"), Side("top"), Fill("x"))
 
+	// Mark the step as running before spawning the goroutine, so that
+	// updateNavButtons() sees the correct state when called after Render().
+	s.setStepRunning(true)
+
 	go func() {
 		time.Sleep(50 * time.Millisecond)
 		s.runTasks()
@@ -132,6 +136,7 @@ func (s *DetectScreen) markSuccess() {
 
 	s.ctx.Set("step.failed", false)
 	s.ctx.Set("step.failed_id", "")
+	s.setStepRunning(false)
 
 	s.setDescription("")
 	s.setContent(s.renderedContent())
@@ -146,7 +151,7 @@ func (s *DetectScreen) markFailure(err error) {
 
 	s.ctx.Set("step.failed", true)
 	s.ctx.Set("step.failed_id", s.step.ID)
-
+	s.setStepRunning(false)
 	if s.bus != nil {
 		s.bus.PublishStepFailure(s.step.ID)
 	}
@@ -234,6 +239,17 @@ func (s *DetectScreen) Cleanup() {
 
 	if runner != nil && !complete {
 		runner.Cancel()
+		s.setStepRunning(false)
+	}
+}
+
+func (s *DetectScreen) setStepRunning(running bool) {
+	if s.ctx == nil {
+		return
+	}
+	s.ctx.Set("step.running", running)
+	if s.bus != nil {
+		s.bus.PublishStepRunningChanged(running)
 	}
 }
 

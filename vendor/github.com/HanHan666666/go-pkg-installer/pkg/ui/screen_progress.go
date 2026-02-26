@@ -90,6 +90,10 @@ func (s *ProgressScreen) Render(parent *TFrameWidget, ctx *core.InstallContext, 
 	scrollbar.Configure(Command(func(e *Event) { e.Yview(s.logText) }))
 	Pack(s.logText, Side("left"), Fill("both"), Expand(true))
 
+	// Mark the step as running before spawning the goroutine, so that
+	// updateNavButtons() sees the correct state when called after Render().
+	s.setStepRunning(true)
+
 	// Start installation after a short delay
 	go func() {
 		time.Sleep(100 * time.Millisecond)
@@ -164,6 +168,7 @@ func (s *ProgressScreen) startInstallation() {
 		s.ctx.Set("install.failed", false)
 		s.ctx.Set("step.failed", false)
 		s.ctx.Set("step.failed_id", "")
+		s.setStepRunning(false)
 		return
 	}
 
@@ -210,6 +215,7 @@ func (s *ProgressScreen) startInstallation() {
 			s.isComplete = true
 			s.ctx.Set("step.failed", true)
 			s.ctx.Set("step.failed_id", s.step.ID)
+			s.setStepRunning(false)
 			if s.bus != nil {
 				s.bus.PublishStepFailure(s.step.ID)
 			}
@@ -221,6 +227,7 @@ func (s *ProgressScreen) startInstallation() {
 			s.isComplete = true
 			s.ctx.Set("step.failed", false)
 			s.ctx.Set("step.failed_id", "")
+			s.setStepRunning(false)
 		}
 	}()
 }
@@ -256,6 +263,17 @@ func (s *ProgressScreen) Cleanup() {
 	// Cancel any running tasks if the screen is closed
 	if runner != nil && !complete {
 		runner.Cancel()
+		s.setStepRunning(false)
+	}
+}
+
+func (s *ProgressScreen) setStepRunning(running bool) {
+	if s.ctx == nil {
+		return
+	}
+	s.ctx.Set("step.running", running)
+	if s.bus != nil {
+		s.bus.PublishStepRunningChanged(running)
 	}
 }
 

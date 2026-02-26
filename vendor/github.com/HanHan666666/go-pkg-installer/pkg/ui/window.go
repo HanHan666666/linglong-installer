@@ -47,6 +47,58 @@ type InstallerWindow struct {
 	onCancel   func()
 }
 
+type nextButtonKind int
+
+const (
+	nextButtonContinue nextButtonKind = iota
+	nextButtonInstall
+	nextButtonFinish
+	nextButtonClose
+	nextButtonExit
+)
+
+func resolveNextButtonState(screenType, nextScreenType string, isLastStep, hasNextStep, failed, running bool) (nextButtonKind, bool) {
+	if failed {
+		return nextButtonExit, true
+	}
+
+	switch {
+	case screenType == "progress":
+		if running {
+			return nextButtonFinish, false
+		}
+		return nextButtonFinish, true
+	case screenType == "summary" || screenType == "finish":
+		if nextScreenType == "progress" {
+			if running {
+				return nextButtonInstall, false
+			}
+			return nextButtonInstall, true
+		}
+		if isLastStep || !hasNextStep {
+			if running {
+				return nextButtonClose, false
+			}
+			return nextButtonClose, true
+		}
+		if running {
+			return nextButtonContinue, false
+		}
+		return nextButtonContinue, true
+	default:
+		if isLastStep || !hasNextStep {
+			if running {
+				return nextButtonClose, false
+			}
+			return nextButtonClose, true
+		}
+		if running {
+			return nextButtonContinue, false
+		}
+		return nextButtonContinue, true
+	}
+}
+
 const (
 	sidebarWidth    = 180
 	sidebarLogoSize = sidebarWidth
@@ -233,6 +285,17 @@ func (w *InstallerWindow) subscribeEvents() {
 			w.updateNavButtons()
 		}, true)
 	})
+
+	// Subscribe to step running-state changes to update navigation buttons.
+	// Any screen that performs async work publishes this event to disable/re-enable next.
+	w.bus.Subscribe(core.EventStepRunningChanged, func(e core.Event) {
+		if running, ok := e.Payload.(bool); ok {
+			w.ctx.Set("step.running", running)
+		}
+		PostEvent(func() {
+			w.updateNavButtons()
+		}, true)
+	})
 }
 
 func (w *InstallerWindow) renderCurrentStep() {
@@ -272,6 +335,10 @@ func (w *InstallerWindow) renderCurrentStep() {
 		// Fallback to richtext for unknown types
 		factory = NewRichtextScreen
 	}
+
+	// Reset running state before handing control to the new screen.
+	// Screens with async tasks will set it back to true in their Render() method.
+	w.ctx.Set("step.running", false)
 
 	// Create and render screen
 	w.currentScreen = factory(stepConfig)
@@ -374,6 +441,9 @@ func (w *InstallerWindow) updateNavButtons() {
 		w.backBtn.Configure(State("disabled"))
 	}
 
+	// Default next button state. Branches below only override when needed.
+	w.nextBtn.Configure(State("normal"))
+
 	// Next button - change text based on screen type
 	screenType := ""
 	if stepConfig.Screen != nil {
@@ -391,26 +461,38 @@ func (w *InstallerWindow) updateNavButtons() {
 		nextScreenType = core.StripGoPrefix(nextScreenType)
 	}
 
-	if isAnyStepFailed(w.ctx) {
+	failed := isAnyStepFailed(w.ctx)
+	running := w.ctx.GetBool("step.running")
+	kind, enabled := resolveNextButtonState(
+		screenType,
+		nextScreenType,
+		w.workflow.IsLastStep(),
+		nextStep != nil,
+		failed,
+		running,
+	)
+
+	if failed {
 		w.backBtn.Configure(State("disabled"))
-		w.nextBtn.Configure(Txt(tr(w.ctx, "button.exit", "Exit")))
-		return
 	}
 
-	if screenType == "progress" {
+	switch kind {
+	case nextButtonInstall:
+		w.nextBtn.Configure(Txt(tr(w.ctx, "button.install", "Install")))
+	case nextButtonFinish:
 		w.nextBtn.Configure(Txt(tr(w.ctx, "button.finish", "Finish")))
-	} else if screenType == "summary" || screenType == "finish" {
-		if nextScreenType == "progress" {
-			w.nextBtn.Configure(Txt(tr(w.ctx, "button.install", "Install")))
-		} else if w.workflow.IsLastStep() || nextStep == nil {
-			w.nextBtn.Configure(Txt(tr(w.ctx, "button.close", "Close")))
-		} else {
-			w.nextBtn.Configure(Txt(tr(w.ctx, "button.continue", "Continue")))
-		}
-	} else if w.workflow.IsLastStep() || nextStep == nil {
+	case nextButtonClose:
 		w.nextBtn.Configure(Txt(tr(w.ctx, "button.close", "Close")))
-	} else {
+	case nextButtonExit:
+		w.nextBtn.Configure(Txt(tr(w.ctx, "button.exit", "Exit")))
+	default:
 		w.nextBtn.Configure(Txt(tr(w.ctx, "button.continue", "Continue")))
+	}
+
+	if enabled {
+		w.nextBtn.Configure(State("normal"))
+	} else {
+		w.nextBtn.Configure(State("disabled"))
 	}
 }
 
@@ -420,6 +502,9 @@ func (w *InstallerWindow) handleNext() {
 	w.mu.Unlock()
 
 	step := w.workflow.CurrentStep()
+	if w.ctx.GetBool("step.running") {
+		return
+	}
 
 	// Validate current screen
 	if step != nil && isAnyStepFailed(w.ctx) {

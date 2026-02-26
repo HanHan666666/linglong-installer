@@ -25,6 +25,9 @@ const (
 	EventStepFailure EventType = "step_failure"
 	// EventFlowComplete is emitted when the entire flow completes.
 	EventFlowComplete EventType = "flow_complete"
+	// EventStepRunningChanged is emitted when the current step's running state changes.
+	// Screens with async tasks publish this to let the window enable/disable navigation.
+	EventStepRunningChanged EventType = "step_running_changed"
 )
 
 // Event represents an event in the system.
@@ -242,6 +245,12 @@ func (eb *EventBus) PublishTaskError(taskID, taskType string, err error) {
 			Error:    err,
 		},
 	})
+}
+
+// PublishStepRunningChanged is a convenience method for notifying that a step's
+// running state has changed. running=true means async work started; false means done.
+func (eb *EventBus) PublishStepRunningChanged(running bool) {
+	eb.Publish(Event{Type: EventStepRunningChanged, Payload: running})
 }
 
 // Clear removes all handlers.
