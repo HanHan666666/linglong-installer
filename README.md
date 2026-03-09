@@ -56,7 +56,7 @@ Linglong Installer 是基于 `go-pkg-installer` 框架构建的玲珑商店社�
 # META: repo_name=Linglong CI Release (Debian 13)
 # META: repo_url=https://example.com/repo/
 # META: command=apt update
-# META: command=apt install -y linglong-bin
+# META: command=apt install -y linglong-bin linglong-installer linglong-box
 # META: next_steps=Add Linglong repo and install required packages.
 ```
 
