@@ -4,9 +4,9 @@ set -e
 SCRIPT_ARGS=("$@")
 MIN_LINGLONG_VERSION="${LLI_MIN_LINGLONG_VERSION:-1.9.0}"
 
-info() { echo "[INFO] $*"; }
-warn() { echo "[WARN] $*"; }
-error() { echo "[ERROR] $*" >&2; }
+info() { echo "[信息] $*"; }
+warn() { echo "[警告] $*"; }
+error() { echo "[错误] $*" >&2; }
 
 has_desktop_session() {
     [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ] || [ -n "${DBUS_SESSION_BUS_ADDRESS:-}" ] || \
@@ -40,13 +40,13 @@ require_root() {
     fi
 
     if [ "${LLI_ELEVATED:-}" = "1" ]; then
-        error "Root privileges are required but elevation failed"
+        error "需要 root 权限，但提权失败"
         exit 1
     fi
 
     local script_path="${BASH_SOURCE[1]:-$0}"
     if [ -z "${script_path}" ]; then
-        error "Unable to resolve script path for elevation"
+        error "无法解析用于提权的脚本路径"
         exit 1
     fi
     script_path="$(cd "$(dirname "${script_path}")" && pwd)/$(basename "${script_path}")"
@@ -64,7 +64,7 @@ require_root() {
         exec sudo -E env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
     fi
 
-    error "Root privileges are required, but pkexec/sudo is not available"
+    error "需要 root 权限，但 pkexec/sudo 不可用"
     exit 1
 }
 
@@ -123,13 +123,13 @@ check_linglong_installed() {
         local version
         version=$(get_linglong_version || true)
         if [ -z "${version}" ]; then
-            version="unknown"
+            version="未知"
         fi
-        info "Linglong runtime detected: ${version}"
+        info "检测到玲珑运行时：${version}"
         return 0
     fi
 
-    warn "Linglong runtime not installed"
+    warn "未安装玲珑运行时"
     return 1
 }
 
@@ -141,16 +141,16 @@ linglong_needs_install() {
     local current_version=""
     current_version=$(get_linglong_version || true)
     if [ -z "${current_version}" ]; then
-        warn "Linglong version unknown; proceeding with upgrade"
+        warn "玲珑版本未知，继续执行升级"
         return 0
     fi
 
     if version_lt "${current_version}" "${MIN_LINGLONG_VERSION}"; then
-        info "Linglong version ${current_version} is below ${MIN_LINGLONG_VERSION}, upgrading"
+        info "玲珑版本 ${current_version} 低于 ${MIN_LINGLONG_VERSION}，正在升级"
         return 0
     fi
 
-    info "Linglong runtime already installed (version ${current_version}), no upgrade needed"
+    info "玲珑运行时已安装（版本 ${current_version}），无需升级"
     return 1
 }
 
@@ -160,13 +160,13 @@ add_apt_repo() {
     local repo_url="https://ci.deepin.com/repo/obs/linglong:/CI:/release/${repo_path}/"
 
     if [ -f "${repo_file}" ]; then
-        info "Linglong APT repo already exists, skipping"
+        info "玲珑 APT 仓库已存在，跳过"
     else
-        info "Adding APT repo: ${repo_url}"
+        info "正在添加 APT 仓库：${repo_url}"
         echo "deb [trusted=yes] ${repo_url} ./" > "${repo_file}"
     fi
 
-    info "Refreshing APT metadata..."
+    info "正在刷新 APT 元数据..."
     apt update
 }
 
@@ -186,20 +186,20 @@ add_obs_apt_repo() {
     install -d -m 0755 "${keyring_dir}"
 
     if [ -f "${keyring_path}" ]; then
-        info "APT repo key already exists, skipping"
+        info "APT 仓库密钥已存在，跳过"
     else
-        info "Fetching APT repo key: ${repo_url}Release.key"
+        info "正在获取 APT 仓库密钥：${repo_url}Release.key"
         curl -fsSL "${repo_url}Release.key" | gpg --dearmor | tee "${keyring_path}" >/dev/null
     fi
 
     if [ -f "${list_path}" ]; then
-        info "Linglong APT repo already exists, skipping"
+        info "玲珑 APT 仓库已存在，跳过"
     else
-        info "Adding APT repo: ${repo_url}"
+        info "正在添加 APT 仓库：${repo_url}"
         echo "deb [arch=${arch} signed-by=${keyring_path}] ${repo_url} ./" > "${list_path}"
     fi
 
-    info "Refreshing APT metadata..."
+    info "正在刷新 APT 元数据..."
     apt update
 }
 
@@ -207,20 +207,20 @@ add_dnf_repo() {
     local repo_url="$1"
 
     if ls /etc/yum.repos.d/linglong*.repo >/dev/null 2>&1; then
-        info "Linglong DNF repo already exists, skipping"
+        info "玲珑 DNF 仓库已存在，跳过"
     else
-        info "Adding DNF repo: ${repo_url}"
+        info "正在添加 DNF 仓库：${repo_url}"
         dnf config-manager addrepo --from-repofile "${repo_url}" || \
         dnf config-manager --add-repo "${repo_url}"
     fi
 
-    info "Refreshing DNF metadata..."
+    info "正在刷新 DNF 元数据..."
     dnf update -y --refresh
 }
 
 set_dnf_gpgcheck_off() {
     if ls /etc/yum.repos.d/linglong*.repo >/dev/null 2>&1; then
-        info "Disabling gpgcheck for Linglong repo"
+        info "正在为玲珑仓库禁用 gpgcheck"
         sh -c "echo gpgcheck=0 >> /etc/yum.repos.d/linglong*.repo"
     fi
 }
