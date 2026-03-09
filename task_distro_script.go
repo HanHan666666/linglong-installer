@@ -61,13 +61,14 @@ func (t *distroScriptTask) Validate() error {
 }
 
 func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus) error {
+	fields := readOSReleaseFields()
 	id := strings.TrimSpace(ctx.Env.Distro)
 	version := strings.TrimSpace(ctx.Env.DistroVersion)
 
 	ctx.Set("distro.id", id)
 	ctx.Set("distro.version", version)
 
-	prettyName := readPrettyName()
+	prettyName := firstNonEmpty(readPrettyName(fields), fields["NAME"])
 	if prettyName == "" {
 		prettyName = strings.TrimSpace(fmt.Sprintf("%s %s", id, version))
 	}
@@ -113,7 +114,7 @@ func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus)
 		}
 	}
 	if err != nil {
-		if name, upstreamIDValue, upstreamVersionValue, ok := resolveUpstreamScript(id, version); ok {
+		if name, upstreamIDValue, upstreamVersionValue, ok := resolveUpstreamScript(id, version, fields); ok {
 			scriptPath, meta, err = resolveScript(name, t.ScriptsDir)
 			if err == nil {
 				upstreamUsed = true
@@ -177,10 +178,9 @@ func resolveGenericScriptName(id string) (string, bool) {
 	return fmt.Sprintf("%s_generic.sh", id), true
 }
 
-func resolveUpstreamScript(id, version string) (string, string, string, bool) {
+func resolveUpstreamScript(id, version string, fields map[string]string) (string, string, string, bool) {
 	id = strings.ToLower(strings.TrimSpace(id))
 	version = strings.TrimSpace(version)
-	fields := readOSReleaseFields()
 
 	switch id {
 	case "linuxmint":
@@ -201,8 +201,9 @@ func resolveUpstreamScript(id, version string) (string, string, string, bool) {
 		if debianVersion, ok := mxVersionToDebian(version); ok {
 			return fmt.Sprintf("debian_%s.sh", debianVersion), "debian", debianVersion, true
 		}
+	case "garuda":
+		return "arch_rolling.sh", "arch", "rolling", true
 	}
-
 	return "", "", "", false
 }
 
@@ -497,23 +498,8 @@ func fileExists(path string) bool {
 	return err == nil && !info.IsDir()
 }
 
-func readPrettyName() string {
-	file, err := os.Open("/etc/os-release")
-	if err != nil {
-		return ""
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		if strings.HasPrefix(line, "PRETTY_NAME=") {
-			value := strings.TrimPrefix(line, "PRETTY_NAME=")
-			return strings.Trim(value, "\"")
-		}
-	}
-
-	return ""
+func readPrettyName(fields map[string]string) string {
+	return strings.TrimSpace(fields["PRETTY_NAME"])
 }
 
 func getConfigString(config map[string]any, key string, fallback string) string {
