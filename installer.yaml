@@ -93,7 +93,9 @@ flows:
         tasks:
           - type: shell
             command: "bash"
-            args: ["${distro.script}","回到终端输入密码以继续安装"]
+            args: ["${distro.script}"]
+            env:
+              LLI_SUDO_HINT: "回到终端输入密码以继续安装"
 
           - type: shell
             command: "bash"

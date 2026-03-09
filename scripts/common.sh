@@ -51,22 +51,17 @@ require_root() {
     fi
     script_path="$(cd "$(dirname "${script_path}")" && pwd)/$(basename "${script_path}")"
 
-    if [ "${LLI_PREFER_PKEXEC:-}" = "1" ] && command -v pkexec >/dev/null 2>&1; then
-        if has_desktop_session; then
-            exec pkexec env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
-        fi
-        warn "pkexec is preferred but no desktop session detected; falling back to sudo"
+    # Prefer pkexec on desktop sessions (graphical password dialog, better UX)
+    if command -v pkexec >/dev/null 2>&1 && has_desktop_session; then
+        exec pkexec env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
     fi
 
+    # No graphical auth available, fall back to sudo (requires terminal input)
     if command -v sudo >/dev/null 2>&1; then
-        exec sudo -E env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
-    fi
-
-    if command -v pkexec >/dev/null 2>&1; then
-        if has_desktop_session; then
-            exec pkexec env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
+        if [ -n "${LLI_SUDO_HINT:-}" ]; then
+            info "${LLI_SUDO_HINT}"
         fi
-        warn "pkexec is available but no desktop session detected"
+        exec sudo -E env LLI_ELEVATED=1 bash "${script_path}" "${SCRIPT_ARGS[@]}"
     fi
 
     error "Root privileges are required, but pkexec/sudo is not available"
