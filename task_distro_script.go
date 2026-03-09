@@ -76,20 +76,17 @@ func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus)
 		ctx.Set("distro.name", prettyName)
 	}
 
-	if id == "" || version == "" {
+	if id == "" {
 		ctx.Set("distro.supported", false)
-		ctx.Set("distro.error", "Missing distro ID or VERSION_ID")
-		ctx.Set("distro.next_steps", "No install script can be selected without distro ID/version.")
+		ctx.Set("distro.error", "Missing distro ID")
+		ctx.Set("distro.next_steps", "No install script can be selected without distro ID.")
 		ctx.Set("distro.commands", "(none)")
 		ctx.Set("distro.repo_name", "(unknown)")
 		ctx.Set("distro.repo_url", "")
 		return nil
 	}
 
-	candidates := []string{fmt.Sprintf("%s_%s.sh", id, version)}
-	if lower := fmt.Sprintf("%s_%s.sh", strings.ToLower(id), version); lower != candidates[0] {
-		candidates = append(candidates, lower)
-	}
+	candidates := buildScriptCandidates(id, version)
 
 	var meta scriptMeta
 	var scriptPath string
@@ -170,6 +167,35 @@ func (t *distroScriptTask) Execute(ctx *core.InstallContext, bus *core.EventBus)
 	return nil
 }
 
+func buildScriptCandidates(id, version string) []string {
+	id = strings.TrimSpace(id)
+	version = strings.TrimSpace(version)
+
+	seen := map[string]struct{}{}
+	candidates := []string{}
+	add := func(name string) {
+		name = strings.TrimSpace(name)
+		if name == "" {
+			return
+		}
+		if _, ok := seen[name]; ok {
+			return
+		}
+		seen[name] = struct{}{}
+		candidates = append(candidates, name)
+	}
+
+	if version != "" {
+		add(fmt.Sprintf("%s_%s.sh", id, version))
+		add(fmt.Sprintf("%s_%s.sh", strings.ToLower(id), version))
+	} else {
+		add(fmt.Sprintf("%s_rolling.sh", id))
+		add(fmt.Sprintf("%s_rolling.sh", strings.ToLower(id)))
+	}
+
+	return candidates
+}
+
 func resolveGenericScriptName(id string) (string, bool) {
 	id = strings.ToLower(strings.TrimSpace(id))
 	if id == "" {
@@ -204,7 +230,27 @@ func resolveUpstreamScript(id, version string, fields map[string]string) (string
 	case "garuda":
 		return "arch_rolling.sh", "arch", "rolling", true
 	}
+	if isArchLikeDistro(id, fields) {
+		return "arch_rolling.sh", "arch", "rolling", true
+	}
+
 	return "", "", "", false
+}
+
+func isArchLikeDistro(id string, fields map[string]string) bool {
+	switch strings.ToLower(strings.TrimSpace(id)) {
+	case "arch", "archlinux", "manjaro", "parabola", "garuda":
+		return true
+	}
+
+	for _, token := range strings.Fields(strings.ToLower(fields["ID_LIKE"])) {
+		switch token {
+		case "arch", "archlinux", "manjaro", "parabola":
+			return true
+		}
+	}
+
+	return false
 }
 
 func mintVersionToUbuntu(version string) (string, bool) {
