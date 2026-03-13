@@ -122,6 +122,7 @@ Go 代码只注册自定义扩展点（tasks、screens、guards）。
 
 ## Git Commit 规范
 
+- 提交内容的语言使用简体中文
 - 提交信息必须使用 Conventional Commits 风格，常用前缀包括：`feat:`、`fix:`、`docs:`、`refactor:`、`test:`、`chore:`。
 - `feat:` 用于新增功能；`fix:` 用于修复问题；不要随意混用前缀。
 - 提交标题要简洁明确，优先写“做了什么”，不要写空泛描述。
