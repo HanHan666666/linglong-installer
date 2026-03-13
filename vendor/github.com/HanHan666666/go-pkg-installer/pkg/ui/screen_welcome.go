@@ -3,6 +3,8 @@ package ui
 import (
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
 
 	. "modernc.org/tk9.0"
 
@@ -61,8 +63,27 @@ func (s *WelcomeScreen) Render(parent *TFrameWidget, ctx *core.InstallContext, b
 		}
 	}
 	if content != "" {
-		contentLabel := parent.TLabel(Txt(content), Wraplength("600"))
-		Pack(contentLabel, Pady("5"), Side("top"))
+		// The welcome screen used to render content with a plain TLabel, which
+		// cannot host per-range click handlers. We switch just this content block
+		// to a borderless Text widget so markdown links and bare URLs become
+		// clickable without changing the rest of the page layout.
+		contentText := parent.Text(
+			Width(80),
+			Height(strconv.Itoa(estimateWelcomeContentHeight(content))),
+			Wrap("word"),
+			Borderwidth(0),
+			Highlightthickness(0),
+			Relief("flat"),
+		)
+		contentText.Configure(
+			Background(currentPalette.surface),
+			Foreground(currentPalette.text),
+			Insertbackground(currentPalette.text),
+		)
+		contentText.Configure(State("normal"))
+		insertMarkdownText(contentText, content)
+		contentText.Configure(State("disabled"))
+		Pack(contentText, Fill("x"), Pady("5"), Side("top"))
 	}
 
 	// Optional banner or logo (if configured)
@@ -98,4 +119,19 @@ func (s *WelcomeScreen) Cleanup() {}
 // Type returns the screen type identifier.
 func (s *WelcomeScreen) Type() string {
 	return "welcome"
+}
+
+// estimateWelcomeContentHeight keeps the welcome Text widget compact enough to
+// look like static copy while still reserving enough height for multi-line
+// introductions. The clamp avoids a tiny box for short text and an oversized
+// panel for long text.
+func estimateWelcomeContentHeight(content string) int {
+	lines := strings.Count(content, "\n") + 2
+	if lines < 4 {
+		return 4
+	}
+	if lines > 12 {
+		return 12
+	}
+	return lines
 }

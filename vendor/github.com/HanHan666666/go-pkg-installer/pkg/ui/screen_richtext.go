@@ -77,9 +77,9 @@ func (s *RichtextScreen) Render(parent *TFrameWidget, ctx *core.InstallContext, 
 
 // insertFormattedText inserts text with basic markdown-like formatting.
 func (s *RichtextScreen) insertFormattedText(text *TextWidget, content string) {
-	// For now, just insert plain text
-	// In a full implementation, we could parse basic markdown
-	text.Insert("1.0", content)
+	// Richtext pages now share the same minimal markdown renderer as the welcome
+	// page so link behavior stays consistent across informational screens.
+	insertMarkdownText(text, content)
 }
 
 // Validate validates the richtext screen (always valid).

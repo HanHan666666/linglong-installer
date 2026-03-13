@@ -28,8 +28,7 @@ flows:
             国际主流 Linux 发行版也可使用 DEB 或 RPM 包进行安装，
             可前往官网获取对应版本安装包。
 
-            下载 DEB 或 RPM 请见
-            https://gitee.com/Shirosu/linglong-store/releases/latest
+            [下载 DEB 或 RPM 安装包](https://gitee.com/Shirosu/linglong-store/releases/latest)
 
       - id: detect
         title: "检查系统环境"
