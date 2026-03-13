@@ -3,6 +3,7 @@ package ui
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -15,16 +16,17 @@ import (
 type ProgressScreen struct {
 	mu sync.Mutex
 
-	step        *core.StepConfig
-	progressBar *TProgressbarWidget
-	progressVar *VariableOpt
-	statusLabel *TLabelWidget
-	logText     *TextWidget
-	isComplete  bool
-	taskRunner  *core.TaskRunner
-	ctx         *core.InstallContext
-	bus         *core.EventBus
-	active      bool
+	step              *core.StepConfig
+	progressBar       *TProgressbarWidget
+	progressVar       *VariableOpt
+	statusLabel       *TLabelWidget
+	logText           *TextWidget
+	isComplete        bool
+	taskRunner        *core.TaskRunner
+	ctx               *core.InstallContext
+	bus               *core.EventBus
+	active            bool
+	specialErrorShown bool
 }
 
 // NewProgressScreen creates a progress screen renderer.
@@ -122,6 +124,7 @@ func (s *ProgressScreen) UpdateProgress(percent float64, status string) {
 
 // AddLogMessage adds a message to the log.
 func (s *ProgressScreen) AddLogMessage(msg string) {
+	s.maybeShowSpecialInstallError(msg)
 	PostEvent(func() {
 		s.mu.Lock()
 		defer s.mu.Unlock()
@@ -136,6 +139,59 @@ func (s *ProgressScreen) AddLogMessage(msg string) {
 		s.logText.See("end")
 		s.logText.Configure(State("disabled"))
 	}, false)
+}
+
+func (s *ProgressScreen) maybeShowSpecialInstallError(msg string) {
+	if !isUOSDeveloperModeRootError(s.ctx, msg) {
+		return
+	}
+
+	PostEvent(func() {
+		s.mu.Lock()
+		defer s.mu.Unlock()
+		if !s.active || s.specialErrorShown {
+			return
+		}
+		s.specialErrorShown = true
+		MessageBox(
+			Icon("error"),
+			Msg(tr(s.ctx, "dialog.uos.dev_mode.msg", "未开启开发者模式，无法获取root权限，无法继续安装")),
+			Title(tr(s.ctx, "dialog.uos.dev_mode.title", "错误")),
+		)
+	}, true)
+}
+
+func isUOSDeveloperModeRootError(ctx *core.InstallContext, msg string) bool {
+	if !isUOSContext(ctx) {
+		return false
+	}
+
+	normalized := strings.ToLower(strings.TrimSpace(msg))
+	if normalized == "" {
+		return false
+	}
+
+	return strings.Contains(normalized, "no root privileges") &&
+		strings.Contains(normalized, "developer mode") &&
+		strings.Contains(normalized, "control center")
+}
+
+func isUOSContext(ctx *core.InstallContext) bool {
+	if ctx == nil {
+		return false
+	}
+
+	for _, distro := range []string{
+		ctx.GetString("distro.id"),
+		ctx.Env.Distro,
+		ctx.GetString("distro.name"),
+	} {
+		if strings.EqualFold(strings.TrimSpace(distro), "uos") {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (s *ProgressScreen) startInstallation() {
