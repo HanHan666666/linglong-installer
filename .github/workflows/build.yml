@@ -62,6 +62,36 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git status --porcelain=v1 || true
 
+      - name: Generate Release Notes
+        if: ${{ inputs.create_release == 'true' }}
+        run: |
+          set -eu
+
+          current_tag="${{ inputs.release_tag }}"
+          previous_tag="$(git tag --sort=-version:refname | grep -Fxv "$current_tag" | head -n 1 || true)"
+
+          {
+            echo "## Changes"
+            echo
+            echo "Release tag: \`${current_tag}\`"
+            echo "Commit: \`$(git rev-parse --short "$GITHUB_SHA")\`"
+            echo
+
+            if [ -n "$previous_tag" ]; then
+              echo "Based on commits since \`${previous_tag}\`:"
+              echo
+              git log --no-merges --pretty='- %s (%h)' "${previous_tag}..${GITHUB_SHA}" || true
+            else
+              echo "Recent commits:"
+              echo
+              git log --no-merges --pretty='- %s (%h)' -n 20 "${GITHUB_SHA}" || true
+            fi
+          } > release-notes.md
+
+          if ! grep -q '^- ' release-notes.md; then
+            echo "- Release commit: $(git rev-parse --short "$GITHUB_SHA")" >> release-notes.md
+          fi
+
       - name: Build for amd64
         env:
           CGO_ENABLED: "0"
@@ -107,6 +137,7 @@ jobs:
           tag_name: ${{ inputs.release_tag }}
           name: ${{ inputs.release_tag }}
           target_commitish: ${{ github.sha }}
+          body_path: release-notes.md
           files: |
             linglong-store-installer-amd64
             linglong-store-installer-arm64
@@ -185,15 +216,6 @@ jobs:
           cat /tmp/release.json || true
           exit 1
 
-      - name: Checkout release sync tool repository
-        uses: actions/checkout@v4
-        with:
-          repository: SXFreell/linglong-store
-          path: .release-sync-tool
-          sparse-checkout: |
-            tools/github2gitee
-          fetch-depth: 1
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -205,6 +227,7 @@ jobs:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
           GITEE_REPO: ${{ vars.GITEE_REPO }}
+          TARGET_TAG: ${{ inputs.release_tag }}
         run: |
           set -eux
-          node .release-sync-tool/tools/github2gitee/github2gitee.js
+          node tools/github2gitee/github2gitee.js
