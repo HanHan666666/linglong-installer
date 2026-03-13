@@ -52,6 +52,8 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Trust workspace for git (safe.directory)
         run: |
@@ -107,3 +109,101 @@ jobs:
           files: |
             linglong-store-installer-amd64
             linglong-store-installer-arm64
+            linglong-store-installer.sh
+
+  sync-gitee:
+    if: ${{ inputs.create_release == 'true' }}
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate Gitee sync configuration
+        env:
+          GITEE_PUSH_URL: ${{ secrets.GITEE_PUSH_URL }}
+          GITEE_REPO: ${{ vars.GITEE_REPO }}
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        run: |
+          set -eu
+
+          missing=0
+
+          for var_name in GITEE_PUSH_URL GITEE_REPO GITEE_TOKEN; do
+            if [ -z "${!var_name:-}" ]; then
+              echo "::error::Missing required GitHub Actions ${var_name#GITEE_} configuration for Gitee sync: ${var_name}"
+              missing=1
+            fi
+          done
+
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push branch and tag to Gitee
+        env:
+          GITEE_PUSH_URL: ${{ secrets.GITEE_PUSH_URL }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -eux
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git remote remove gitee || true
+          git remote add gitee "$GITEE_PUSH_URL"
+
+          git tag -f "$RELEASE_TAG" "$GITHUB_SHA"
+          git push gitee "HEAD:refs/heads/${GITHUB_REF_NAME}"
+          git push gitee "refs/tags/${RELEASE_TAG}:refs/tags/${RELEASE_TAG}"
+
+      - name: Wait for GitHub Release visibility
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -eu
+
+          for attempt in $(seq 1 12); do
+            status_code="$(curl -sS -o /tmp/release.json -w '%{http_code}' \
+              -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}")"
+
+            if [ "$status_code" = "200" ]; then
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::GitHub Release ${RELEASE_TAG} was not visible after waiting"
+          cat /tmp/release.json || true
+          exit 1
+
+      - name: Checkout release sync tool repository
+        uses: actions/checkout@v4
+        with:
+          repository: SXFreell/linglong-store
+          path: .release-sync-tool
+          sparse-checkout: |
+            tools/github2gitee
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Sync GitHub Release to Gitee Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITEE_REPO: ${{ vars.GITEE_REPO }}
+        run: |
+          set -eux
+          node .release-sync-tool/tools/github2gitee/github2gitee.js
