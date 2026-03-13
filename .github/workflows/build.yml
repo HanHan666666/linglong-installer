@@ -68,7 +68,13 @@ jobs:
           set -eu
 
           current_tag="${{ inputs.release_tag }}"
-          previous_tag="$(git tag --sort=-version:refname | grep -Fxv "$current_tag" | head -n 1 || true)"
+          if printf '%s\n' "$current_tag" | grep -q '^v'; then
+            tag_pattern='v*'
+          else
+            tag_pattern='[0-9]*'
+          fi
+
+          previous_tag="$(git tag --list "$tag_pattern" --sort=-version:refname | grep -Fxv "$current_tag" | head -n 1 || true)"
 
           {
             echo "## Changes"

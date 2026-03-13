@@ -90,6 +90,32 @@ async function giteeRequest(endpoint, options = {}) {
   return JSON.parse(response.body.toString('utf8'));
 }
 
+async function giteeFormRequest(endpoint, method, payload) {
+  const separator = endpoint.includes('?') ? '&' : '?';
+  const formBody = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(payload)) {
+    if (value === undefined || value === null) {
+      continue;
+    }
+    formBody.append(key, String(value));
+  }
+
+  const response = await request(`https://gitee.com/api/v5${endpoint}${separator}access_token=${CONFIG.GITEE_TOKEN}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    },
+    body: formBody.toString(),
+  });
+
+  if (!response.body.length) {
+    return null;
+  }
+
+  return JSON.parse(response.body.toString('utf8'));
+}
+
 function ensureTempDir() {
   fs.mkdirSync(CONFIG.TEMP_DIR, { recursive: true });
 }
@@ -245,17 +271,13 @@ async function uploadAssetToGiteeRelease(releaseId, filepath) {
 }
 
 async function createGiteeRelease(release) {
-  return giteeRequest(`/repos/${CONFIG.GITEE_REPO}/releases`, {
-    method: 'POST',
-    body: JSON.stringify(buildGiteeReleasePayload(release)),
-  });
+  return giteeFormRequest(`/repos/${CONFIG.GITEE_REPO}/releases`, 'POST', buildGiteeReleasePayload(release));
 }
 
 async function updateGiteeRelease(releaseId, release, overrides = {}) {
-  return giteeRequest(`/repos/${CONFIG.GITEE_REPO}/releases/${releaseId}`, {
-    method: 'PATCH',
-    body: JSON.stringify(buildGiteeReleasePayload(release, overrides)),
-  });
+  const payload = buildGiteeReleasePayload(release, overrides);
+  delete payload.target_commitish;
+  return giteeFormRequest(`/repos/${CONFIG.GITEE_REPO}/releases/${releaseId}`, 'PATCH', payload);
 }
 
 function getMissingAssets(githubRelease, giteeRelease) {
