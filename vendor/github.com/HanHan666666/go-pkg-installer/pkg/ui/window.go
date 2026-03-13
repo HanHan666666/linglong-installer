@@ -434,7 +434,8 @@ func (w *InstallerWindow) updateNavButtons() {
 	stepConfig := step.Config
 	nextStep := w.nextEnabledStep(step.ID)
 
-	// Back button - disable on first step
+	// Back button follows both the workflow boundary rules and any explicit
+	// allowBack: false lock configured on the current step.
 	if w.workflow.CanGoBack() {
 		w.backBtn.Configure(State("normal"))
 	} else {

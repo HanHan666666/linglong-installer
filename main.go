@@ -132,9 +132,17 @@ func main() {
 
 		for _, stepCfg := range flowCfg.Steps {
 			step := &core.Step{
-				ID:     stepCfg.ID,
-				Title:  ctx.Render(stepCfg.Title),
-				Config: stepCfg,
+				ID:    stepCfg.ID,
+				Title: ctx.Render(stepCfg.Title),
+				// Keep step navigation metadata in sync with installer.yaml so
+				// workflow decisions do not depend on sequential defaults only.
+				Next:      stepCfg.Next,
+				Prev:      stepCfg.Prev,
+				Branch:    stepCfg.Branch,
+				AllowBack: stepCfg.AllowBack,
+				AllowJump: stepCfg.AllowJump,
+				Route:     stepCfg.Route,
+				Config:    stepCfg,
 			}
 
 			// Copy guards config

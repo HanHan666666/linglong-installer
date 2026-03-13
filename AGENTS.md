@@ -120,6 +120,12 @@ Go 代码只注册自定义扩展点（tasks、screens、guards）。
 - **markdown/链接渲染路径**需在代码中显式记录支持的子集。当前范围仅限 `[text](https://...)` 风格的 Markdown 链接和裸 `http(s)` URL。
 - **Tk widget 限制的 workaround** 必须在代码附近说明原因。
 
+## 变更记录
+
+- 2026-03-13：`Text` 类富文本/日志/协议正文的主题样式统一收敛到 `vendor/github.com/HanHan666666/go-pkg-installer/pkg/ui/theme.go` 的 `applyTextStyle()`；优先使用 `flat + highlight ring` 的轻边框方案，不要在各个 screen 里单独堆叠 `solid` 黑边。
+- 2026-03-13：主操作按钮（`Primary.TButton` / `Accent.TButton`）的禁用态文字保持白色，避免安装/完成这类蓝色强调按钮在禁用时出现黑字；灰色中性按钮继续沿用 muted 文案颜色，不要一刀切修改全部 disabled button 前景色。
+- 2026-03-13：需要“某一步不能点上一部”时，优先在 `installer.yaml` 的 step 上声明 `allowBack: false`，不要在页面里零散写按钮禁用逻辑；同时注意在 `main.go` 构建 `core.Step` 时把 `Next/Prev/Branch/AllowBack/AllowJump/Route` 这类导航元数据完整拷入运行时结构。
+
 ## Git Commit 规范
 
 - 提交内容的语言使用简体中文

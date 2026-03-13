@@ -28,10 +28,30 @@ type Step struct {
 	Next      string // Next step ID (empty = sequential)
 	Prev      string // Previous step ID (empty = sequential)
 	Branch    *BranchConfig
+	// AllowBack mirrors StepConfig.AllowBack so navigation rules remain enforced
+	// even when callers interact with Workflow directly instead of going through UI.
+	AllowBack *bool
 	AllowJump bool
 	Route     string
 	// Config holds the original step configuration
 	Config *StepConfig
+}
+
+// AllowsBack reports whether the current step permits backward navigation.
+// Unset config preserves the historical default of allowing back navigation.
+func (s *Step) AllowsBack() bool {
+	if s == nil {
+		return true
+	}
+	if s.AllowBack != nil {
+		return *s.AllowBack
+	}
+	// Fall back to the original config so host applications can opt into the new
+	// schema field before they finish copying it onto the runtime Step struct.
+	if s.Config != nil && s.Config.AllowBack != nil {
+		return *s.Config.AllowBack
+	}
+	return true
 }
 
 // Flow represents a complete workflow (install, uninstall, etc.).
@@ -309,6 +329,16 @@ func (w *Workflow) Prev() (string, error) {
 		return "", errors.New("no flow selected")
 	}
 
+	if !w.current.Steps[w.currentIdx].AllowsBack() {
+		w.mu.Unlock()
+		return "", errors.New("back navigation is disabled")
+	}
+
+	if !w.canGoBackUnlocked() {
+		w.mu.Unlock()
+		return "", errors.New("already at first step")
+	}
+
 	step := w.current.Steps[w.currentIdx]
 	oldStepID := step.ID
 
@@ -474,7 +504,33 @@ func (w *Workflow) IsFirstStep() bool {
 
 // CanGoBack returns true if navigation to a previous step is possible.
 func (w *Workflow) CanGoBack() bool {
-	return !w.IsFirstStep()
+	w.mu.RLock()
+	defer w.mu.RUnlock()
+
+	if w.current == nil || w.currentIdx < 0 {
+		return false
+	}
+
+	if !w.current.Steps[w.currentIdx].AllowsBack() {
+		return false
+	}
+
+	return w.canGoBackUnlocked()
+}
+
+func (w *Workflow) canGoBackUnlocked() bool {
+	if w.current == nil || w.currentIdx < 0 {
+		return false
+	}
+
+	// Keep the historical first-step behavior separate from the step-level
+	// allowBack gate so callers can report a precise error reason.
+	for i := 0; i < w.currentIdx; i++ {
+		if w.stepStatus[w.current.Steps[i].ID] != StepDisabled {
+			return true
+		}
+	}
+	return false
 }
 
 // IsLastStep returns true if current step is the last (non-disabled) step.

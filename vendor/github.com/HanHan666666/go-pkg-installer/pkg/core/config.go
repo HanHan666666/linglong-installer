@@ -54,16 +54,19 @@ type TaskConfig struct {
 
 // StepConfig represents a step configuration.
 type StepConfig struct {
-	ID        string           `yaml:"id" json:"id"`
-	Title     string           `yaml:"title" json:"title"`
-	Screen    *ScreenConfig    `yaml:"screen,omitempty" json:"screen,omitempty"`
-	Tasks     []TaskConfig     `yaml:"tasks,omitempty" json:"tasks,omitempty"`
-	Guards    []map[string]any `yaml:"guards,omitempty" json:"guards,omitempty"`
-	Next      string           `yaml:"next,omitempty" json:"next,omitempty"`
-	Prev      string           `yaml:"prev,omitempty" json:"prev,omitempty"`
-	Branch    *BranchConfig    `yaml:"branch,omitempty" json:"branch,omitempty"`
-	AllowJump bool             `yaml:"allowJump,omitempty" json:"allowJump,omitempty"`
-	Route     string           `yaml:"route,omitempty" json:"route,omitempty"`
+	ID     string           `yaml:"id" json:"id"`
+	Title  string           `yaml:"title" json:"title"`
+	Screen *ScreenConfig    `yaml:"screen,omitempty" json:"screen,omitempty"`
+	Tasks  []TaskConfig     `yaml:"tasks,omitempty" json:"tasks,omitempty"`
+	Guards []map[string]any `yaml:"guards,omitempty" json:"guards,omitempty"`
+	Next   string           `yaml:"next,omitempty" json:"next,omitempty"`
+	Prev   string           `yaml:"prev,omitempty" json:"prev,omitempty"`
+	Branch *BranchConfig    `yaml:"branch,omitempty" json:"branch,omitempty"`
+	// AllowBack keeps backward navigation enabled by default and only locks it
+	// when the config explicitly sets allowBack: false for a step.
+	AllowBack *bool  `yaml:"allowBack,omitempty" json:"allowBack,omitempty"`
+	AllowJump bool   `yaml:"allowJump,omitempty" json:"allowJump,omitempty"`
+	Route     string `yaml:"route,omitempty" json:"route,omitempty"`
 }
 
 // ScreenConfig represents screen configuration.

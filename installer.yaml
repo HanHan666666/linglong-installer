@@ -85,6 +85,8 @@ flows:
 
       - id: install
         title: "正在安装"
+        # 安装步骤一旦开始就不允许回退，避免任务执行状态与 UI 步骤状态脱节。
+        allowBack: false
         screen:
           type: go:progress
           title: "正在安装"
@@ -106,5 +108,7 @@ flows:
 
       - id: finish
         title: "完成"
+        # 完成页禁止回退，避免用户返回到已经执行过的不可逆安装步骤。
+        allowBack: false
         screen:
           type: finish

@@ -122,6 +122,9 @@
         "branch": {
           "$ref": "#/$defs/branch"
         },
+        "allowBack": {
+          "type": "boolean"
+        },
         "allowJump": {
           "type": "boolean"
         },
