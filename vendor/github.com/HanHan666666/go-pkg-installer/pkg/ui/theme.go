@@ -50,6 +50,11 @@ func applyTheme(ctx *core.InstallContext) {
 
 func applyTextStyle(text *TextWidget) {
 	palette := currentPalette
+	// Tk Text uses the native "solid" relief to draw its own bevel. On Linux
+	// themes this often appears as a much darker outline than our palette,
+	// especially for read-only rich text blocks. We flatten the native border
+	// and keep a 1px highlight ring so the widget still reads as a contained
+	// surface without fighting the installer theme.
 	text.Configure(
 		Background(palette.surface),
 		Foreground(palette.text),
@@ -57,8 +62,10 @@ func applyTextStyle(text *TextWidget) {
 		Highlightthickness(1),
 		Highlightbackground(palette.border),
 		Highlightcolor(palette.accent),
-		Borderwidth(1),
-		Relief("solid"),
+		Borderwidth(0),
+		Relief("flat"),
+		Padx(12),
+		Pady(10),
 	)
 }
 
@@ -216,9 +223,13 @@ func applyStyles(p uiPalette) {
 	if buttonFont != nil {
 		StyleConfigure("Primary.TButton", Font(buttonFont))
 	}
+	// Keep disabled primary actions white so the install/finish CTA remains
+	// visually consistent with the filled accent button. Secondary/tertiary
+	// buttons intentionally keep muted disabled text because they are rendered
+	// as neutral surfaces rather than emphasized calls to action.
 	StyleMap("Primary.TButton",
 		Background, "active", p.accentHover, "pressed", p.accentActive,
-		Foreground, "disabled", p.muted,
+		Foreground, "disabled", "#ffffff",
 	)
 
 	StyleConfigure("Accent.TButton",
@@ -230,7 +241,10 @@ func applyStyles(p uiPalette) {
 		StyleConfigure("Accent.TButton", Font(buttonFont))
 	}
 	StyleMap("Accent.TButton",
-		Foreground, "active", "#ffffff", "disabled", p.muted,
+		// Azure theme maps navigation CTAs to Accent.TButton, so its disabled
+		// foreground must match Primary.TButton to avoid a black/gray label on
+		// the filled finish/install button while leaving neutral buttons alone.
+		Foreground, "active", "#ffffff", "disabled", "#ffffff",
 	)
 
 	StyleConfigure("Secondary.TButton",
