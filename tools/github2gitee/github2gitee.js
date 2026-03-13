@@ -11,13 +11,37 @@ const CONFIG = {
   GITHUB_REPO: process.env.GITHUB_REPO || 'HanHan666666/linglong-installer',
   GITEE_REPO: process.env.GITEE_REPO || '',
   TARGET_TAG: process.env.TARGET_TAG || '',
+  TRIGGER_WORKFLOW: process.env.TRIGGER_WORKFLOW !== 'false',
+  WORKFLOW_FILE: process.env.WORKFLOW_FILE || 'build.yml',
+  WORKFLOW_REF: process.env.WORKFLOW_REF || 'main',
+  GO_VERSION: process.env.GO_VERSION || '1.24.11',
+  CREATE_RELEASE: process.env.CREATE_RELEASE !== 'false',
+  POLL_INTERVAL_MS: Number(process.env.POLL_INTERVAL_MS || 10000),
+  WORKFLOW_TIMEOUT_MS: Number(process.env.WORKFLOW_TIMEOUT_MS || 2 * 60 * 60 * 1000),
+  RELEASE_TIMEOUT_MS: Number(process.env.RELEASE_TIMEOUT_MS || 10 * 60 * 1000),
   TEMP_DIR: path.join(__dirname, '.sync-temp'),
   MAX_FILE_SIZE: 100 * 1024 * 1024,
 };
 
-if (!CONFIG.GITHUB_TOKEN || !CONFIG.GITEE_TOKEN || !CONFIG.GITEE_REPO) {
-  console.error('Missing required configuration: GITHUB_TOKEN, GITEE_TOKEN, GITEE_REPO');
-  process.exit(1);
+function validateConfig() {
+  const missing = [];
+
+  if (!CONFIG.GITHUB_TOKEN) {
+    missing.push('GITHUB_TOKEN');
+  }
+  if (!CONFIG.GITEE_TOKEN) {
+    missing.push('GITEE_TOKEN');
+  }
+  if (!CONFIG.GITEE_REPO) {
+    missing.push('GITEE_REPO');
+  }
+  if (CONFIG.TRIGGER_WORKFLOW && !CONFIG.TARGET_TAG) {
+    missing.push('TARGET_TAG');
+  }
+
+  if (missing.length) {
+    throw new Error(`Missing required configuration: ${missing.join(', ')}`);
+  }
 }
 
 function request(url, options = {}) {
@@ -62,12 +86,17 @@ async function githubRequest(endpoint, options = {}) {
   const response = await request(`https://api.github.com${endpoint}`, {
     ...options,
     headers: {
-      'Authorization': `token ${CONFIG.GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
+      'Authorization': `Bearer ${CONFIG.GITHUB_TOKEN}`,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
       'User-Agent': 'linglong-installer-github2gitee',
       ...options.headers,
     },
   });
+
+  if (!response.body.length) {
+    return null;
+  }
 
   return JSON.parse(response.body.toString('utf8'));
 }
@@ -124,6 +153,10 @@ function cleanupTempDir() {
   fs.rmSync(CONFIG.TEMP_DIR, { recursive: true, force: true });
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function buildReleaseBody(release) {
   const body = (release.body || '').trim();
   if (body) {
@@ -146,6 +179,118 @@ function buildGiteeReleasePayload(release, overrides = {}) {
     target_commitish: release.target_commitish || 'master',
     ...overrides,
   };
+}
+
+async function dispatchGitHubWorkflow() {
+  console.log(`🚀 正在触发 GitHub Actions 工作流: ${CONFIG.WORKFLOW_FILE}`);
+  console.log(`  分支: ${CONFIG.WORKFLOW_REF}`);
+  console.log(`  Tag: ${CONFIG.TARGET_TAG}`);
+
+  await githubRequest(`/repos/${CONFIG.GITHUB_REPO}/actions/workflows/${encodeURIComponent(CONFIG.WORKFLOW_FILE)}/dispatches`, {
+    method: 'POST',
+    body: JSON.stringify({
+      ref: CONFIG.WORKFLOW_REF,
+      inputs: {
+        go_version: CONFIG.GO_VERSION,
+        release_tag: CONFIG.TARGET_TAG,
+        create_release: String(CONFIG.CREATE_RELEASE),
+      },
+    }),
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+  });
+}
+
+function findMatchingWorkflowRun(runs, startedAt) {
+  const cutoff = startedAt - 60 * 1000;
+  const matchedRuns = runs.filter((run) => {
+    if (run.event !== 'workflow_dispatch') {
+      return false;
+    }
+    if (run.head_branch !== CONFIG.WORKFLOW_REF) {
+      return false;
+    }
+    if (Date.parse(run.created_at) < cutoff) {
+      return false;
+    }
+    return true;
+  });
+
+  matchedRuns.sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
+
+  const exactTitleMatch = matchedRuns.find((run) => run.display_title === CONFIG.TARGET_TAG || run.name === CONFIG.TARGET_TAG);
+  return exactTitleMatch || matchedRuns[0] || null;
+}
+
+async function waitForWorkflowRun(startedAt) {
+  const deadline = Date.now() + CONFIG.WORKFLOW_TIMEOUT_MS;
+
+  while (Date.now() < deadline) {
+    const response = await githubRequest(`/repos/${CONFIG.GITHUB_REPO}/actions/workflows/${encodeURIComponent(CONFIG.WORKFLOW_FILE)}/runs?event=workflow_dispatch&branch=${encodeURIComponent(CONFIG.WORKFLOW_REF)}&per_page=20`);
+    const run = findMatchingWorkflowRun(response.workflow_runs || [], startedAt);
+
+    if (run) {
+      console.log(`  ✅ 已匹配到工作流运行: #${run.run_number} (ID: ${run.id})`);
+      return run;
+    }
+
+    console.log('  ⏳ 等待 GitHub Actions 创建运行记录...');
+    await sleep(CONFIG.POLL_INTERVAL_MS);
+  }
+
+  throw new Error(`等待工作流运行记录超时: ${CONFIG.WORKFLOW_FILE}`);
+}
+
+async function waitForWorkflowCompletion(runId) {
+  const deadline = Date.now() + CONFIG.WORKFLOW_TIMEOUT_MS;
+
+  while (Date.now() < deadline) {
+    const run = await githubRequest(`/repos/${CONFIG.GITHUB_REPO}/actions/runs/${runId}`);
+    console.log(`  ⏳ 工作流状态: ${run.status}${run.conclusion ? ` / ${run.conclusion}` : ''}`);
+
+    if (run.status === 'completed') {
+      if (run.conclusion !== 'success') {
+        throw new Error(`GitHub Actions 构建失败: ${run.conclusion} (${run.html_url})`);
+      }
+
+      console.log(`  ✅ GitHub Actions 构建完成: ${run.html_url}`);
+      return run;
+    }
+
+    await sleep(CONFIG.POLL_INTERVAL_MS);
+  }
+
+  throw new Error(`等待工作流执行完成超时: run_id=${runId}`);
+}
+
+async function waitForGitHubReleaseVisibility(tagName) {
+  const deadline = Date.now() + CONFIG.RELEASE_TIMEOUT_MS;
+
+  while (Date.now() < deadline) {
+    try {
+      const release = await githubRequest(`/repos/${CONFIG.GITHUB_REPO}/releases/tags/${encodeURIComponent(tagName)}`);
+      console.log(`  ✅ GitHub Release 已可见: ${release.html_url}`);
+      return release;
+    } catch (error) {
+      if (!error.message.includes('404')) {
+        throw error;
+      }
+    }
+
+    console.log(`  ⏳ 等待 GitHub Release ${tagName} 可见...`);
+    await sleep(CONFIG.POLL_INTERVAL_MS);
+  }
+
+  throw new Error(`等待 GitHub Release 可见超时: ${tagName}`);
+}
+
+async function runWorkflowAndWaitForRelease() {
+  const startedAt = Date.now();
+  await dispatchGitHubWorkflow();
+  const run = await waitForWorkflowRun(startedAt);
+  await waitForWorkflowCompletion(run.id);
+  await waitForGitHubReleaseVisibility(CONFIG.TARGET_TAG);
 }
 
 async function getGitHubRelease() {
@@ -375,6 +520,11 @@ async function syncRelease() {
 
 async function main() {
   try {
+    validateConfig();
+    if (CONFIG.TRIGGER_WORKFLOW) {
+      await runWorkflowAndWaitForRelease();
+      console.log('');
+    }
     await syncRelease();
     cleanupTempDir();
     console.log('\n✨ 同步完成！');
