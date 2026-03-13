@@ -98,19 +98,6 @@ function cleanupTempDir() {
   fs.rmSync(CONFIG.TEMP_DIR, { recursive: true, force: true });
 }
 
-function formatBytes(bytes) {
-  if (!Number.isFinite(bytes) || bytes <= 0) {
-    return '0 B';
-  }
-
-  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-  const value = bytes / (1024 ** exponent);
-  const digits = value >= 100 || exponent === 0 ? 0 : value >= 10 ? 1 : 2;
-
-  return `${value.toFixed(digits)} ${units[exponent]}`;
-}
-
 function buildReleaseBody(release) {
   const body = (release.body || '').trim();
   if (body) {
@@ -207,45 +194,8 @@ async function uploadAssetToGiteeRelease(releaseId, filepath) {
   const footer = Buffer.from(`\r\n--${boundary}--\r\n`);
   const url = `https://gitee.com/api/v5/repos/${CONFIG.GITEE_REPO}/releases/${releaseId}/attach_files?access_token=${CONFIG.GITEE_TOKEN}`;
   const urlObj = new URL(url);
-  const totalBytes = stats.size;
 
   return new Promise((resolve, reject) => {
-    const startedAt = Date.now();
-    let uploadedBytes = 0;
-    let settled = false;
-    let progressTimer = null;
-
-    const printProgress = (force = false) => {
-      const elapsedSeconds = Math.max((Date.now() - startedAt) / 1000, 0.001);
-      const percentage = totalBytes === 0 ? 100 : (uploadedBytes / totalBytes) * 100;
-      const speed = uploadedBytes / elapsedSeconds;
-      const line = `      ↑ 上传进度: ${percentage.toFixed(1)}% (${formatBytes(uploadedBytes)}/${formatBytes(totalBytes)}) ${formatBytes(speed)}/s`;
-
-      if (force) {
-        process.stdout.write(`${line}\n`);
-        return;
-      }
-
-      process.stdout.write(`\r${line}`);
-    };
-
-    const finish = (handler, value) => {
-      if (settled) {
-        return;
-      }
-
-      settled = true;
-      if (progressTimer) {
-        clearInterval(progressTimer);
-      }
-
-      if (uploadedBytes > 0 || totalBytes === 0) {
-        printProgress(true);
-      }
-
-      handler(value);
-    };
-
     const req = https.request({
       hostname: urlObj.hostname,
       port: urlObj.port || 443,
@@ -261,31 +211,21 @@ async function uploadAssetToGiteeRelease(releaseId, filepath) {
       res.on('end', () => {
         const body = Buffer.concat(chunks).toString('utf8');
         if (res.statusCode >= 200 && res.statusCode < 300) {
-          finish(resolve, body ? JSON.parse(body) : { name: filename, size: stats.size });
+          resolve(body ? JSON.parse(body) : { name: filename, size: stats.size });
           return;
         }
-        finish(reject, new Error(`上传失败 (${res.statusCode}): ${body}`));
+        reject(new Error(`上传失败 (${res.statusCode}): ${body}`));
       });
     });
 
-    req.on('error', (error) => finish(reject, error));
+    req.on('error', reject);
     req.write(header);
-    progressTimer = setInterval(() => printProgress(false), 1000);
 
     const fileStream = fs.createReadStream(filepath);
     fileStream.on('error', (error) => {
       req.destroy(error);
     });
-    fileStream.on('data', (chunk) => {
-      uploadedBytes += chunk.length;
-
-      if (!req.write(chunk)) {
-        fileStream.pause();
-      }
-    });
-    req.on('drain', () => {
-      fileStream.resume();
-    });
+    fileStream.on('data', (chunk) => req.write(chunk));
     fileStream.on('end', () => {
       req.write(footer);
       req.end();
