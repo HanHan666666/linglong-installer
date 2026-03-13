@@ -111,6 +111,17 @@ function buildReleaseBody(release) {
   ].join('\n');
 }
 
+function buildGiteeReleasePayload(release, overrides = {}) {
+  return {
+    tag_name: release.tag_name,
+    name: release.name || release.tag_name,
+    body: buildReleaseBody(release),
+    prerelease: release.prerelease || false,
+    target_commitish: release.target_commitish || 'master',
+    ...overrides,
+  };
+}
+
 async function getGitHubRelease() {
   if (CONFIG.TARGET_TAG) {
     console.log(`📥 正在获取 GitHub Release: ${CONFIG.TARGET_TAG}`);
@@ -234,17 +245,16 @@ async function uploadAssetToGiteeRelease(releaseId, filepath) {
 }
 
 async function createGiteeRelease(release) {
-  const payload = {
-    tag_name: release.tag_name,
-    name: release.name || release.tag_name,
-    body: buildReleaseBody(release),
-    prerelease: release.prerelease || false,
-    target_commitish: release.target_commitish || 'master',
-  };
-
   return giteeRequest(`/repos/${CONFIG.GITEE_REPO}/releases`, {
     method: 'POST',
-    body: JSON.stringify(payload),
+    body: JSON.stringify(buildGiteeReleasePayload(release)),
+  });
+}
+
+async function updateGiteeRelease(releaseId, release, overrides = {}) {
+  return giteeRequest(`/repos/${CONFIG.GITEE_REPO}/releases/${releaseId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(buildGiteeReleasePayload(release, overrides)),
   });
 }
 
@@ -275,25 +285,37 @@ async function syncRelease() {
   const githubRelease = await getGitHubRelease();
   const tagName = githubRelease.tag_name;
   let giteeRelease = await getGiteeRelease(tagName);
+  const finalPrerelease = githubRelease.prerelease || false;
+  const createdRelease = !giteeRelease;
 
   console.log(`\n📦 处理 Release: ${tagName}`);
 
-  if (!giteeRelease) {
-    console.log('  🚀 Gitee 不存在该 Release，准备创建');
-    giteeRelease = await createGiteeRelease(githubRelease);
+  if (createdRelease) {
+    console.log('  🚀 Gitee 不存在该 Release，准备先创建为预发布');
+    giteeRelease = await createGiteeRelease({
+      ...githubRelease,
+      prerelease: true,
+    });
     console.log(`  ✅ Release 创建成功 (ID: ${giteeRelease.id})`);
   } else {
     console.log('  ℹ️  Gitee 已存在该 Release，仅检查缺失附件');
   }
 
   const assets = getMissingAssets(githubRelease, giteeRelease);
+
   if (!assets.length) {
     console.log('  ✅ 无需同步附件');
+    if (createdRelease && giteeRelease.prerelease !== finalPrerelease) {
+      console.log(`  🚀 将 Release 状态恢复为${finalPrerelease ? '预发布' : '正式发布(latest)'}`);
+      await updateGiteeRelease(giteeRelease.id, githubRelease, { prerelease: finalPrerelease });
+      console.log('  ✅ Release 状态已更新');
+    }
     return;
   }
 
   ensureTempDir();
   let uploadedCount = 0;
+  let skippedCount = 0;
 
   for (const asset of assets) {
     const tempFile = path.join(CONFIG.TEMP_DIR, asset.name);
@@ -302,6 +324,7 @@ async function syncRelease() {
       console.log(`\n    📄 处理: ${asset.name} (${(asset.size / 1024 / 1024).toFixed(2)} MB)`);
       if (asset.size > CONFIG.MAX_FILE_SIZE) {
         console.warn(`      ⚠️  文件超过 ${CONFIG.MAX_FILE_SIZE / 1024 / 1024}MB，跳过`);
+        skippedCount += 1;
         continue;
       }
 
@@ -316,6 +339,16 @@ async function syncRelease() {
   }
 
   console.log(`\n  ✅ 附件处理完成: ${uploadedCount}/${assets.length} 个成功上传`);
+
+  if (skippedCount > 0) {
+    throw new Error(`有 ${skippedCount} 个附件因大小限制未上传`);
+  }
+
+  if (createdRelease && giteeRelease.prerelease !== finalPrerelease) {
+    console.log(`  🚀 所有附件已上传，正在切换为${finalPrerelease ? '预发布' : '正式发布(latest)'}`);
+    await updateGiteeRelease(giteeRelease.id, githubRelease, { prerelease: finalPrerelease });
+    console.log('  ✅ Release 已切换到最终状态');
+  }
 }
 
 async function main() {
