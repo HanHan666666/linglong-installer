@@ -57,7 +57,7 @@ linglong-installer/
 │   └── user/                  # 用户态脚本
 └── vendor/
     ├── github.com/HanHan666666/go-pkg-installer/  # 核心框架
-    │   └── pkg/ui/            # ⚠️ 有本地修改，更新时需注意
+    │   └── pkg/ui/           
     └── modernc.org/tk9.0/     # 纯 Go Tk GUI（无需系统 Tcl/Tk）
 ```
 
@@ -119,6 +119,16 @@ Go 代码只注册自定义扩展点（tasks、screens、guards）。
 - **vendor 下的 UI 代码**（`vendor/github.com/HanHan666666/go-pkg-installer/pkg/ui/`）特别重要 — 依赖更新时本地改动会被覆盖，改动必须有充分的内联注释。
 - **markdown/链接渲染路径**需在代码中显式记录支持的子集。当前范围仅限 `[text](https://...)` 风格的 Markdown 链接和裸 `http(s)` URL。
 - **Tk widget 限制的 workaround** 必须在代码附近说明原因。
+
+## Git Commit 规范
+
+- 提交信息必须使用 Conventional Commits 风格，常用前缀包括：`feat:`、`fix:`、`docs:`、`refactor:`、`test:`、`chore:`。
+- `feat:` 用于新增功能；`fix:` 用于修复问题；不要随意混用前缀。
+- 提交标题要简洁明确，优先写“做了什么”，不要写空泛描述。
+- 示例：
+  - `feat: add clickable markdown links to installer text`
+  - `fix: handle missing distro metadata in confirm screen`
+  - `docs: clarify local replace setup in AGENTS guide`
 
 ## 添加自定义 Screen
 
