@@ -1,4 +1,5 @@
 name: Create Linglong Store Installer Release
+run-name: ${{ inputs.release_tag }}
 
 on:
   workflow_dispatch:
