@@ -23,6 +23,31 @@ const CONFIG = {
   MAX_FILE_SIZE: 100 * 1024 * 1024,
 };
 
+function normalizeRepoPath(repo, expectedHost) {
+  if (!repo) {
+    return '';
+  }
+
+  const trimmed = repo.trim();
+  if (!trimmed) {
+    return '';
+  }
+
+  if (!trimmed.includes('://')) {
+    return trimmed.replace(/^\/+|\/+$/g, '').replace(/\.git$/i, '');
+  }
+
+  const url = new URL(trimmed);
+  if (expectedHost && url.hostname !== expectedHost) {
+    throw new Error(`Repository URL host mismatch: expected ${expectedHost}, got ${url.hostname}`);
+  }
+
+  return url.pathname.replace(/^\/+|\/+$/g, '').replace(/\.git$/i, '');
+}
+
+CONFIG.GITHUB_REPO = normalizeRepoPath(CONFIG.GITHUB_REPO, 'github.com');
+CONFIG.GITEE_REPO = normalizeRepoPath(CONFIG.GITEE_REPO, 'gitee.com');
+
 function validateConfig() {
   const missing = [];
 
@@ -286,11 +311,21 @@ async function waitForGitHubReleaseVisibility(tagName) {
 }
 
 async function runWorkflowAndWaitForRelease() {
+  try {
+    const existingRelease = await githubRequest(`/repos/${CONFIG.GITHUB_REPO}/releases/tags/${encodeURIComponent(CONFIG.TARGET_TAG)}`);
+    console.log(`📦 GitHub Release 已存在，跳过构建触发: ${existingRelease.html_url}`);
+    return existingRelease;
+  } catch (error) {
+    if (!error.message.includes('404')) {
+      throw error;
+    }
+  }
+
   const startedAt = Date.now();
   await dispatchGitHubWorkflow();
   const run = await waitForWorkflowRun(startedAt);
   await waitForWorkflowCompletion(run.id);
-  await waitForGitHubReleaseVisibility(CONFIG.TARGET_TAG);
+  return waitForGitHubReleaseVisibility(CONFIG.TARGET_TAG);
 }
 
 async function getGitHubRelease() {
