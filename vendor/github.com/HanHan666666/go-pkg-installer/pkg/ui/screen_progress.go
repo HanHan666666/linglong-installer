@@ -21,12 +21,15 @@ type ProgressScreen struct {
 	progressVar       *VariableOpt
 	statusLabel       *TLabelWidget
 	logText           *TextWidget
+	copyButton        *TButtonWidget
 	isComplete        bool
 	taskRunner        *core.TaskRunner
 	ctx               *core.InstallContext
 	bus               *core.EventBus
 	active            bool
 	specialErrorShown bool
+	logContent        string
+	copyFeedbackSeq   uint64
 }
 
 // NewProgressScreen creates a progress screen renderer.
@@ -74,9 +77,28 @@ func (s *ProgressScreen) Render(parent *TFrameWidget, ctx *core.InstallContext, 
 	)
 	Pack(s.progressBar, Pady("10"), Side("top"))
 
+	// Keep the log action close to the log pane so users can copy the exact
+	// visible script output without searching the final summary or filesystem.
+	logToolbar := parent.TFrame()
+	Pack(logToolbar, Fill("x"), Pady("8 0"))
+
+	logTitle := logToolbar.TLabel(
+		Txt(tr(ctx, "label.logs", "Installation Log")),
+		Anchor("w"),
+	)
+	Pack(logTitle, Side("left"))
+
+	s.copyButton = logToolbar.TButton(
+		Txt(tr(ctx, "button.copy_logs", "Copy Log")),
+		Command(s.copyLogsToClipboard),
+		Style("Secondary.TButton"),
+		State("disabled"),
+	)
+	Pack(s.copyButton, Side("right"))
+
 	// Log frame with scrollbar
 	logFrame := parent.TFrame()
-	Pack(logFrame, Fill("both"), Expand(true), Pady("10"))
+	Pack(logFrame, Fill("both"), Expand(true), Pady("6 10"))
 
 	scrollbar := logFrame.TScrollbar()
 	Pack(scrollbar, Side("right"), Fill("y"))
@@ -134,11 +156,68 @@ func (s *ProgressScreen) AddLogMessage(msg string) {
 		if s.logText == nil {
 			return
 		}
+		// Store the rendered log verbatim so the copy action matches the text box
+		// contents, including any intentional blank lines between task phases.
+		s.logContent += msg + "\n"
 		s.logText.Configure(State("normal"))
 		s.logText.Insert("end", msg+"\n")
 		s.logText.See("end")
 		s.logText.Configure(State("disabled"))
+		if s.copyButton != nil {
+			s.copyButton.Configure(State("normal"))
+		}
 	}, false)
+}
+
+func (s *ProgressScreen) copyLogsToClipboard() {
+	PostEvent(func() {
+		s.mu.Lock()
+		defer s.mu.Unlock()
+		if !s.active || s.copyButton == nil {
+			return
+		}
+
+		content := strings.TrimRight(s.logContent, "\n")
+		if content == "" {
+			return
+		}
+
+		// Tk requires clipboard clear/append to happen on the UI thread. We keep
+		// the wrapper local to the progress screen because the source of truth is
+		// this log pane rather than the broader runtime log file.
+		if !copyTextToClipboard(content) {
+			Bell()
+			return
+		}
+
+		s.copyFeedbackSeq++
+		feedbackSeq := s.copyFeedbackSeq
+		s.copyButton.Configure(Txt(tr(s.ctx, "button.copied", "Copied")))
+
+		go func(seq uint64) {
+			time.Sleep(1500 * time.Millisecond)
+			PostEvent(func() {
+				s.mu.Lock()
+				defer s.mu.Unlock()
+				if !s.active || s.copyButton == nil || s.copyFeedbackSeq != seq {
+					return
+				}
+				s.copyButton.Configure(Txt(tr(s.ctx, "button.copy_logs", "Copy Log")))
+			}, true)
+		}(feedbackSeq)
+	}, true)
+}
+
+func copyTextToClipboard(content string) (ok bool) {
+	defer func() {
+		if recover() != nil {
+			ok = false
+		}
+	}()
+
+	ClipboardClear()
+	ClipboardAppend(content)
+	return true
 }
 
 func (s *ProgressScreen) maybeShowSpecialInstallError(msg string) {
@@ -309,6 +388,7 @@ func (s *ProgressScreen) Cleanup() {
 	s.mu.Lock()
 	s.active = false
 	s.logText = nil
+	s.copyButton = nil
 	s.statusLabel = nil
 	s.progressVar = nil
 	s.progressBar = nil

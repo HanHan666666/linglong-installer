@@ -125,6 +125,7 @@ Go 代码只注册自定义扩展点（tasks、screens、guards）。
 - 2026-03-13：`Text` 类富文本/日志/协议正文的主题样式统一收敛到 `vendor/github.com/HanHan666666/go-pkg-installer/pkg/ui/theme.go` 的 `applyTextStyle()`；优先使用 `flat + highlight ring` 的轻边框方案，不要在各个 screen 里单独堆叠 `solid` 黑边。
 - 2026-03-13：主操作按钮（`Primary.TButton` / `Accent.TButton`）的禁用态文字保持白色，避免安装/完成这类蓝色强调按钮在禁用时出现黑字；灰色中性按钮继续沿用 muted 文案颜色，不要一刀切修改全部 disabled button 前景色。
 - 2026-03-13：需要“某一步不能点上一部”时，优先在 `installer.yaml` 的 step 上声明 `allowBack: false`，不要在页面里零散写按钮禁用逻辑；同时注意在 `main.go` 构建 `core.Step` 时把 `Next/Prev/Branch/AllowBack/AllowJump/Route` 这类导航元数据完整拷入运行时结构。
+- 2026-03-16：安装中的日志复制能力优先收敛到通用 `go:progress` screen，不要为单个项目复制一份专用进度页；复制内容应直接来源于当前日志 `Text` 组件对应的缓冲，保证用户复制到的内容与界面可见日志一致。
 
 ## Git Commit 规范
 
