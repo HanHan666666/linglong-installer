@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const childProcess = require('child_process');
 const https = require('https');
 const http = require('http');
 const fs = require('fs');
@@ -8,6 +9,7 @@ const path = require('path');
 const CONFIG = {
   GITHUB_TOKEN: process.env.GITHUB_TOKEN || '',
   GITEE_TOKEN: process.env.GITEE_TOKEN || '',
+  GITEE_USERNAME: process.env.GITEE_USERNAME || '',
   GITHUB_REPO: process.env.GITHUB_REPO || 'HanHan666666/linglong-installer',
   GITEE_REPO: process.env.GITEE_REPO || '',
   TARGET_TAG: process.env.TARGET_TAG || '',
@@ -182,6 +184,43 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function redactSecrets(text) {
+  if (!text) {
+    return '';
+  }
+
+  let sanitized = text;
+  for (const secret of [CONFIG.GITHUB_TOKEN, CONFIG.GITEE_TOKEN]) {
+    if (!secret) {
+      continue;
+    }
+    sanitized = sanitized.split(secret).join('***');
+    sanitized = sanitized.split(encodeURIComponent(secret)).join('***');
+  }
+
+  return sanitized;
+}
+
+function runCommand(command, args, options = {}) {
+  const result = childProcess.spawnSync(command, args, {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+    ...options,
+  });
+
+  if (result.error) {
+    throw result.error;
+  }
+
+  if (result.status !== 0) {
+    const commandLine = redactSecrets(`${command} ${args.join(' ')}`.trim());
+    const detail = redactSecrets((result.stderr || result.stdout || '').trim());
+    throw new Error(`${commandLine} 执行失败${detail ? `: ${detail}` : ''}`);
+  }
+
+  return (result.stdout || '').trim();
+}
+
 function buildReleaseBody(release) {
   const body = (release.body || '').trim();
   if (body) {
@@ -201,9 +240,56 @@ function buildGiteeReleasePayload(release, overrides = {}) {
     name: release.name || release.tag_name,
     body: buildReleaseBody(release),
     prerelease: release.prerelease || false,
+    // Gitee 创建 release 时会尝试同步创建 tag，所以这里的 target_commitish
+    // 必须已经存在于 Gitee 仓库。主流程会先镜像 GitHub refs，再走 release 同步。
     target_commitish: release.target_commitish || 'master',
     ...overrides,
   };
+}
+
+function buildGitHubGitURL() {
+  return `https://x-access-token:${encodeURIComponent(CONFIG.GITHUB_TOKEN)}@github.com/${CONFIG.GITHUB_REPO}.git`;
+}
+
+function buildGiteeGitURL(username) {
+  return `https://${encodeURIComponent(username)}:${encodeURIComponent(CONFIG.GITEE_TOKEN)}@gitee.com/${CONFIG.GITEE_REPO}.git`;
+}
+
+async function getGiteeUsername() {
+  if (CONFIG.GITEE_USERNAME) {
+    return CONFIG.GITEE_USERNAME;
+  }
+
+  const currentUser = await giteeRequest('/user');
+  if (!currentUser || !currentUser.login) {
+    throw new Error('无法通过 Gitee Token 获取当前用户名，无法执行代码镜像');
+  }
+
+  CONFIG.GITEE_USERNAME = currentUser.login;
+  return CONFIG.GITEE_USERNAME;
+}
+
+async function mirrorGitHubRepoToGitee() {
+  console.log('🚚 开始镜像 GitHub 代码到 Gitee');
+
+  ensureTempDir();
+  const mirrorDir = path.join(CONFIG.TEMP_DIR, 'repo-mirror.git');
+  fs.rmSync(mirrorDir, { recursive: true, force: true });
+
+  const giteeUsername = await getGiteeUsername();
+
+  console.log(`  GitHub 仓库: ${CONFIG.GITHUB_REPO}`);
+  console.log(`  Gitee 仓库: ${CONFIG.GITEE_REPO}`);
+
+  // 镜像仓库使用独立的 bare clone，避免读取本地脏工作区或误用当前 remote 配置。
+  runCommand('git', ['clone', '--mirror', buildGitHubGitURL(), mirrorDir]);
+  runCommand('git', ['--git-dir', mirrorDir, 'remote', 'add', 'gitee', buildGiteeGitURL(giteeUsername)]);
+
+  // 仅同步 heads 和 tags，避免把临时 refs 或宿主环境里的额外 refs 推到 Gitee。
+  runCommand('git', ['--git-dir', mirrorDir, 'push', '--prune', 'gitee', 'refs/heads/*:refs/heads/*']);
+  runCommand('git', ['--git-dir', mirrorDir, 'push', '--prune', 'gitee', 'refs/tags/*:refs/tags/*']);
+
+  console.log('  ✅ GitHub 代码已镜像到 Gitee');
 }
 
 async function dispatchGitHubWorkflow() {
@@ -560,6 +646,8 @@ async function main() {
       await runWorkflowAndWaitForRelease();
       console.log('');
     }
+    await mirrorGitHubRepoToGitee();
+    console.log('');
     await syncRelease();
     cleanupTempDir();
     console.log('\n✨ 同步完成！');
