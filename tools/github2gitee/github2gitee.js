@@ -202,10 +202,12 @@ function redactSecrets(text) {
 }
 
 function runCommand(command, args, options = {}) {
+  const { streamOutput = false, ...spawnOptions } = options;
   const result = childProcess.spawnSync(command, args, {
     encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'pipe'],
-    ...options,
+    // 发布链路里的 git clone/push 可能持续数分钟，透传进度输出可以避免终端表现为“卡死”。
+    stdio: streamOutput ? ['ignore', 'inherit', 'inherit'] : ['ignore', 'pipe', 'pipe'],
+    ...spawnOptions,
   });
 
   if (result.error) {
@@ -214,11 +216,11 @@ function runCommand(command, args, options = {}) {
 
   if (result.status !== 0) {
     const commandLine = redactSecrets(`${command} ${args.join(' ')}`.trim());
-    const detail = redactSecrets((result.stderr || result.stdout || '').trim());
+    const detail = streamOutput ? '' : redactSecrets((result.stderr || result.stdout || '').trim());
     throw new Error(`${commandLine} 执行失败${detail ? `: ${detail}` : ''}`);
   }
 
-  return (result.stdout || '').trim();
+  return streamOutput ? '' : (result.stdout || '').trim();
 }
 
 function buildReleaseBody(release) {
@@ -282,12 +284,24 @@ async function mirrorGitHubRepoToGitee() {
   console.log(`  Gitee 仓库: ${CONFIG.GITEE_REPO}`);
 
   // 镜像仓库使用独立的 bare clone，避免读取本地脏工作区或误用当前 remote 配置。
-  runCommand('git', ['clone', '--mirror', buildGitHubGitURL(), mirrorDir]);
+  console.log('  ⏳ 开始克隆 GitHub 镜像仓库，下面会直接输出 git 进度');
+  runCommand('git', ['clone', '--mirror', '--progress', buildGitHubGitURL(), mirrorDir], {
+    streamOutput: true,
+  });
+  console.log('  ✅ GitHub 镜像仓库克隆完成');
   runCommand('git', ['--git-dir', mirrorDir, 'remote', 'add', 'gitee', buildGiteeGitURL(giteeUsername)]);
 
   // 仅同步 heads 和 tags，避免把临时 refs 或宿主环境里的额外 refs 推到 Gitee。
-  runCommand('git', ['--git-dir', mirrorDir, 'push', '--prune', 'gitee', 'refs/heads/*:refs/heads/*']);
-  runCommand('git', ['--git-dir', mirrorDir, 'push', '--prune', 'gitee', 'refs/tags/*:refs/tags/*']);
+  console.log('  ⏳ 开始推送 GitHub heads 到 Gitee，下面会直接输出 git 进度');
+  runCommand('git', ['--git-dir', mirrorDir, 'push', '--progress', '--prune', 'gitee', 'refs/heads/*:refs/heads/*'], {
+    streamOutput: true,
+  });
+  console.log('  ✅ GitHub heads 已推送到 Gitee');
+  console.log('  ⏳ 开始推送 GitHub tags 到 Gitee，下面会直接输出 git 进度');
+  runCommand('git', ['--git-dir', mirrorDir, 'push', '--progress', '--prune', 'gitee', 'refs/tags/*:refs/tags/*'], {
+    streamOutput: true,
+  });
+  console.log('  ✅ GitHub tags 已推送到 Gitee');
 
   console.log('  ✅ GitHub 代码已镜像到 Gitee');
 }
