@@ -1,6 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# 玲珑商店安装器脚本
+#
+# 用法：
+#   ./linglong-store-installer.sh [选项]
+#
+# 选项：
+#   --help, -h        显示帮助信息
+#   --version, -v     显示版本信息
+#   --uninstall, -u   卸载玲珑商店
+#
+# 环境变量：
+#   LINGLONG_SOURCE   强制指定下载源（可选）
+#                     可选值：github, gitee
+#                     若不设置，则自动检测网络环境选择最优源
+#                     示例：LINGLONG_SOURCE=github ./linglong-store-installer.sh
+#
+# 说明：
+#   - 脚本会自动检测网络环境，优先选择最快的下载源
+#   - 若指定了 LINGLONG_SOURCE 环境变量，则跳过网络探测，直接使用指定的源
+#   - GitHub 适合国际互联网环境，Gitee 适合国内互联网环境
+#   - 若首选源下载失败，会自动切换到备用源重试
+
 # ========= 前置检查 =========
 # 检测到 银河麒麟v10 和 NixOS 时，给出特殊提示并退出
 is_kylin_v10="false"
@@ -65,6 +87,10 @@ REPO_NAME="linglong-installer"
 VERSION="latest"
 GITHUB_REPO_OWNER="HanHan666666"
 GITEE_REPO_OWNER="hanplus"
+
+# 环境变量：强制指定下载源（可选值：github, gitee）
+# 若设置，则跳过网络探测，直接使用指定的源
+LINGLONG_SOURCE="${LINGLONG_SOURCE:-}"
 
 # Google generate_204 只用于判断优先级，不直接等价于 GitHub release/CDN 一定可达。
 # 脚本会先按探测结果选择首选源，若下载失败再自动回退到另一个源。
@@ -178,12 +204,26 @@ download_installer() {
   local tried_sources=()
   local download_sources=()
 
-  if can_reach_preferred_network; then
-    info "International internet environment detected, prioritizing GitHub."
-    download_sources=("github" "gitee")
+  # 优先使用环境变量指定的源
+  if [[ -n "$LINGLONG_SOURCE" ]]; then
+    if [[ "$LINGLONG_SOURCE" == "github" ]]; then
+      info "环境变量指定使用 GitHub 源。"
+      download_sources=("github" "gitee")
+    elif [[ "$LINGLONG_SOURCE" == "gitee" ]]; then
+      info "环境变量指定使用 Gitee 源。"
+      download_sources=("gitee" "github")
+    else
+      err "环境变量 LINGLONG_SOURCE 值无效：$LINGLONG_SOURCE（可选值：github, gitee）"
+    fi
   else
-    warn "检测到国内互联网环境，优先使用 Gitee。"
-    download_sources=("gitee" "github")
+    # 未指定环境变量，则自动检测网络环境
+    if can_reach_preferred_network; then
+      info "International internet environment detected, prioritizing GitHub."
+      download_sources=("github" "gitee")
+    else
+      warn "检测到国内互联网环境，优先使用 Gitee。"
+      download_sources=("gitee" "github")
+    fi
   fi
 
   for source in "${download_sources[@]}"; do
