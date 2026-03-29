@@ -61,19 +61,143 @@ fi
 
 
 # ========= 基本配置 =========
-REPO_OWNER="hanplus"
 REPO_NAME="linglong-installer"
 VERSION="latest"
+GITHUB_REPO_OWNER="HanHan666666"
+GITEE_REPO_OWNER="hanplus"
+
+# Google generate_204 只用于判断优先级，不直接等价于 GitHub release/CDN 一定可达。
+# 脚本会先按探测结果选择首选源，若下载失败再自动回退到另一个源。
+NETWORK_PROBE_URL="https://www.google.com/generate_204"
+NETWORK_PROBE_CONNECT_TIMEOUT_SECONDS="3"
+NETWORK_PROBE_MAX_TIME_SECONDS="5"
+DOWNLOAD_CONNECT_TIMEOUT_SECONDS="10"
+DOWNLOAD_MAX_TIME_SECONDS="120"
 
 # 二进制基础名（不带架构）
 BIN_NAME="linglong-store-installer"
 
-# 下载地址前缀
-BASE_URL="https://gitee.com/${REPO_OWNER}/${REPO_NAME}/releases/download/${VERSION}"
-
 err() {
   echo -e "\033[1;31m[ERROR]\033[0m $*" >&2
   exit 1
+}
+
+info() {
+  echo -e "\033[1;34m[INFO]\033[0m $*"
+}
+
+warn() {
+  echo -e "\033[1;33m[WARN]\033[0m $*"
+}
+
+# 网络探测与实际下载都依赖 curl，提前失败比把问题误报成网络异常更清晰。
+require_dependencies() {
+  command -v curl >/dev/null 2>&1 || err "缺少 curl，请先安装 curl 后再运行此脚本。"
+}
+
+# 统一在一个位置维护源名称，避免日志与分支判断分散。
+source_label() {
+  case "$1" in
+    github)
+      printf '%s' 'GitHub'
+      ;;
+    gitee)
+      printf '%s' 'Gitee'
+      ;;
+    *)
+      printf '%s' "$1"
+      ;;
+  esac
+}
+
+# GitHub 的 latest 下载路径与 Gitee 的 latest 下载路径格式不同，这里统一封装。
+build_download_url() {
+  local source="$1"
+  local bin_file="$2"
+
+  case "$source" in
+    github)
+      if [[ "$VERSION" == "latest" ]]; then
+        printf '%s' "https://github.com/${GITHUB_REPO_OWNER}/${REPO_NAME}/releases/latest/download/${bin_file}"
+      else
+        printf '%s' "https://github.com/${GITHUB_REPO_OWNER}/${REPO_NAME}/releases/download/${VERSION}/${bin_file}"
+      fi
+      ;;
+    gitee)
+      printf '%s' "https://gitee.com/${GITEE_REPO_OWNER}/${REPO_NAME}/releases/download/${VERSION}/${bin_file}"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+# 这里探测的是“更像外网可直连”的信号，只用于决定先尝试哪个源。
+can_reach_preferred_network() {
+  curl -fsSL \
+    --connect-timeout "$NETWORK_PROBE_CONNECT_TIMEOUT_SECONDS" \
+    --max-time "$NETWORK_PROBE_MAX_TIME_SECONDS" \
+    -o /dev/null \
+    "$NETWORK_PROBE_URL"
+}
+
+download_from_source() {
+  local source="$1"
+  local destination="$2"
+  local url
+  local file_magic
+
+  url="$(build_download_url "$source" "$BIN_FILE")" || return 1
+  rm -f "$destination"
+
+  info "正在从 $(source_label "$source") 下载安装器..."
+  if curl -fL --show-error \
+    --connect-timeout "$DOWNLOAD_CONNECT_TIMEOUT_SECONDS" \
+    --max-time "$DOWNLOAD_MAX_TIME_SECONDS" \
+    --retry 1 \
+    "$url" \
+    -o "$destination"; then
+    # 发布资产是 Go 构建出的 Linux 二进制，这里校验 ELF 魔数，避免把 HTML 错误页当成成功下载。
+    file_magic="$(od -An -t x1 -N 4 "$destination" 2>/dev/null | tr -d '[:space:]')"
+    if [[ -s "$destination" && "$file_magic" == "7f454c46" ]]; then
+      return 0
+    fi
+
+    warn "从 $(source_label "$source") 下载的文件不是预期的 ELF 二进制，已丢弃。"
+    rm -f "$destination"
+    return 1
+  fi
+
+  rm -f "$destination"
+  return 1
+}
+
+download_installer() {
+  local destination="$1"
+  local source
+  local tried_sources=()
+  local download_sources=()
+
+  if can_reach_preferred_network; then
+    info "International internet environment detected, prioritizing GitHub."
+    download_sources=("github" "gitee")
+  else
+    warn "检测到国内互联网环境，优先使用 Gitee。"
+    download_sources=("gitee" "github")
+  fi
+
+  for source in "${download_sources[@]}"; do
+    tried_sources+=("$(source_label "$source")")
+
+    if download_from_source "$source" "$destination"; then
+      SELECTED_SOURCE="$source"
+      return 0
+    fi
+
+    warn "从 $(source_label "$source") 下载失败，尝试下一个源。"
+  done
+
+  err "无法下载安装器，已尝试：${tried_sources[*]}"
 }
 
 # ========= 架构检测 =========
@@ -91,7 +215,7 @@ case "$ARCH" in
 esac
 
 BIN_FILE="${BIN_NAME}-${ARCH_SUFFIX}"
-DOWNLOAD_URL="${BASE_URL}/${BIN_FILE}"
+SELECTED_SOURCE=""
 
 # ========= 下载目录 =========
 WORKDIR="$(mktemp -d)"
@@ -102,8 +226,9 @@ cleanup() {
 }
 trap cleanup EXIT
 
-curl -fL "$DOWNLOAD_URL" -o "$BIN_PATH"
-
+require_dependencies
+download_installer "$BIN_PATH"
+info "已从 $(source_label "$SELECTED_SOURCE") 下载完成，开始启动安装器。"
 
 chmod +x "$BIN_PATH"
 
