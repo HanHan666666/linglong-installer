@@ -9,7 +9,7 @@
 # 支持的发行版：
 #   Debian 12/13/Testing/Sid, Ubuntu 24.04/25.04/25.10,
 #   Deepin 23/23.1/25, UOS 20, openKylin 2.0,
-#   Fedora 41/42/43/Rawhide, AnolisOS 8,
+#   Fedora 41/42/43/44/Rawhide, Evernight Vista 44（映射到 Fedora）, AnolisOS 8,
 #   openEuler 23.09/24.03, openSUSE 15.6,
 #   Arch Linux, Manjaro, Parabola,
 #   Linux Mint (映射到 Ubuntu), MX Linux (映射到 Debian)
@@ -317,6 +317,17 @@ debian_codename_to_version() {
     esac
 }
 
+# Fedora 版本标签规范化：空版本统一按 Rawhide 处理。
+normalize_fedora_version() {
+    local version
+    version=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    if [ -z "${version}" ] || [ "${version}" = "rawhide" ]; then
+        echo "rawhide"
+        return 0
+    fi
+    echo "${version}"
+}
+
 # --------------------------------- 发行版安装逻辑 -----------------------------
 
 is_arch_like_distro() {
@@ -449,7 +460,8 @@ install_fedora() {
             add_dnf_repo "https://ci.deepin.com/repo/obs/linglong:/CI:/release/Fedora_42/linglong%3ACI%3Arelease.repo"
             dnf install -y linglong-bin linyaps-web-store-installer policykit-1
             ;;
-        43)
+        43|44)
+            # Fedora 44 与 Evernight Vista 44 当前复用 Fedora 43 的 COPR 安装路径。
             dnf copr enable mozixun/OpenAtom-Linyaps -y
             dnf install -y linglong linglong-bin linyaps-web-store-installer
             ;;
@@ -557,10 +569,22 @@ dispatch_install() {
         # ---------- RPM 系 ----------
         fedora)
             # Fedora Rawhide 通常 VERSION_ID 为空或为 rawhide
-            if [ -z "${version}" ] || [ "${version}" = "rawhide" ]; then
-                version="rawhide"
-            fi
+            version=$(normalize_fedora_version "${version}")
             install_fedora "${version}"
+            ;;
+
+        evernight)
+            # Evernight Vista 44 起改用独立 ID，但当前仅确认复用 Fedora 44 的安装链路。
+            case "${version}" in
+                44|44.*)
+                    info "Evernight Vista ${version} → 使用 Fedora 44 安装源"
+                    install_fedora "44"
+                    ;;
+                *)
+                    error "当前仅支持 Evernight Vista 44，检测到版本: ${version:-未知}"
+                    exit 1
+                    ;;
+            esac
             ;;
 
         anolis)
@@ -643,7 +667,7 @@ EOF
                 return 0
             fi
             error "不支持的发行版: ${id} ${version}"
-            error "支持列表: Debian, Ubuntu, Deepin, UOS, openKylin, Fedora, AnolisOS, openEuler, openSUSE, Arch, Manjaro, Parabola, Linux Mint, MX Linux"
+            error "支持列表: Debian, Ubuntu, Deepin, UOS, openKylin, Fedora, Evernight Vista 44, AnolisOS, openEuler, openSUSE, Arch, Manjaro, Parabola, Linux Mint, MX Linux"
             exit 1
             ;;
     esac

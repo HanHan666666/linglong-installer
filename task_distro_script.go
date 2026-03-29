@@ -227,6 +227,11 @@ func resolveUpstreamScript(id, version string, fields map[string]string) (string
 		if debianVersion, ok := mxVersionToDebian(version); ok {
 			return fmt.Sprintf("debian_%s.sh", debianVersion), "debian", debianVersion, true
 		}
+	case "evernight":
+		// Evernight Vista 44 switched to its own distro ID while still reusing Fedora 44 packaging.
+		if isEvernightVista44(version) {
+			return "fedora_44.sh", "fedora", "44", true
+		}
 	case "garuda":
 		return "arch_rolling.sh", "arch", "rolling", true
 	}
@@ -235,6 +240,11 @@ func resolveUpstreamScript(id, version string, fields map[string]string) (string
 	}
 
 	return "", "", "", false
+}
+
+func isEvernightVista44(version string) bool {
+	trimmed := strings.TrimSpace(version)
+	return trimmed == "44" || strings.HasPrefix(trimmed, "44.")
 }
 
 func isArchLikeDistro(id string, fields map[string]string) bool {

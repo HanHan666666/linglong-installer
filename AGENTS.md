@@ -128,6 +128,7 @@ Go 代码只注册自定义扩展点（tasks、screens、guards）。
 - 2026-03-16：安装中的日志复制能力优先收敛到通用 `go:progress` screen，不要为单个项目复制一份专用进度页；复制内容应直接来源于当前日志 `Text` 组件对应的缓冲，保证用户复制到的内容与界面可见日志一致。
 - 2026-03-17：`tools/github2gitee/github2gitee.js` 的发布链路必须先把 GitHub 的分支和 tags 镜像到 Gitee，再创建/更新 Gitee Release；不要依赖 Gitee 在 release 创建时为一个尚未同步的 commit 自动建 tag，这会触发“创建标签失败”。
 - 2026-03-17：`tools/github2gitee/github2gitee.js` 里涉及网络传输的大型 `git clone/push` 不要吞掉子进程输出；应显式开启 `--progress` 并把 stdout/stderr 直接透传到终端，否则用户只能看到脚本停在某一行，误判为卡死。
+- 2026-03-29：Evernight Vista 44 从 `ID=fedora` 切到 `ID=evernight` 后，发行版解析与 `install-linyaps-env.sh` 都必须显式映射到 Fedora 44；不要把 `evernight` 泛化成“任意版本都复用 Fedora”，当前只确认 Vista 44 这条链路可用。
 
 ## Git Commit 规范
 
