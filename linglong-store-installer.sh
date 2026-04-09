@@ -79,6 +79,22 @@ if [[ "$is_nixos" == "true" ]]; then
   echo "  ll-cli install com.dongpl.linglong-store.v2 --repo testing"
   exit 0
 fi
+# Arch 系 Linux 检测：tk 包是安装器的依赖，部分 Arch 发行版默认未安装
+if [[ -f /etc/os-release ]]; then
+  # shellcheck disable=SC1091
+  . /etc/os-release
+  if [[ "${ID:-}" == "arch" ]] || [[ "${ID_LIKE:-}" == *"arch"* ]] || \
+     [[ "${NAME:-}" == *"Arch"* ]] || [[ "${PRETTY_NAME:-}" == *"Arch"* ]] || \
+     [[ "${ID:-}" == "manjaro" ]] || [[ "${ID:-}" == "garuda" ]] || \
+     [[ "${ID:-}" == "endeavouros" ]] || [[ "${ID:-}" == "artix" ]]; then
+    if ! pacman -Q tk >/dev/null 2>&1; then
+      echo -e "\033[1;33m[提示]\033[0m 检测到 Arch 系 Linux，如果启动报错，请确认已安装 tk 包（安装器依赖）。"
+      echo "  安装命令：sudo pacman -S tk"
+      echo "更建议使用AUR版本：paru -S linglong-store-bin"
+    fi
+  fi
+fi
+
 # ========= 前置检查结束 =========
 
 
