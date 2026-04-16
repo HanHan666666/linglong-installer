@@ -81,6 +81,9 @@ Some derivative distros reuse upstream install scripts:
 - Linux Mint uses the corresponding Ubuntu LTS script (e.g., Mint 22 -> Ubuntu 24.04).
 - MX Linux uses the corresponding Debian script (e.g., MX 23 -> Debian 12).
 - Evernight Vista 44 uses the Fedora 44 script (Evernight Vista 44 -> Fedora 44).
+- UOS 25 keeps its own `uos_25.sh` script because it installs `linglong-bin`
+  and `linglong-box` from the system APT repository instead of adding the
+  Linglong CI source first.
 
 The mapper uses `VERSION_ID` and upstream codenames (if present in `/etc/os-release`).
 

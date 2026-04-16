@@ -9,6 +9,7 @@ Linglong Installer 是基于 `go-pkg-installer` 框架构建的玲珑商店社�
 
 - 配置驱动：安装流程、界面与任务通过 `installer.yaml` 描述。
 - 发行版适配：根据 `/etc/os-release` 选择 `scripts/distros` 中的脚本。
+- UOS 25 特例：直接使用系统仓库安装 `linglong-bin` 和 `linglong-box`，不额外添加第三方源。
 - 衍生发行版：Linux Mint / MX Linux 会自动映射到对应 Ubuntu / Debian 上游脚本，Evernight Vista 44 会映射到 Fedora 44 上游脚本。
 - 双模式运行：支持 GUI 与 Headless/CLI 模式。
 - 资源内嵌：默认内嵌 `installer.yaml`、logo 与脚本，便于打包发布。
@@ -51,6 +52,7 @@ Linglong Installer 是基于 `go-pkg-installer` 框架构建的玲珑商店社�
 每个发行版脚本以 `ID_VERSION.sh` 命名，例如 `debian_13.sh`。
 当找不到精确版本脚本时，会尝试 `ID_generic.sh` 作为兜底。
 Evernight Vista 44 会通过映射复用 `fedora_44.sh` 上游脚本。
+UOS 25 则通过独立的 `uos_25.sh` 直接调用系统仓库安装运行时相关包。
 脚本头部可包含 `# META:` 行，供确认页展示：
 
 ```

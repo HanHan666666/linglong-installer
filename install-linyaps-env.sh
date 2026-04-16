@@ -8,7 +8,7 @@
 #
 # 支持的发行版：
 #   Debian 12/13/Testing/Sid, Ubuntu 24.04/25.04/25.10,
-#   Deepin 23/23.1/25, UOS 20, openKylin 2.0,
+#   Deepin 23/23.1/25, UOS 20/25, openKylin 2.0,
 #   Fedora 41/42/43/44/Rawhide, Evernight Vista 44（映射到 Fedora）, AnolisOS 8,
 #   openEuler 23.09/24.03, openSUSE 15.6,
 #   Arch Linux, Manjaro, Parabola,
@@ -425,6 +425,12 @@ install_uos() {
         20)
             add_apt_repo "uos_1070"
             apt install -y linglong-bin linglong-installer linglong-box policykit-1
+            ;;
+        25)
+            # UOS 25 provides Linglong packages in the default system repo, so
+            # the standalone installer must not add the third-party CI source.
+            apt update
+            apt install -y linglong-bin linglong-box
             ;;
         *)
             error "不支持的 UOS 版本: ${version}"
