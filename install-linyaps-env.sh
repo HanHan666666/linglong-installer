@@ -7,7 +7,7 @@
 # 使用：sudo bash install-linyaps-env.sh
 #
 # 支持的发行版：
-#   Debian 12/13/Testing/Sid, Ubuntu 24.04/25.04/25.10,
+#   Debian 12/13/Testing/Sid, Ubuntu 24.04/25.04/25.10/26.04,
 #   Deepin 23/23.1/25, UOS 20/25, openKylin 2.0,
 #   Fedora 41/42/43/44/Rawhide, Evernight Vista 44（映射到 Fedora）, AnolisOS 8,
 #   openEuler 23.09/24.03, openSUSE 15.6,
@@ -390,6 +390,14 @@ install_ubuntu() {
             ;;
         25.10)
             add_obs_apt_repo "Ubuntu_25.10_standard" "obs-ubuntu2510.gpg" "obs-ubuntu2510.list"
+            apt install -y linglong-bin linglong-box
+            ;;
+        26.04)
+            # Ubuntu 26.04 currently publishes the OBS mirror under xUbuntu_26.04,
+            # and fresh systems may still need curl plus gpg before fetching
+            # and dearmoring the Release key on minimal installs.
+            apt install -y curl gpg
+            add_obs_apt_repo "xUbuntu_26.04" "obs-ubuntu2604.gpg" "obs-ubuntu2604.list"
             apt install -y linglong-bin linglong-box
             ;;
         *)

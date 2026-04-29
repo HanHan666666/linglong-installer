@@ -2,7 +2,8 @@
 set -euo pipefail
 
 # Smoke-test install-linyaps-env.sh in multiple distro containers.
-# PASS criterion: the script reaches an install command (apt/dnf/zypper/pacman).
+# PASS criterion: the script reaches the runtime install command, not just a
+# prerequisite package install for repository bootstrap.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_SCRIPT="${TARGET_SCRIPT:-${SCRIPT_DIR}/install-linyaps-env.sh}"
@@ -14,12 +15,13 @@ LOG_DIR="${OUT_DIR}/logs"
 SUMMARY_CSV="${OUT_DIR}/summary.csv"
 SUMMARY_TXT="${OUT_DIR}/summary.txt"
 
-INSTALL_TRIGGER_REGEX='^\+ (apt install -y|dnf install -y|zypper install -y|pacman -Syu --noconfirm)'
+INSTALL_TRIGGER_REGEX='^\+ (apt install -y .*linglong-bin|dnf install -y .*linglong-bin|zypper install -y .*linglong-bin|pacman -Syu --noconfirm linyaps)'
 
 CASE_MATRIX="$(cat <<'EOF'
 debian12|debian:12|apt-get update; apt-get install -y ca-certificates
 debian-sid|debian:sid|apt-get update; apt-get install -y ca-certificates curl gnupg
 ubuntu2404|ubuntu:24.04|apt-get update; apt-get install -y ca-certificates
+ubuntu2604|ubuntu:26.04|apt-get update; apt-get install -y ca-certificates
 fedora42|fedora:42|dnf -y install ca-certificates dnf-plugins-core
 opensuse156|opensuse/leap:15.6|zypper --non-interactive refresh
 archlatest|archlinux:latest|

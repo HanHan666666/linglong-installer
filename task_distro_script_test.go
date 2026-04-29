@@ -24,6 +24,18 @@ func TestBuildScriptCandidatesForUOS25(t *testing.T) {
 	}
 }
 
+func TestBuildScriptCandidatesForUbuntu2604(t *testing.T) {
+	// Ubuntu support also keys off the exact VERSION_ID, so new LTS releases must
+	// keep resolving to a concrete script instead of drifting to a generic path.
+	candidates := buildScriptCandidates("ubuntu", "26.04")
+	if len(candidates) != 1 {
+		t.Fatalf("unexpected Ubuntu 26.04 candidates: %#v", candidates)
+	}
+	if candidates[0] != "ubuntu_26.04.sh" {
+		t.Fatalf("unexpected Ubuntu 26.04 candidate order: %#v", candidates)
+	}
+}
+
 func TestResolveScriptForUOS25(t *testing.T) {
 	// The repo must keep a concrete uos_25.sh file so the detect step can mark
 	// UOS 25 as supported without relying on a risky generic fallback.
@@ -36,6 +48,21 @@ func TestResolveScriptForUOS25(t *testing.T) {
 	}
 	if meta.RepoName == "" || meta.NextSteps == "" {
 		t.Fatalf("expected UOS 25 META to be populated: %#v", meta)
+	}
+}
+
+func TestResolveScriptForUbuntu2604(t *testing.T) {
+	// Ubuntu 26.04 ships from an OBS mirror, so the repo must keep a dedicated
+	// ubuntu_26.04.sh file with populated META for the confirmation screen.
+	path, meta, err := resolveScript("ubuntu_26.04.sh", "scripts/distros")
+	if err != nil {
+		t.Fatalf("expected ubuntu_26.04.sh to resolve: %v", err)
+	}
+	if filepath.Base(path) != "ubuntu_26.04.sh" {
+		t.Fatalf("unexpected resolved script path: %q", path)
+	}
+	if meta.RepoName == "" || meta.RepoURL == "" || meta.NextSteps == "" {
+		t.Fatalf("expected Ubuntu 26.04 META to be populated: %#v", meta)
 	}
 }
 
