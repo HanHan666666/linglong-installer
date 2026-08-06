@@ -1,5 +1,8 @@
 # Linglong Installer
 
+> 本项目停更，flutter版本玲珑商店 https://github.com/HanHan666666/flutter-linglong-store 已经可以直接安装在UOS20等低版本系统上，无需安装器安装玲珑版本。
+> tauri版2.0商店社区版已弃用
+
 Linglong Installer 是基于 `go-pkg-installer` 框架构建的玲珑商店社区版安装器。
 它通过读取 `installer.yaml` 来驱动安装流程，自动识别发行版、检查玲珑版本，
 并执行对应发行版的安装脚本与后续配置。
